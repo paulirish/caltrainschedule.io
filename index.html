@@ -10,9 +10,20 @@
 </head>
 <body>
     <div id="inputs">
+        <label>From:</label>
         <select id="from"></select>
+        <br/>
+        <label>To:</label>
         <select id="to"></select>
+        <br/>
+        <label>When:</label>
+        <select id="when">
+            <option value="weekday">Weekday</option>
+            <option value="weekend">Weekend</option>
+        </select>
+        <br/>
+        <button id="search" type="submit" disabled="disabled">Search</button>
     </div>
-    <div id="container"></div>
+    <div id="result"></div>
 </body>
 </html>
