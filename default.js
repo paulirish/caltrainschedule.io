@@ -16,10 +16,10 @@ function data_checker (names, callback) {
 
 function schedule (event) {
   var times = event.data.times;
-  var from = $("#from"), to = $("#to"), when = $("#when"), search = $("#search");
+  var now = new Date();
 
   // Fix the stop ids
-  var from_id = parseInt(from.prop("value")), to_id = parseInt(to.prop("value"));
+  var from_id = parseInt($("#from").prop("value")), to_id = parseInt($("#to").prop("value"));
   if (to_id > from_id) {
     // South Bound
     from_id += 1;
@@ -28,10 +28,26 @@ function schedule (event) {
 
   // trip_id regexp
   var trip_reg;
-  if (when.prop("value") == "weekend") {
-    trip_reg = /Saturday|Sunday/;
+  if ($("#now").prop("value") == "true") {
+    switch (now.getDay()) {
+      case 1: case 2: case 3: case 4: case 5:
+        trip_reg = /Weekday/;
+        break;
+      case 6:
+        trip_reg = /Saturday/;
+        break;
+      case 0:
+        trip_reg = /Sunday/;
+        break;
+      default:
+        alert("now.getDay() got wrong: " + now.getDay());
+    }
   } else {
-    trip_reg = /Weekday/;
+    if ($("#when").prop("value") == "weekend") {
+      trip_reg = /Saturday|Sunday/;
+    } else {
+      trip_reg = /Weekday/;
+    };
   };
 
   // Select trips
@@ -55,21 +71,21 @@ function schedule (event) {
   });
 
   // generate html strings and sort
+  var now_str = now.getHours() + ':' + now.getMinutes() + ':00';
   var trip_strs = [];
   for (var trip_id in trips) {
     var trip = trips[trip_id];
 
-    // check if available, 2014 OCT only
+    // check if available, 2014 OCT only,
     if (!/14OCT/.exec(trip_id) ||
         typeof(trip.from_time) == "undefined" ||
-        typeof(trip.to_time) == "undefined") {
+        typeof(trip.to_time) == "undefined" ||
+        ($("#now").prop("value") == "true" && trip.from_time < now_str)) {
       continue;
     };
 
-    var item = '<div class="trip">' +
-    trip.from_time + '\t' +
-    trip.to_time + '\t' +
-    trip_id + '\t' +
+    var item = '<div class="trip" title="' + trip_id + '">' +
+    trip.from_time + '\t' + trip.to_time
     '</div>';
     trip_strs.push(item);
   };
@@ -81,8 +97,6 @@ function schedule (event) {
   trip_strs.forEach(function(str) {
     result.append(str);
   });
-
-  // debugger;
 }
 
 
@@ -108,6 +122,9 @@ $(document).ready(function() {
     from.on("change", { times: times }, schedule);
     to.on("change", { times: times }, schedule);
     $("#when").on("change", { times: times }, schedule);
+    $("#now").on("change", function(event) {
+      $("#when").prop("disabled", event.target.value == "true");
+    });
     $("#search").on("click", { times: times }, schedule).prop("disabled", false);
     $("#reverse").on("click", { times: times }, function(event) {
       var t = from.prop("value");
