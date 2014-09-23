@@ -54,21 +54,35 @@ function schedule (event) {
     };
   });
 
+  // generate html strings and sort
   var trip_strs = [];
   for (var trip_id in trips) {
     var trip = trips[trip_id];
+
+    // check if available, 2014 OCT only
+    if (!/14OCT/.exec(trip_id) ||
+        typeof(trip.from_time) == "undefined" ||
+        typeof(trip.to_time) == "undefined") {
+      continue;
+    };
+
     var item = '<div class="trip">' +
-    trip_id + '\t' +
     trip.from_time + '\t' +
-    trip.to_time +
+    trip.to_time + '\t' +
+    trip_id + '\t' +
     '</div>';
     trip_strs.push(item);
   };
+  trip_strs.sort();
 
+  // append the result
   var result = $("#result");
   result.empty();
+  trip_strs.forEach(function(str) {
+    result.append(str);
+  });
 
-  debugger;
+  // debugger;
 }
 
 
@@ -77,7 +91,7 @@ $(document).ready(function() {
   var checker = data_checker(["stops", "times"], function() {
     // All data is finished
     var city_ids = {}, city_names = {};
-    var from = $("#from"), to = $("#to"), when = $("#when"), search = $("#search");
+    var from = $("#from"), to = $("#to");
 
     stops.forEach(function(s) {
       if (/Station/.exec(s.stop_name)) { return; }; // remove duplications
@@ -93,9 +107,14 @@ $(document).ready(function() {
 
     from.on("change", { times: times }, schedule);
     to.on("change", { times: times }, schedule);
-    when.on("change", { times: times }, schedule);
-    search.on("click", { times: times }, schedule);
-    search.prop("disabled", false);
+    $("#when").on("change", { times: times }, schedule);
+    $("#search").on("click", { times: times }, schedule).prop("disabled", false);
+    $("#reverse").on("click", { times: times }, function(event) {
+      var t = from.prop("value");
+      from.prop("value", to.prop("value"));
+      to.prop("value", t);
+      schedule(event);
+    }).prop("disabled", false);
   });
 
   Papa.parse("gtfs/stops.txt", {
