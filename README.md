@@ -1,4 +1,4 @@
 rCaltrain
 =========
 
-Better Caltrain Scheduler
+[Better Caltrain Scheduler](http://ranmocy.info/rCaltrain/)
