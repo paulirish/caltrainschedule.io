@@ -108,7 +108,7 @@ function schedule (event) {
 
   // append next train info
   var info = $("#info").empty();
-  if ($("#now").is(":checked")) {
+  if ($("#now").is(":checked") && next_train !== '99:99:99') {
     var next_parts = next_train.split(':').map(function(t) { return parseInt(t) });
     console.debug(next_train, next_parts);
     var next_relative = (next_parts[0] - now_date.getHours()) * 60 + (next_parts[1] - now_date.getMinutes());
