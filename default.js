@@ -26,6 +26,12 @@ function schedule (event) {
     to_id += 1;
   };
 
+  // Save selections to cookies
+  $.cookie("from", $("#from").prop("value"));
+  $.cookie("to", $("#to").prop("value"));
+  $.cookie("when", $("#when").prop("value"));
+  $.cookie("now", $("#now").prop("value"));
+
   // trip_id regexp
   var trip_reg;
   if ($("#now").prop("value") == "true") {
@@ -135,6 +141,12 @@ $(document).ready(function() {
       to.prop("value", t);
       schedule(event);
     }).prop("disabled", false);
+
+    // load selections from cookies
+    $("#from").prop("value", $.cookie("from"));
+    $("#to").prop("value", $.cookie("to"));
+    $("#when").prop("value", $.cookie("when"));
+    $("#now").prop("value", $.cookie("now"));
   });
 
   Papa.parse("gtfs/stops.txt", {
