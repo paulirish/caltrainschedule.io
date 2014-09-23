@@ -148,6 +148,7 @@ $(document).ready(function() {
     $("#to").prop("value", $.cookie("to"));
     $("#when").prop("value", $.cookie("when"));
     $("#now").prop("checked", $.cookie("now"));
+    schedule({data: {times: times}});
   });
 
   Papa.parse("gtfs/stops.txt", {
