@@ -1,0 +1,17 @@
+body {
+    max-width: 300px;
+    margin: auto;
+    text-align: center;
+}
+
+footer {
+    color: grey;
+}
+
+#inputs {
+    margin: 10px 0;
+}
+
+.trip {
+    margin: 5px 0;
+}
