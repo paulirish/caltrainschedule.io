@@ -87,7 +87,7 @@ function schedule (event) {
     var from_parts = trip.from_time.split(':').map(function(t) { return parseInt(t) });
     var to_parts = trip.to_time.split(':').map(function(t) { return parseInt(t) });
     var time_length = (to_parts[0] - from_parts[0]) * 60 + (to_parts[1] - from_parts[1]);
-    var item = '<div class="trip" title="' + trip_id + '">' +
+    var item = '<div class="trip">' +
     trip.from_time + ' - ' + trip.to_time + ' = ' + time_length + 'min' +
     '</div>';
     trip_strs.push(item);
