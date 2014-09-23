@@ -16,7 +16,7 @@ function data_checker (names, callback) {
 
 function schedule (event) {
   var times = event.data.times;
-  var now = new Date();
+  var now_date = new Date();
 
   // Fix the stop ids
   var from_id = parseInt($("#from").prop("value")), to_id = parseInt($("#to").prop("value"));
@@ -30,12 +30,12 @@ function schedule (event) {
   $.cookie("from", $("#from").prop("value"));
   $.cookie("to", $("#to").prop("value"));
   $.cookie("when", $("#when").prop("value"));
-  $.cookie("now", $("#now").prop("value"));
+  $.cookie("now", $("#now").prop("checked"));
 
   // trip_id regexp
   var trip_reg;
-  if ($("#now").prop("value") == "true") {
-    switch (now.getDay()) {
+  if ($("#now").is(":checked")) {
+    switch (now_date.getDay()) {
       case 1: case 2: case 3: case 4: case 5:
         trip_reg = /Weekday/;
         break;
@@ -46,7 +46,7 @@ function schedule (event) {
         trip_reg = /Sunday/;
         break;
       default:
-        alert("now.getDay() got wrong: " + now.getDay());
+        alert("now_date.getDay() got wrong: " + now_date.getDay());
     }
   } else {
     if ($("#when").prop("value") == "weekend") {
@@ -77,7 +77,7 @@ function schedule (event) {
   });
 
   // generate html strings and sort
-  var now_str = now.getHours() + ':' + now.getMinutes() + ':00';
+  var now_str = now_date.getHours() + ':' + now_date.getMinutes() + ':00';
   var trip_strs = [];
   for (var trip_id in trips) {
     var trip = trips[trip_id];
@@ -86,7 +86,7 @@ function schedule (event) {
     if (!/14OCT/.exec(trip_id) ||
         typeof(trip.from_time) == "undefined" ||
         typeof(trip.to_time) == "undefined" ||
-        ($("#now").prop("value") == "true" && trip.from_time < now_str)) {
+        ($("#now").is(":checked") && trip.from_time < now_str)) {
       continue;
     };
 
@@ -131,8 +131,9 @@ $(document).ready(function() {
     from.on("change", { times: times }, schedule);
     to.on("change", { times: times }, schedule);
     $("#when").on("change", { times: times }, schedule);
-    $("#now").on("change", function(event) {
-      $("#when").prop("disabled", event.target.value == "true");
+    $("#now").change({ times: times }, function(event) {
+      $("#when").prop("disabled", $(this).is(":checked"));
+      schedule(event);
     });
     $("#search").on("click", { times: times }, schedule).prop("disabled", false);
     $("#reverse").on("click", { times: times }, function(event) {
@@ -146,7 +147,7 @@ $(document).ready(function() {
     $("#from").prop("value", $.cookie("from"));
     $("#to").prop("value", $.cookie("to"));
     $("#when").prop("value", $.cookie("when"));
-    $("#now").prop("value", $.cookie("now"));
+    $("#now").prop("checked", $.cookie("now"));
   });
 
   Papa.parse("gtfs/stops.txt", {
