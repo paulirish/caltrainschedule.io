@@ -78,6 +78,7 @@ function schedule (event) {
 
   // generate html strings and sort
   var now_str = now_date.getHours() + ':' + now_date.getMinutes() + ':00';
+  var next_train = '99:99:99';
   var trip_strs = [];
   for (var trip_id in trips) {
     var trip = trips[trip_id];
@@ -88,6 +89,10 @@ function schedule (event) {
         typeof(trip.to_time) == "undefined" ||
         ($("#now").is(":checked") && trip.from_time < now_str)) {
       continue;
+    };
+
+    if (next_train > trip.from_time) {
+      next_train = trip.from_time;
     };
 
     var from_parts = trip.from_time.split(':').map(function(t) { return parseInt(t) });
@@ -101,9 +106,17 @@ function schedule (event) {
   };
   trip_strs.sort();
 
+  // append next train info
+  var info = $("#info").empty();
+  if ($("#now").is(":checked")) {
+    var next_parts = next_train.split(':').map(function(t) { return parseInt(t) });
+    console.debug(next_train, next_parts);
+    var next_relative = (next_parts[0] - now_date.getHours()) * 60 + (next_parts[1] - now_date.getMinutes());
+    info.append('<div class="info">Next train: ' + next_relative + 'min</div>');
+  };
+
   // append the result
-  var result = $("#result");
-  result.empty();
+  var result = $("#result").empty();
   trip_strs.forEach(function(str) {
     result.append(str);
   });
