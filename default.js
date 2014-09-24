@@ -99,7 +99,7 @@ function schedule (event) {
     var trip_time = (to_parts[0] - from_parts[0]) * 60 + (to_parts[1] - from_parts[1]);
 
     var item = '<div class="trip">' +
-    trip.from_time + ' => ' + trip.to_time + ' = ' + trip_time + 'min' +
+    trip.from_time + ' => ' + trip.to_time + ' (' + trip_time + 'min)' +
     '</div>';
     trip_strs.push(item);
   };
@@ -131,26 +131,26 @@ $(document).ready(function() {
 
     stops.forEach(function(s) {
       if (/Station/.exec(s.stop_name)) { return; }; // remove duplications
+      var name = s.stop_name.replace(/ Caltrain/, '');
 
-      city_ids[s.stop_id] = s.stop_name;
+      city_ids[s.stop_id] = name;
 
-      if (typeof(city_ids[s.stop_name]) == "undefined") {
-        city_ids[s.stop_name] = s.stop_id;
-        from.append(new Option(s.stop_name, s.stop_id));
-        to.append(new Option(s.stop_name, s.stop_id));
+      if (typeof(city_ids[name]) == "undefined") {
+        city_ids[name] = s.stop_id;
+        from.append(new Option(name, s.stop_id));
+        to.append(new Option(name, s.stop_id));
       };
     });
 
     from.on("change", { times: times }, schedule);
     to.on("change", { times: times }, schedule);
     $("#when").on("change", { times: times }, schedule);
-    $("#search").on("click", { times: times }, schedule).prop("disabled", false);
     $("#reverse").on("click", { times: times }, function(event) {
       var t = from.prop("value");
       from.prop("value", to.prop("value"));
       to.prop("value", t);
       schedule(event);
-    }).prop("disabled", false);
+    });
 
     // load selections from cookies
     $.cookie.defaults.expires = 365;
@@ -158,6 +158,8 @@ $(document).ready(function() {
     $("#from").prop("value", $.cookie("from"));
     $("#to").prop("value", $.cookie("to"));
     $("#when").prop("value", $.cookie("when"));
+
+    // init schedule
     schedule({data: {times: times}});
   });
 

@@ -19,22 +19,27 @@
     <script type="text/javascript" src="default.js"></script>
 </head>
 <body>
+    <h1>rCaltrain</h1>
     <div id="inputs">
-        <label>From:</label>
-        <select id="from"></select>
-        <br/>
-        <label>To:</label>
-        <select id="to"></select>
-        <br/>
-        <label>When:</label>
-        <select id="when">
-            <option value="now">Since now</option>
-            <option value="weekday">Weekday</option>
-            <option value="weekend">Weekend</option>
-        </select>
-        <br/>
-        <button id="search" type="submit" disabled="disabled">Search</button>
-        <button id="reverse" type="submit" disabled="disabled">Return trip</button>
+        <div class="input-group">
+            <label>From:</label>
+            <select id="from"></select>
+        </div>
+        <div class="input-group">
+            <button id="reverse" type="submit">Switch</button>
+        </div>
+        <div class="input-group">
+            <label>To:</label>
+            <select id="to"></select>
+        </div>
+        <div class="input-group">
+            <label>When:</label>
+            <select id="when">
+                <option value="now">Since now</option>
+                <option value="weekday">Weekday</option>
+                <option value="weekend">Weekend</option>
+            </select>
+        </div>
     </div>
 
     <div id="info"></div>
