@@ -30,11 +30,10 @@ function schedule (event) {
   $.cookie("from", $("#from").prop("value"));
   $.cookie("to", $("#to").prop("value"));
   $.cookie("when", $("#when").prop("value"));
-  $.cookie("now", $("#now").prop("checked"));
 
   // trip_id regexp
   var trip_reg;
-  if ($("#now").is(":checked")) {
+  if ($("#when").prop("value") === "now") {
     switch (now_date.getDay()) {
       case 1: case 2: case 3: case 4: case 5:
         trip_reg = /Weekday/;
@@ -87,7 +86,7 @@ function schedule (event) {
     if (!/14OCT/.exec(trip_id) ||
         typeof(trip.from_time) == "undefined" ||
         typeof(trip.to_time) == "undefined" ||
-        ($("#now").is(":checked") && trip.from_time < now_str)) {
+        ($("#when").prop("value") === "now" && trip.from_time < now_str)) {
       continue;
     };
 
@@ -108,7 +107,7 @@ function schedule (event) {
 
   // append next train info
   var info = $("#info").empty();
-  if ($("#now").is(":checked") && next_train !== '99:99:99') {
+  if ($("#when").prop("value") === "now" && next_train !== '99:99:99') {
     var next_parts = next_train.split(':').map(function(t) { return parseInt(t) });
     console.debug(next_train, next_parts);
     var next_relative = (next_parts[0] - now_date.getHours()) * 60 + (next_parts[1] - now_date.getMinutes());
@@ -145,10 +144,6 @@ $(document).ready(function() {
     from.on("change", { times: times }, schedule);
     to.on("change", { times: times }, schedule);
     $("#when").on("change", { times: times }, schedule);
-    $("#now").change({ times: times }, function(event) {
-      $("#when").prop("disabled", $(this).is(":checked"));
-      schedule(event);
-    });
     $("#search").on("click", { times: times }, schedule).prop("disabled", false);
     $("#reverse").on("click", { times: times }, function(event) {
       var t = from.prop("value");
@@ -163,7 +158,6 @@ $(document).ready(function() {
     $("#from").prop("value", $.cookie("from"));
     $("#to").prop("value", $.cookie("to"));
     $("#when").prop("value", $.cookie("when"));
-    $("#now").prop("checked", $.cookie("now"));
     schedule({data: {times: times}});
   });
 
