@@ -109,7 +109,6 @@ function schedule (event) {
   var info = $("#info").empty();
   if ($("#when").prop("value") === "now" && next_train !== '99:99:99') {
     var next_parts = next_train.split(':').map(function(t) { return parseInt(t) });
-    console.debug(next_train, next_parts);
     var next_relative = (next_parts[0] - now_date.getHours()) * 60 + (next_parts[1] - now_date.getMinutes());
     info.append('<div class="info">Next train: ' + next_relative + 'min</div>');
   };
