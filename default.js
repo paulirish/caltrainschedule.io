@@ -1,62 +1,75 @@
-function data_checker (names, callback) {
-  var mark = {}, callback = callback;
-  names.forEach(function(name) {
-    mark[name] = false;
-  });
-  return function(name) {
-    mark[name] = true;
-    var all_true = true;
-    for (var n in mark)
-      if (!mark[n])
-        all_true = false;
-    if (all_true)
-      callback();
-  };
-}
-
-function schedule (event) {
-  var times = event.data.times;
-  var now_date = new Date();
-
-  // Fix the stop ids
-  var from_id = parseInt($("#from").prop("value")), to_id = parseInt($("#to").prop("value"));
-  if (to_id > from_id) {
-    // South Bound
-    from_id += 1;
-    to_id += 1;
-  };
-
-  // Save selections to cookies
+function save_cookies () {
   $.cookie("from", $("#from").prop("value"));
   $.cookie("to", $("#to").prop("value"));
   $.cookie("when", $("#when").prop("value"));
+}
 
-  // trip_id regexp
-  var trip_reg;
-  if ($("#when").prop("value") === "now") {
-    switch (now_date.getDay()) {
-      case 1: case 2: case 3: case 4: case 5:
-        trip_reg = /Weekday/;
-        break;
-      case 6:
-        trip_reg = /Saturday/;
-        break;
-      case 0:
-        trip_reg = /Sunday/;
-        break;
-      default:
-        alert("now_date.getDay() got wrong: " + now_date.getDay());
+function load_cookies () {
+  // load selections from cookies
+  $.cookie.defaults.expires = 365;
+  $.cookie.defaults.path = '/';
+  $("#from").prop("value", $.cookie("from"));
+  $("#to").prop("value", $.cookie("to"));
+  $("#when").prop("value", $.cookie("when"));
+}
+
+function from_now () {
+  return $("#when").prop("value") === "now";
+}
+
+function now_str () {
+  var now_date = new Date();
+  return now_date.getHours() + ':' + now_date.getMinutes() + ':00';
+}
+
+function str2time (str) {
+  return str.split(':').map(function(t) { return parseInt(t) });
+}
+
+function time2str (arr) {
+  return arr[0] + ':' + arr[1] + ':00';
+}
+
+function time_relative (from, to) {
+  var from_time = str2time(from), to_time = str2time(to);
+  return (to_time[0] - from_time[0]) * 60 + (to_time[1] - from_time[1]);
+}
+
+function get_trip_match_regexp () {
+  var trip_reg, now_date = new Date();
+  switch ($("#when").prop("value")) {
+    case "now": {
+      switch (now_date.getDay()) {
+        case 1: case 2: case 3: case 4: case 5:
+          trip_reg = /Weekday/;
+          break;
+        case 6:
+          trip_reg = /Saturday/;
+          break;
+        case 0:
+          trip_reg = /Sunday/;
+          break;
+        default:
+          alert("now_date.getDay() got wrong: " + now_date.getDay());
+      }
+      break;
     }
-  } else {
-    if ($("#when").prop("value") == "weekend") {
-      trip_reg = /Saturday|Sunday/;
-    } else {
+    case "weekday":
       trip_reg = /Weekday/;
-    };
-  };
+      break;
+    case "weekend":
+      trip_reg = /Saturday|Sunday/;
+      break;
+    default:
+      alert("$('#when').prop('value') got wrong: " + $("#when").prop("value"));
+  }
+  return trip_reg;
+}
 
-  // Select trips
+function get_trips (times, from_id, to_id) {
   var trips = {};
+  var trip_reg = get_trip_match_regexp();
+
   times.forEach(function(t) {
     if (!trip_reg.exec(t.trip_id)) {
       return;
@@ -75,48 +88,91 @@ function schedule (event) {
     };
   });
 
-  // generate html strings and sort
-  var now_str = now_date.getHours() + ':' + now_date.getMinutes() + ':00';
-  var next_train = '99:99:99';
-  var trip_strs = [];
+  var results = [];
   for (var trip_id in trips) {
     var trip = trips[trip_id];
-
-    // check if available, 2014 OCT only,
-    if (!/14OCT/.exec(trip_id) ||
-        typeof(trip.from_time) == "undefined" ||
-        typeof(trip.to_time) == "undefined" ||
-        ($("#when").prop("value") === "now" && trip.from_time < now_str)) {
-      continue;
+    if (typeof(trip.from_time) !== "undefined" &&
+        typeof(trip.to_time) !== "undefined") {
+      results.push(trip);
     };
+  }
 
-    if (next_train > trip.from_time) {
+  return results;
+}
+
+function set_next_train_info (next_train, now_date) {
+  var info = $("#info").empty();
+  if (from_now() && typeof(next_train) !== 'undefined') {
+    var next_relative = time_relative(now_str(), next_train);
+    info.append('<div class="info">Next train: ' + next_relative + 'min</div>');
+  };
+}
+
+function schedule (event) {
+  save_cookies();
+
+  // Fix the stop ids
+  var from_id = parseInt($("#from").prop("value")), to_id = parseInt($("#to").prop("value"));
+  if (to_id > from_id) { // if South Bound
+    from_id += 1;
+    to_id += 1;
+  };
+
+  var times = event.data.times;
+  var now_date = new Date();
+  var trips = get_trips(times, from_id, to_id);
+
+  // generate html strings and sort
+  var next_train;
+  var trip_strs = [];
+  trips.forEach(function(trip) {
+    // check avalible
+    if (from_now() && trip.from_time < now_str()) { return; };
+
+    if (!next_train || next_train > trip.from_time) {
       next_train = trip.from_time;
     };
 
-    var from_parts = trip.from_time.split(':').map(function(t) { return parseInt(t) });
-    var to_parts = trip.to_time.split(':').map(function(t) { return parseInt(t) });
-    var trip_time = (to_parts[0] - from_parts[0]) * 60 + (to_parts[1] - from_parts[1]);
-
-    var item = '<div class="trip">' +
-    trip.from_time + ' => ' + trip.to_time + ' (' + trip_time + 'min)' +
-    '</div>';
+    var trip_time = time_relative(trip.from_time, trip.to_time);
+    var item = trip.from_time + ' => ' + trip.to_time + ' (' + trip_time + 'min)';
     trip_strs.push(item);
-  };
+  });
   trip_strs.sort();
 
-  // append next train info
-  var info = $("#info").empty();
-  if ($("#when").prop("value") === "now" && next_train !== '99:99:99') {
-    var next_parts = next_train.split(':').map(function(t) { return parseInt(t) });
-    var next_relative = (next_parts[0] - now_date.getHours()) * 60 + (next_parts[1] - now_date.getMinutes());
-    info.append('<div class="info">Next train: ' + next_relative + 'min</div>');
-  };
+  set_next_train_info(next_train, now_date);
 
   // append the result
   var result = $("#result").empty();
   trip_strs.forEach(function(str) {
-    result.append(str);
+    result.append('<div class="trip">' + str + '</div>');
+  });
+}
+
+function data_checker (names, callback) {
+  var mark = {}, callback = callback;
+  names.forEach(function(name) {
+    mark[name] = false;
+  });
+  return function(name) {
+    mark[name] = true;
+    var all_true = true;
+    for (var n in mark)
+      if (!mark[n])
+        all_true = false;
+    if (all_true)
+      callback();
+  };
+}
+
+function bind_events (data) {
+  $("#from").on("change", data, schedule);
+  $("#to").on("change", data, schedule);
+  $("#when").on("change", data, schedule);
+  $("#reverse").on("click", data, function(event) {
+    var t = $("#from").prop("value");
+    $("#from").prop("value", $("#to").prop("value"));
+    $("#to").prop("value", t);
+    schedule(event);
   });
 }
 
@@ -125,44 +181,22 @@ $(document).ready(function() {
   var stops, times;
   var checker = data_checker(["stops", "times"], function() {
     // All data is finished
-    var city_ids = {}, city_names = {};
-    var from = $("#from"), to = $("#to");
-
+    var city_ids = {};
     stops.forEach(function(s) {
-      if (/Station/.exec(s.stop_name)) { return; }; // remove duplications
-      var name = s.stop_name.replace(/ Caltrain/, '');
-
-      city_ids[s.stop_id] = name;
-
+      var id = s.stop_id, name = s.stop_name;
       if (typeof(city_ids[name]) == "undefined") {
-        city_ids[name] = s.stop_id;
-        from.append(new Option(name, s.stop_id));
-        to.append(new Option(name, s.stop_id));
+        city_ids[name] = id;
+        $("#from").append(new Option(name, id));
+        $("#to").append(new Option(name, id));
       };
     });
 
-    from.on("change", { times: times }, schedule);
-    to.on("change", { times: times }, schedule);
-    $("#when").on("change", { times: times }, schedule);
-    $("#reverse").on("click", { times: times }, function(event) {
-      var t = from.prop("value");
-      from.prop("value", to.prop("value"));
-      to.prop("value", t);
-      schedule(event);
-    });
-
-    // load selections from cookies
-    $.cookie.defaults.expires = 365;
-    $.cookie.defaults.path = '/';
-    $("#from").prop("value", $.cookie("from"));
-    $("#to").prop("value", $.cookie("to"));
-    $("#when").prop("value", $.cookie("when"));
-
-    // init schedule
-    schedule({data: {times: times}});
+    bind_events({ times: times });
+    load_cookies();
+    schedule({data: {times: times}}); // init schedule
   });
 
-  Papa.parse("gtfs/stops.txt", {
+  Papa.parse("stops.csv", {
     download: true,
     dynamicTyping: true,
     header: true,
@@ -172,7 +206,7 @@ $(document).ready(function() {
     }
   });
 
-  Papa.parse("gtfs/stop_times.txt", {
+  Papa.parse("times.csv", {
     download: true,
     dynamicTyping: true,
     header: true,
