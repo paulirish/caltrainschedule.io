@@ -2,7 +2,7 @@ body {
     max-width: 300px;
     margin: auto;
     text-align: center;
-    font-size: 18px;
+    font-size: 20px;
 }
 
 h1 {
@@ -11,28 +11,39 @@ h1 {
 }
 
 select, input {
-    font-size: 100%;
     height: 26px;
     margin: 6px 0;
 }
 
 .input-group {
     clear: both;
+    position: relative;
+    text-align: left;
+    height: 40px;
 }
-.input-group * {
+label, select {
     display: inline-block;
+    font-size: 20px;
 }
 .input-group label {
-    width: 20%;
+    width: 60px;
     text-align: right;
 }
 .input-group select {
-    width: 60%;
+    width: 200px;
     text-align: left;
 }
 #reverse {
-    float: right;
-    font-size: 80%;
+    position: absolute;
+    top: 24px;
+    right: 0px;
+    background: url("switcher.png");
+    background-repeat: no-repeat;
+    background-position: 5px;
+    height: 32px;
+    width: 32px;
+    border: none;
+    padding: 0;
 }
 
 #inputs, #info, #result {
