@@ -1,24 +1,30 @@
 CACHE MANIFEST
-# Updated at 2014-09-25 15:22:48 -0700
+# Updated at 2014-09-25 15:51:26 -0700
 
 CACHE:
-default.min.css
-default.min.js
-fastclick.min.js
-icon-72.png
-icon-72@2x.png
-icon-76.png
-icon-76@2x.png
-icon-origin.png
-icon.png
-icon@2x.png
+data/stops.csv
+data/times.csv
+icons/icon-72.png
+icons/icon-72@2x.png
+icons/icon-76.png
+icons/icon-76@2x.png
+icons/icon-origin.png
+icons/icon.png
+icons/icon@2x.png
+images/switcher.png
 index.html
-jquery-2.1.0.min.js
-jquery.cookie.min.js
-papaparse.min.js
-stops.csv
-switcher.png
-times.csv
+javascripts/default.min.js
+javascripts/fastclick.min.js
+javascripts/jquery-2.1.0.min.js
+javascripts/jquery.cookie.min.js
+javascripts/papaparse.min.js
+offline.html
+stylesheets/default.min.css
+
+NETWORK:
+gtfs/*
+prepare.rb
+src/*
 
 FALLBACK:
-/ /offline.html
+/ offline.html

@@ -37,7 +37,7 @@ label, select {
     position: absolute;
     top: 0;
     right: 0;
-    background: url("switcher.png") no-repeat center;
+    background: url("../images/switcher.png") no-repeat center;
     background-size: 20px;
     height: 80px;
     width: 32px;

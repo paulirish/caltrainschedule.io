@@ -235,7 +235,7 @@ $(function() {
 $(document).ready(function() {
   var checker = data_checker(["stops", "times"], initialize);
 
-  Papa.parse("stops.csv", {
+  Papa.parse("data/stops.csv", {
     download: true,
     dynamicTyping: true,
     header: true,
@@ -244,7 +244,7 @@ $(document).ready(function() {
     }
   });
 
-  Papa.parse("times.csv", {
+  Papa.parse("data/times.csv", {
     download: true,
     dynamicTyping: true,
     header: true,
