@@ -53,14 +53,18 @@ label, select {
     outline: none;
 }
 
-#inputs, #info, #result {
+#inputs, #result {
     margin: 10px 0;
 }
 
-.trip {
+#info, .trip {
     margin: 5px 0;
+    font-size: 120%;
 }
 
 footer {
     color: grey;
+}
+.copyright {
+    font-size: 50%;
 }
