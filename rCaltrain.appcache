@@ -1,7 +1,6 @@
 CACHE MANIFEST
-# Updated at 2014-09-25 11:49:56 -0700
-default.css
-default.js
+# Updated at 2014-09-25 12:34:27 -0700
+index.html
 icon-72.png
 icon-72@2x.png
 icon-76.png
@@ -9,10 +8,12 @@ icon-76@2x.png
 icon-origin.png
 icon.png
 icon@2x.png
-index.html
+fastclick.min.js
 jquery-2.1.0.min.js
-jquery.cookie.js
+jquery.cookie.min.js
 papaparse.min.js
-stops.csv
+default.min.css
+default.min.js
 switcher.png
+stops.csv
 times.csv
