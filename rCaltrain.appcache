@@ -1,19 +1,17 @@
 CACHE MANIFEST
-# Updated at 2014-09-25 14:08:20 -0700
-index.html
-icon-72.png
-icon-72@2x.png
-icon-76.png
-icon-76@2x.png
-icon-origin.png
-icon.png
-icon@2x.png
+# Updated at 2014-09-25 14:22:03 -0700
+
+CACHE:
+default.min.css
+default.min.js
 fastclick.min.js
+index.html
 jquery-2.1.0.min.js
 jquery.cookie.min.js
 papaparse.min.js
-default.min.css
-default.min.js
-switcher.png
 stops.csv
+switcher.png
 times.csv
+
+FALLBACK:
+/ /offline.html
