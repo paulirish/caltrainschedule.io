@@ -35,14 +35,22 @@ label, select {
 }
 #reverse {
     position: absolute;
-    top: 24px;
-    right: 0px;
+    top: 0;
+    right: 0;
     background: url("switcher.png") no-repeat center;
-    background-size: 32px 32px;
-    height: 32px;
+    background-size: 20px;
+    height: 80px;
     width: 32px;
     border: none;
     padding: 0;
+    opacity: 0.7;
+    z-index: 100;
+}
+#reverse:hover {
+    opacity: 1;
+}
+#reverse:focus {
+    outline: none;
 }
 
 #inputs, #info, #result {
