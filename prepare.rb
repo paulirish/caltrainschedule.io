@@ -42,9 +42,5 @@ ensure
 end
 
 # minify files
-["fastclick", "jquery.cookie", "default"].each { |filename|
-  `uglifyjs #{filename}.js -o #{filename}.min.js -c -m`
-}
-["default"].each do |filename|
-  `uglifycss #{filename}.css > #{filename}.min.css`
-end
+`uglifyjs default.js -o default.min.js -c -m`
+`uglifycss default.css > default.min.css`
