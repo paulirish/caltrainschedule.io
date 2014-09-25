@@ -228,6 +228,9 @@ function data_checker (names, callback) {
   };
 }
 
+$(function() {
+  FastClick.attach(document.body);
+});
 
 $(document).ready(function() {
   var checker = data_checker(["stops", "times"], initialize);
