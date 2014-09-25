@@ -42,7 +42,9 @@ ensure
 end
 
 # minify files
-`curl -X POST -s --data-urlencode 'input@fastclick.js' http://javascript-minifier.com/raw > fastclick.min.js`
-`curl -X POST -s --data-urlencode 'input@jquery.cookie.js' http://javascript-minifier.com/raw > jquery.cookie.min.js`
-`curl -X POST -s --data-urlencode 'input@default.js' http://javascript-minifier.com/raw > default.min.js`
-`curl -X POST -s --data-urlencode 'input@default.css' http://cssminifier.com/raw > default.min.css`
+["fastclick", "jquery.cookie", "default"].each { |filename|
+  `uglifyjs #{filename}.js -o #{filename}.min.js -c -m`
+}
+["default"].each do |filename|
+  `uglifycss #{filename}.css > #{filename}.min.css`
+end
