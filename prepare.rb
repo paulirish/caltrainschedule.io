@@ -18,6 +18,30 @@ times
 times.unshift(header)
 CSV.open("times.csv", "wb") { |c| times.each { |i| c << i } }
 
+# update appcache
+require 'tempfile'
+require 'fileutils'
+
+path = 'rCaltrain.appcache'
+temp_file = Tempfile.new('foo')
+begin
+  File.open(path, 'r') do |file|
+    file.each_line do |line|
+      if line.match(/# Updated at /)
+        temp_file.puts "# Updated at #{Time.now}"
+      else
+        temp_file.puts line
+      end
+    end
+  end
+  temp_file.close
+  FileUtils.mv(temp_file.path, path)
+ensure
+  temp_file.close
+  temp_file.unlink
+end
+
+# minify files
 `curl -X POST -s --data-urlencode 'input@fastclick.js' http://javascript-minifier.com/raw > fastclick.min.js`
 `curl -X POST -s --data-urlencode 'input@jquery.cookie.js' http://javascript-minifier.com/raw > jquery.cookie.min.js`
 `curl -X POST -s --data-urlencode 'input@default.js' http://javascript-minifier.com/raw > default.min.js`
