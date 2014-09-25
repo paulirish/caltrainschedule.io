@@ -64,6 +64,7 @@ label, select {
 
 footer {
     color: grey;
+    margin-bottom: 5em;
 }
 .copyright {
     font-size: 50%;
