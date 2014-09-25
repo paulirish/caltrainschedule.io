@@ -10,7 +10,7 @@ stops
 stops.unshift(header)
 CSV.open("stops.csv", "wb") { |c| stops.each { |i| c << i } }
 
-times = CSV.read("gtfs/stop_times.txt").map! { |s| s[0..3]}
+times = CSV.read("gtfs/stop_times.txt").map! { |s| s[0..4]}
 header = times.shift
 times
   .select! { |s| /14OCT/.match(s[0]) }
