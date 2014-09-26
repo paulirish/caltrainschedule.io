@@ -1,7 +1,7 @@
 rCaltrain
 =========
 
-[Better Caltrain Scheduler](http://ranmocy.info/rCaltrain/)
+[A Better Caltrain Timetable App](http://caltrain.ranmocy.info/)
 
 ## Dev Dependencies
 * [UglifyCSS](https://github.com/fmarcia/UglifyCSS): `npm install uglifycss -g`
