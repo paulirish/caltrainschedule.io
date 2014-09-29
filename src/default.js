@@ -53,30 +53,23 @@ function is_now () {
 }
 
 function get_trip_match_regexp () {
-  switch ($("#when").prop("value")) {
-    case "now": {
-      var now_date = new Date();
-      switch (now_date.getDay()) {
-        case 1: case 2: case 3: case 4: case 5:
-          return /Weekday/;
-        case 6:
-          return /Saturday/;
-        case 0:
-          return /Sunday/;
-        default:
-          alert("now_date.getDay() got wrong: " + now_date.getDay());
-          return;
-      }
+  if (is_now()) {
+    var now_date = new Date();
+    switch (now_date.getDay()) {
+      case 1: case 2: case 3: case 4: case 5:
+        return /Weekday/i;
+      case 6:
+        return /Saturday/i;
+      case 0:
+        return /Sunday/i;
+      default:
+        alert("now_date.getDay() got wrong: " + now_date.getDay());
+        return;
     }
-    case "weekday":
-      return /Weekday/;
-    case "saturday":
-      return /Saturday/;
-    case "sunday":
-      return /Sunday/;
-    default:
-      alert("$('#when').prop('value') got wrong: " + $("#when").prop("value"));
-      return;
+  } else {
+    var value = $("#when").prop("value");
+    value = value.charAt(0).toUpperCase() + value.substring(1); // capitalize
+    return new RegExp(value, "i"); // ignore case
   }
 }
 
