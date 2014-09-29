@@ -70,8 +70,10 @@ function get_trip_match_regexp () {
     }
     case "weekday":
       return /Weekday/;
-    case "weekend":
-      return /Saturday|Sunday/;
+    case "saturday":
+      return /Saturday/;
+    case "sunday":
+      return /Sunday/;
     default:
       alert("$('#when').prop('value') got wrong: " + $("#when").prop("value"));
       return;
