@@ -8,11 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		C133540F19DB566C00F49789 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C133540E19DB566C00F49789 /* AppDelegate.swift */; };
-		C133541119DB566C00F49789 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C133541019DB566C00F49789 /* ViewController.swift */; };
 		C133541419DB566C00F49789 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C133541219DB566C00F49789 /* Main.storyboard */; };
 		C133541619DB566C00F49789 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C133541519DB566C00F49789 /* Images.xcassets */; };
 		C133541919DB566C00F49789 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C133541719DB566C00F49789 /* LaunchScreen.xib */; };
 		C133542519DB566C00F49789 /* rCaltrainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C133542419DB566C00F49789 /* rCaltrainTests.swift */; };
+		C133542F19DCC43E00F49789 /* FromViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C133542E19DCC43E00F49789 /* FromViewController.swift */; };
+		C133543319DE07EC00F49789 /* LocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C133543219DE07EC00F49789 /* LocationViewController.swift */; };
+		C133543519DE082400F49789 /* ToViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C133543419DE082400F49789 /* ToViewController.swift */; };
+		C133543719DE18D900F49789 /* WhenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C133543619DE18D900F49789 /* WhenViewController.swift */; };
+		C153E9B519DCE8B200E03B7E /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = C153E9B419DCE8B200E03B7E /* Location.swift */; };
+		C1E0510819E21082006AC9DB /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E0510719E21082006AC9DB /* MainViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,13 +34,18 @@
 		C133540919DB566C00F49789 /* rCaltrain.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = rCaltrain.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C133540D19DB566C00F49789 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C133540E19DB566C00F49789 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		C133541019DB566C00F49789 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		C133541319DB566C00F49789 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C133541519DB566C00F49789 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		C133541819DB566C00F49789 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		C133541E19DB566C00F49789 /* rCaltrainTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = rCaltrainTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C133542319DB566C00F49789 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C133542419DB566C00F49789 /* rCaltrainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = rCaltrainTests.swift; sourceTree = "<group>"; };
+		C133542E19DCC43E00F49789 /* FromViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FromViewController.swift; sourceTree = "<group>"; };
+		C133543219DE07EC00F49789 /* LocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationViewController.swift; sourceTree = "<group>"; };
+		C133543419DE082400F49789 /* ToViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToViewController.swift; sourceTree = "<group>"; };
+		C133543619DE18D900F49789 /* WhenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhenViewController.swift; sourceTree = "<group>"; };
+		C153E9B419DCE8B200E03B7E /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		C1E0510719E21082006AC9DB /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,9 +87,14 @@
 		C133540B19DB566C00F49789 /* rCaltrain */ = {
 			isa = PBXGroup;
 			children = (
+				C1E0510719E21082006AC9DB /* MainViewController.swift */,
 				C133540E19DB566C00F49789 /* AppDelegate.swift */,
-				C133541019DB566C00F49789 /* ViewController.swift */,
 				C133541219DB566C00F49789 /* Main.storyboard */,
+				C153E9B419DCE8B200E03B7E /* Location.swift */,
+				C133543219DE07EC00F49789 /* LocationViewController.swift */,
+				C133542E19DCC43E00F49789 /* FromViewController.swift */,
+				C133543419DE082400F49789 /* ToViewController.swift */,
+				C133543619DE18D900F49789 /* WhenViewController.swift */,
 				C133541519DB566C00F49789 /* Images.xcassets */,
 				C133541719DB566C00F49789 /* LaunchScreen.xib */,
 				C133540C19DB566C00F49789 /* Supporting Files */,
@@ -212,8 +227,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C133541119DB566C00F49789 /* ViewController.swift in Sources */,
+				C133543319DE07EC00F49789 /* LocationViewController.swift in Sources */,
+				C133543719DE18D900F49789 /* WhenViewController.swift in Sources */,
+				C133543519DE082400F49789 /* ToViewController.swift in Sources */,
+				C133542F19DCC43E00F49789 /* FromViewController.swift in Sources */,
+				C153E9B519DCE8B200E03B7E /* Location.swift in Sources */,
 				C133540F19DB566C00F49789 /* AppDelegate.swift in Sources */,
+				C1E0510819E21082006AC9DB /* MainViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -405,6 +425,7 @@
 				C133542A19DB566C00F49789 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C133542B19DB566C00F49789 /* Build configuration list for PBXNativeTarget "rCaltrainTests" */ = {
 			isa = XCConfigurationList;
@@ -413,6 +434,7 @@
 				C133542D19DB566C00F49789 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
