@@ -5,7 +5,7 @@ require "csv"
 stops = CSV.read("gtfs/stops.txt").map! { |s| [s[0], s[2]]}
 header = stops.shift
 stops
-  .reject! { |s| /Station/.match(s.last) }
+  .delete_if { |s| /Station/.match(s.last) }
   .map! { |s| s.last.gsub!(/ Caltrain/, ''); s }
 stops.unshift(header)
 CSV.open("data/stops.csv", "wb") { |c| stops.each { |i| c << i } }
@@ -13,7 +13,7 @@ CSV.open("data/stops.csv", "wb") { |c| stops.each { |i| c << i } }
 times = CSV.read("gtfs/stop_times.txt").map! { |s| s[0..4]}
 header = times.shift
 times
-  .select! { |s| /14OCT/.match(s[0]) }
+  .keep_if { |s| /14OCT/.match(s[0]) }
   .map! { |s| id = s[0].split('-'); s[0] = [id[0], id[4]].join('-'); s }
 times.unshift(header)
 CSV.open("data/times.csv", "wb") { |c| times.each { |i| c << i } }

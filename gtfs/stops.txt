@@ -39,8 +39,8 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 70202,70202,"San Antonio Caltrain",,  37.407277,-122.107125,3,,0,ctsa,SB
 70211,70211,"Mt View Caltrain",,  37.394459,-122.075956,3,,0,ctmv,NB
 70212,70212,"Mt View Caltrain",,  37.394402,-122.075994,3,,0,ctmv,SB
-70221,70221,"Sunnyvale Caltrain",,  37.378318,-122.029802,3,,0,ctsu,NB
-70222,70222,"Sunnyvale Caltrain",,  37.378225,-122.029856,3,,0,ctsu,SB
+70221,70221,"Sunnyvale Caltrain",,  37.378916,-122.031372,3,,0,ctsu,NB
+70222,70222,"Sunnyvale Caltrain",,  37.378789,-122.031423,3,,0,ctsu,SB
 70231,70231,"Lawrence Caltrain",,  37.370598,-121.997114,4,,0,ctla,NB
 70232,70232,"Lawrence Caltrain",,  37.370484,-121.997135,4,,0,ctla,SB
 70241,70241,"Santa Clara Caltrain",,  37.353238,-121.936080,4,,0,ctscl,NB
@@ -92,5 +92,5 @@ ctsj,,San Jose Caltrain Station,,  37.329392,-121.902181,,,1,,
 ctsmar,,San Martin Caltrain Station,,  37.085775,-121.610809,,,1,,
 ctsmat,,San Mateo Caltrain Station,,  37.568209,-122.323933,,,1,,
 ctssf,,So. San Francisco Caltrain Station,,  37.655852,-122.405429,,,1,,
-ctsu,,Sunnyvale Caltrain Station,,  37.377589,-122.030116,,,1,,
+ctsu,,Sunnyvale Caltrain Station,,  37.378427,-122.030742,,,1,,
 ctta,,Tamien Caltrain Station,,  37.311640,-121.883900,,,1,,
