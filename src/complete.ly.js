@@ -17,7 +17,8 @@ function completely(container, config) {
     config.dropDownBorderColor =            config.dropDownBorderColor || '#aaa';
     config.dropDownZIndex =                 config.dropDownZIndex || '100'; // to ensure we are in front of everybody
     config.dropDownOnHoverBackgroundColor = config.dropDownOnHoverBackgroundColor || '#ddd';
-    config.matcher = config.matcher || function(a, b) { return (new RegExp("^" + a, "i")).exec(b); };
+    config.placeholder = config.placeholder || "Placeholder";
+    config.matcher = config.matcher || function(a, b) { return (new RegExp("^" + a, 'i')).test(b); };
 
     var txtInput = document.createElement('input');
     txtInput.type ='text';
@@ -34,6 +35,8 @@ function completely(container, config) {
 
     var txtHint = txtInput.cloneNode();
     txtHint.disabled='';
+    txtHint.value = config.placeholder;
+    txtHint.realValue = '';
     txtHint.style.position = 'absolute';
     txtHint.style.top =  '0';
     txtHint.style.left = '0';
@@ -168,19 +171,17 @@ function completely(container, config) {
                 p.highlight(ix);
                 return rows[ix].__hint;//txtShadow.value = uRows[uIndex].__hint ;
             },
-            onmouseselection : function() {} // it will be overwritten.
+            onmouseselection : function(text) {
+                txtInput.value = txtHint.value = leftSide+text;
+                rs.onChange(txtInput.value); // <-- forcing it.
+                registerOnTextChangeOldValue = txtInput.value; // <-- ensure that mouse down will not show the dropDown now.
+                setTimeout(function() { txtInput.focus(); },0);  // <-- I need to do this for IE
+            }
         };
         return p;
     }
 
     var dropDownController = createDropDownController(dropDown);
-
-    dropDownController.onmouseselection = function(text) {
-        txtInput.value = txtHint.value = leftSide+text;
-        rs.onChange(txtInput.value); // <-- forcing it.
-        registerOnTextChangeOldValue = txtInput.value; // <-- ensure that mouse down will not show the dropDown now.
-        setTimeout(function() { txtInput.focus(); },0);  // <-- I need to do this for IE
-    }
 
     wrapper.appendChild(dropDown);
     container.appendChild(wrapper);
@@ -250,20 +251,13 @@ function completely(container, config) {
             var token = text.substring(startFrom);
             leftSide =  text.substring(0,startFrom);
 
-            // generate space with length of token
-            var token_space = '';
-            for (var i = 0; i < token.length; i++) {
-                token_space += ' ';
-            };
-
             // updating the hint.
-            txtHint.value = '';
+            txtHint.value ='';
             for (var i=0;i<optionsLength;i++) {
                 var opt = options[i];
-                var result = config.matcher(token, opt);
-                if (result) {
-                    // txtHint.value = leftSide + opt;
-                    txtHint.value = leftSide + token_space + result[0];
+                if (config.matcher(token, opt)) {         // <-- how about upperCase vs. lowercase
+                    txtHint.realValue = opt;
+                    txtHint.value = leftSide + token + opt.substring(token.length);
                     break;
                 }
             }
@@ -311,10 +305,7 @@ function completely(container, config) {
     };
 
 
-    registerOnTextChange(txtInput,function(text) { // note the function needs to be wrapped as API-users will define their onChange
-        rs.onChange(text);
-    });
-
+    registerOnTextChange(txtInput, rs.onChange); // note the function needs to be wrapped as API-users will define their onChange
 
     var keyDownHandler = function(e) {
         e = e || window.event;
@@ -323,7 +314,7 @@ function completely(container, config) {
         if (keyCode == 33) { return; } // page up (do nothing)
         if (keyCode == 34) { return; } // page down (do nothing);
 
-        if (keyCode == 27) { //escape
+        if (keyCode == 27 || keyCode == 17) { //escape
             dropDownController.hide();
             txtHint.value = txtInput.value; // ensure that no hint is left.
             txtInput.focus();
@@ -331,17 +322,20 @@ function completely(container, config) {
         }
 
         if (keyCode == 39 || keyCode == 35 || keyCode == 9) { // right,  end, tab  (autocomplete triggered)
-            if (keyCode == 9) { // for tabs we need to ensure that we override the default behaviour: move to the next focusable HTML-element
-                e.preventDefault();
-                e.stopPropagation();
-                if (txtHint.value.length == 0) {
+            if (keyCode == 9) {
+                if (txtHint.value === txtInput.value || txtHint.value.length === 0) {
+                    txtHint.value = txtInput.value = txtHint.realValue;
                     rs.onTab(); // tab was called with no action.
                                 // users might want to re-enable its default behaviour or handle the call somehow.
+                } else {
+                    // for tabs we need to ensure that we override the default behaviour: move to the next focusable HTML-element
+                    e.preventDefault();
+                    e.stopPropagation();
                 }
             }
             if (txtHint.value.length > 0) { // if there is a hint
                 dropDownController.hide();
-                txtInput.value = txtHint.value;
+                txtHint.value = txtInput.value = txtHint.realValue;
                 var hasTextChanged = registerOnTextChangeOldValue != txtInput.value
                 registerOnTextChangeOldValue = txtInput.value; // <-- to avoid dropDown to appear again.
                                                           // for example imagine the array contains the following words: bee, beef, beetroot
@@ -367,7 +361,7 @@ function completely(container, config) {
                     return;
                 }
 
-                txtInput.value = txtHint.value;
+                txtHint.value = txtInput.value = txtHint.realValue;
                 var hasTextChanged = registerOnTextChangeOldValue != txtInput.value
                 registerOnTextChangeOldValue = txtInput.value; // <-- to avoid dropDown to appear again.
                                                           // for example imagine the array contains the following words: bee, beef, beetroot
@@ -403,10 +397,18 @@ function completely(container, config) {
 
     };
 
-    if (txtInput.addEventListener) {
-        txtInput.addEventListener("keydown",  keyDownHandler, false);
-    } else { // is this a fair assumption: that attachEvent will exist ?
-        txtInput.attachEvent('onkeydown', keyDownHandler); // IE<9
-    }
+    txtInput.onkeydown = keyDownHandler;
+
+    txtInput.onfocus = function(event) {
+        dropDownController.refresh(token, rs.options);
+    };
+
+    txtInput.onblur = function(event) {
+        dropDownController.hide();
+        if (txtHint.realValue !== '') {
+            txtHint.value = txtInput.value = txtHint.realValue;
+        };
+    };
+
     return rs;
 }
