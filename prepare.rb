@@ -49,8 +49,8 @@ def update_appcache
 end
 
 def minify_files
-  `uglifyjs src/default.js -o javascripts/default.min.js -c -m`
   `uglifyjs src/complete.ly.js -o javascripts/complete.ly.min.js -c -m`
+  `uglifyjs src/default.js -o javascripts/default.min.js -c -m`
   `uglifycss src/default.css > stylesheets/default.min.css`
 
   puts "Minified files."
