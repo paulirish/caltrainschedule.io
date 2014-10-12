@@ -141,7 +141,7 @@ function schedule (event) {
   var from_ids = cities[from.getText()],
       to_ids = cities[to.getText()];
   if (!from_ids || !to_ids) {
-    console.warn("Invalid from/to stop name!");
+    // if ids are invalid, just return. Since I schedule even when user is typing
     return;
   };
   var trips = get_trips(services, from_ids, to_ids);
