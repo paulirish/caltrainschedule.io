@@ -1,3 +1,5 @@
+var from, to;
+
 function is_defined (obj) {
   return typeof(obj) !== "undefined";
 }
@@ -173,11 +175,9 @@ function initialize (data) {
   });
 
   // generate select options
-  var from = $("#from"), to = $("#to");
-  for (var name in cities) {
-    from.append(new Option(name));
-    to.append(new Option(name));
-  }
+  var names = Object.keys(cities);
+  from.setOptions(names);
+  to.setOptions(names);
 
   // generate services
   var services = {};
@@ -229,6 +229,9 @@ $(function() {
 
 $(document).ready(function() {
   var checker = data_checker(["stops", "times"], initialize);
+
+  from = rComplete($('#from')[0], { placeholder: "Departure" });
+  to = rComplete($('#to')[0], { placeholder: "Destination" });
 
   Papa.parse("data/stops.csv", {
     download: true,
