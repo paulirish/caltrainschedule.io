@@ -1,18 +1,20 @@
+var from, to;
+
 function is_defined (obj) {
   return typeof(obj) !== "undefined";
 }
 
 function save_cookies () {
-  $.cookie("from", $("#from").prop("value"));
-  $.cookie("to", $("#to").prop("value"));
+  $.cookie("from", from.getText());
+  $.cookie("to", to.getText());
   $.cookie("when", $("#when").prop("value"));
 }
 
 function load_cookies () {
   $.cookie.defaults.expires = 365; // expire in one year
   $.cookie.defaults.path = '/'; // available across the whole site
-  $("#from").prop("value", $.cookie("from"));
-  $("#to").prop("value", $.cookie("to"));
+  from.setText($.cookie("from"));
+  to.setText($.cookie("to"));
   $("#when").prop("value", $.cookie("when"));
 }
 
@@ -135,25 +137,50 @@ function render_result (trips) {
 }
 
 function schedule (event) {
-  save_cookies();
-
   var cities = event.data["cities"], services = event.data["services"];
-  var from_ids = cities[$("#from").prop("value")],
-      to_ids = cities[$("#to").prop("value")];
+  var from_ids = cities[from.getText()],
+      to_ids = cities[to.getText()];
+  if (!from_ids || !to_ids) {
+    console.warn("Invalid from/to stop name!");
+    return;
+  };
   var trips = get_trips(services, from_ids, to_ids);
 
+  save_cookies();
   render_info(trips[0]);
   render_result(trips);
 }
 
 function bind_events (data) {
-  $("#from").on("change", data, schedule);
-  $("#to").on("change", data, schedule);
+  var event = { data: data };
+
+  [from, to].forEach(function(c) {
+    // generate cancel button
+    var cancel = $('<span class="cancel">x</span>')
+    .on("click", function(event) {
+      c.setText('');
+      c.input.focus();
+    });
+    var hide_if_has_input = function() {
+      if (c.input.value == '') {
+        cancel.hide();
+      } else {
+        cancel.show();
+      };
+    };
+    c.on("change", hide_if_has_input);
+    c.on("complete", function() {
+      hide_if_has_input();
+      schedule.bind(this, event);
+    });
+    $(c.wrapper).append(cancel);
+  });
+
   $("#when").on("change", data, schedule);
   $("#reverse").on("click", data, function(event) {
-    var t = $("#from").prop("value");
-    $("#from").prop("value", $("#to").prop("value"));
-    $("#to").prop("value", t);
+    var t = from.getText();
+    from.setText(to.getText());
+    to.setText(t);
     schedule(event);
   });
 }
@@ -173,11 +200,9 @@ function initialize (data) {
   });
 
   // generate select options
-  var from = $("#from"), to = $("#to");
-  for (var name in cities) {
-    from.append(new Option(name));
-    to.append(new Option(name));
-  }
+  var names = Object.keys(cities);
+  from.setOptions(names);
+  to.setOptions(names);
 
   // generate services
   var services = {};
@@ -229,6 +254,9 @@ $(function() {
 
 $(document).ready(function() {
   var checker = data_checker(["stops", "times"], initialize);
+
+  from = rComplete($('#from')[0], { placeholder: "Departure" });
+  to = rComplete($('#to')[0], { placeholder: "Destination" });
 
   Papa.parse("data/stops.csv", {
     download: true,

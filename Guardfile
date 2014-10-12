@@ -8,8 +8,7 @@ guard :shell do
   callback(:start_begin) {
     Thread.new {
       `kill -9 #{`lsof -i :8000`.split("\n").last.split[1]}` rescue nil
-      `python -m SimpleHTTPServer &`
-      `open http://localhost:8000`
+      `python -m SimpleHTTPServer & open http://localhost:8000`
     }
   }
 end

@@ -10,18 +10,49 @@ h1 {
     margin: 10px 0;
 }
 
-select, input {
-    height: 26px;
-    margin: 6px 0;
+/* rComplete */
+.complete-hint, .complete-input, .complete-dropdown {
+    font-size: 16px;
+}
+.complete-hint, .complete-input {
+    border: 1px solid #888;
+    border-radius: 8px;
+    outline: none;
+    padding: 0.3em 0.5em;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+.complete-dropdown {
+    border: 1px solid #bbb;
+    border-radius: 10px;
+    margin: 10px 0;
+    width: 100%;
+    text-align: left;
+    z-index: 100;
+    background-color: white;
+    position: absolute;
+}
+.complete-dropdown-item {
+    color: #444;
+    padding: 0.3em 0.5em;
+    cursor: default;
+}
+.complete-dropdown-item+.complete-dropdown-item {
+    border-top: 1px solid #888;
+}
+.complete-dropdown-item.hovered {
+    color: #1E98FF;
 }
 
+/* Components */
 .input-group {
     clear: both;
     position: relative;
     text-align: left;
     height: 40px;
 }
-label, select {
+label, .location {
     display: inline-block;
     font-size: 20px;
 }
@@ -29,9 +60,18 @@ label, select {
     width: 60px;
     text-align: right;
 }
-.input-group select {
+.input-group .location {
     width: 200px;
     text-align: left;
+}
+.cancel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 1em;
+    height: 1em;
+    cursor: default;
+    font-family: sans-serif;
 }
 #reverse {
     position: absolute;
@@ -62,6 +102,7 @@ label, select {
     font-size: 120%;
 }
 
+/* Footer */
 footer {
     color: grey;
     margin-bottom: 5em;

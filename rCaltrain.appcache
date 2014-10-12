@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# Updated at 2014-10-08 15:13:49 -0700
+# Updated at 2014-10-12 10:54:46 -0700
 
 CACHE:
 data/stops.csv
@@ -18,6 +18,7 @@ javascripts/fastclick.min.js
 javascripts/jquery-2.1.0.min.js
 javascripts/jquery.cookie.min.js
 javascripts/papaparse.min.js
+javascripts/rComplete.min.js
 offline.html
 stylesheets/default.min.css
 
