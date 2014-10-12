@@ -13,10 +13,10 @@ function save_cookies () {
 function load_cookies () {
   $.cookie.defaults.expires = 365; // expire in one year
   $.cookie.defaults.path = '/'; // available across the whole site
-  if ($.cookie("from")) {
+  if (is_defined($.cookie("from"))) {
     from.setText($.cookie("from"));
   };
-  if ($.cookie("to")) {
+  if (is_defined($.cookie("to"))) {
     to.setText($.cookie("to"));
   };
   $("#when").prop("value", $.cookie("when"));
@@ -144,7 +144,7 @@ function schedule (event) {
   var cities = event.data["cities"], services = event.data["services"];
   var from_ids = cities[from.getText()],
       to_ids = cities[to.getText()];
-  if (!from_ids || !to_ids) {
+  if (!is_defined(from_ids) || !is_defined(to_ids)) {
     // if ids are invalid, just return. Since I schedule even when user is typing
     return;
   };
@@ -166,7 +166,7 @@ function bind_events (data) {
       c.input.focus();
     });
     var hide_if_has_input_and_schedule = function() {
-      if (c.input.value == '') {
+      if (c.input.value === '') {
         cancel.hide();
       } else {
         cancel.show();
