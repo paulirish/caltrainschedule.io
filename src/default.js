@@ -161,18 +161,16 @@ function bind_events (data) {
       c.setText('');
       c.input.focus();
     });
-    var hide_if_has_input = function() {
+    var hide_if_has_input_and_schedule = function() {
       if (c.input.value == '') {
         cancel.hide();
       } else {
         cancel.show();
       };
+      schedule(event);
     };
-    c.on("change", hide_if_has_input);
-    c.on("complete", function() {
-      hide_if_has_input();
-      schedule.bind(this, event);
-    });
+    c.on("change", hide_if_has_input_and_schedule);
+    c.on("complete", hide_if_has_input_and_schedule);
     $(c.wrapper).append(cancel);
   });
 
