@@ -5,16 +5,16 @@ function is_defined (obj) {
 }
 
 function save_cookies () {
-  $.cookie("from", $("#from").prop("value"));
-  $.cookie("to", $("#to").prop("value"));
+  $.cookie("from", from.getText());
+  $.cookie("to", to.getText());
   $.cookie("when", $("#when").prop("value"));
 }
 
 function load_cookies () {
   $.cookie.defaults.expires = 365; // expire in one year
   $.cookie.defaults.path = '/'; // available across the whole site
-  $("#from").prop("value", $.cookie("from"));
-  $("#to").prop("value", $.cookie("to"));
+  from.setText($.cookie("from"));
+  to.setText($.cookie("to"));
   $("#when").prop("value", $.cookie("when"));
 }
 
@@ -140,8 +140,8 @@ function schedule (event) {
   save_cookies();
 
   var cities = event.data["cities"], services = event.data["services"];
-  var from_ids = cities[$("#from").prop("value")],
-      to_ids = cities[$("#to").prop("value")];
+  var from_ids = cities[from.getText()],
+      to_ids = cities[to.getText()];
   var trips = get_trips(services, from_ids, to_ids);
 
   render_info(trips[0]);
@@ -153,9 +153,9 @@ function bind_events (data) {
   $("#to").on("change", data, schedule);
   $("#when").on("change", data, schedule);
   $("#reverse").on("click", data, function(event) {
-    var t = $("#from").prop("value");
-    $("#from").prop("value", $("#to").prop("value"));
-    $("#to").prop("value", t);
+    var t = from.getText();
+    from.setText(to.getText());
+    to.setText(t);
     schedule(event);
   });
 }
