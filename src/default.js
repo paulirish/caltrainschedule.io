@@ -137,20 +137,45 @@ function render_result (trips) {
 }
 
 function schedule (event) {
-  save_cookies();
-
   var cities = event.data["cities"], services = event.data["services"];
   var from_ids = cities[from.getText()],
       to_ids = cities[to.getText()];
+  if (!from_ids || !to_ids) {
+    console.warn("Invalid from/to stop name!");
+    return;
+  };
   var trips = get_trips(services, from_ids, to_ids);
 
+  save_cookies();
   render_info(trips[0]);
   render_result(trips);
 }
 
 function bind_events (data) {
-  $("#from").on("change", data, schedule);
-  $("#to").on("change", data, schedule);
+  var event = { data: data };
+
+  [from, to].forEach(function(c) {
+    // generate cancel button
+    var cancel = $('<span class="cancel">x</span>')
+    .on("click", function(event) {
+      c.setText('');
+      c.input.focus();
+    });
+    var hide_if_has_input = function() {
+      if (c.input.value == '') {
+        cancel.hide();
+      } else {
+        cancel.show();
+      };
+    };
+    c.on("change", hide_if_has_input);
+    c.on("complete", function() {
+      hide_if_has_input();
+      schedule.bind(this, event);
+    });
+    $(c.wrapper).append(cancel);
+  });
+
   $("#when").on("change", data, schedule);
   $("#reverse").on("click", data, function(event) {
     var t = from.getText();

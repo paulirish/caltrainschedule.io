@@ -64,6 +64,15 @@ label, .location {
     width: 200px;
     text-align: left;
 }
+.cancel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 1em;
+    height: 1em;
+    cursor: default;
+    font-family: sans-serif;
+}
 #reverse {
     position: absolute;
     top: 0;
