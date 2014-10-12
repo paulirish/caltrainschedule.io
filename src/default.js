@@ -13,8 +13,12 @@ function save_cookies () {
 function load_cookies () {
   $.cookie.defaults.expires = 365; // expire in one year
   $.cookie.defaults.path = '/'; // available across the whole site
-  from.setText($.cookie("from"));
-  to.setText($.cookie("to"));
+  if ($.cookie("from")) {
+    from.setText($.cookie("from"));
+  };
+  if ($.cookie("to")) {
+    to.setText($.cookie("to"));
+  };
   $("#when").prop("value", $.cookie("when"));
 }
 
