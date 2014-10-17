@@ -42,22 +42,31 @@
     <h1>rCaltrain</h1>
     <div id="inputs">
         <div class="input-group">
-            <label>From:</label>
+            <label class="input-label">From:</label>
             <div id="from" class="location"></div>
         </div>
         <div class="input-group">
-            <label>To:</label>
+            <label class="input-label">To:</label>
             <div id="to" class="location"></div>
             <button id="reverse" type="submit"></button>
         </div>
         <div class="input-group">
-            <label>When:</label>
-            <select id="when">
-                <option value="now">From now</option>
-                <option value="weekday">Weekday</option>
-                <option value="saturday">Saturday</option>
-                <option value="sunday">Sunday</option>
-            </select>
+            <label class="when">
+                From now
+                <input type="radio" name="when" value="now">
+            </label>
+            <label class="when">
+                Weekday
+                <input type="radio" name="when" value="weekday">
+            </label>
+            <label class="when">
+                Saturday
+                <input type="radio" name="when" value="saturday">
+            </label>
+            <label class="when">
+                Sunday
+                <input type="radio" name="when" value="sunday">
+            </label>
         </div>
     </div>
 

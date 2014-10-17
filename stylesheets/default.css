@@ -52,11 +52,11 @@ h1 {
     text-align: left;
     height: 40px;
 }
-label, .location {
+.input-label, .location {
     display: inline-block;
     font-size: 20px;
 }
-.input-group label {
+.input-group .input-label {
     width: 60px;
     text-align: right;
 }
@@ -73,6 +73,20 @@ label, .location {
     cursor: default;
     font-family: sans-serif;
     color: #888;
+}
+.when {
+    color: #888;
+    font-size: 16px;
+    padding: 0 0.3em;
+}
+.when.selected {
+    color: black;
+}
+.when+.when {
+    border-left: 1px solid #e3e3e3;
+}
+.when input {
+    display: none;
 }
 #reverse {
     position: absolute;

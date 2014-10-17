@@ -1,4 +1,4 @@
-var from, to;
+var from, to, when;
 
 function is_defined (obj) {
   return typeof(obj) !== "undefined";
@@ -7,7 +7,7 @@ function is_defined (obj) {
 function save_cookies () {
   $.cookie("from", from.getText());
   $.cookie("to", to.getText());
-  $.cookie("when", $("#when").prop("value"));
+  $.cookie("when", $('input[name=when]:checked').val());
 }
 
 function load_cookies () {
@@ -19,7 +19,10 @@ function load_cookies () {
   if (is_defined($.cookie("to"))) {
     to.setText($.cookie("to"));
   };
-  $("#when").prop("value", $.cookie("when"));
+  if (is_defined($.cookie("when"))) {
+    var input = $('input[name=when][value=' + $.cookie("when") + ']');
+    input.parent().click();
+  };
 }
 
 String.prototype.repeat = function( num ) {
@@ -55,7 +58,7 @@ function time_relative (from, to) {
 }
 
 function is_now () {
-  return $("#when").prop("value") === "now";
+  return $('input[name=when]:checked').val() === "now";
 }
 
 function get_trip_match_regexp () {
@@ -73,7 +76,7 @@ function get_trip_match_regexp () {
         return;
     }
   } else {
-    var value = $("#when").prop("value");
+    var value = $('input[name=when]:checked').val();
     value = value.charAt(0).toUpperCase() + value.substring(1); // capitalize
     return new RegExp(value, "i"); // ignore case
   }
@@ -178,7 +181,16 @@ function bind_events (data) {
     $(c.wrapper).append(cancel);
   });
 
-  $("#when").on("change", data, schedule);
+  when.each(function(index, elem) {
+    $(elem).on("click", data, function(event) {
+      when.each(function(index, elem) {
+        $(elem).removeClass("selected");
+      });
+      $(elem).addClass("selected");
+      schedule(event);
+    });
+  });
+
   $("#reverse").on("click", data, function(event) {
     var t = from.getText();
     from.setText(to.getText());
@@ -259,6 +271,7 @@ $(document).ready(function() {
 
   from = rComplete($('#from')[0], { placeholder: "Departure" });
   to = rComplete($('#to')[0], { placeholder: "Destination" });
+  when = $('.when');
 
   Papa.parse("data/stops.csv", {
     download: true,
