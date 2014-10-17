@@ -77,19 +77,42 @@ end
 
 desc "Minify Files."
 task :minify_files do
-  `uglifyjs javascripts/default.js -o javascripts/default.js -c -m`
-  `uglifycss stylesheets/default.css > stylesheets/default.css`
+  require 'tempfile'
+  require 'fileutils'
+
+  path = 'javascripts/default.js'
+  temp_file = Tempfile.new('default.js')
+  begin
+    `uglifyjs #{path} -o #{temp_file.path} -c -m`
+    FileUtils.mv(temp_file.path, path)
+  ensure
+    temp_file.close
+    temp_file.unlink
+  end
+
+  path = 'stylesheets/default.css'
+  temp_file = Tempfile.new('default.css')
+  begin
+    `uglifycss #{path} > #{temp_file.path}`
+    FileUtils.mv(temp_file.path, path)
+  ensure
+    temp_file.close
+    temp_file.unlink
+  end
 
   puts "Minified files."
 end
 
 desc "Release"
-task :release => [:prepare_data, :enable_appcache, :update_appcache, :minify_files] do
+task :release do
   begin
     `git checkout gh-pages`
     `git checkout master -- .`
-    # `git add .`
-    # `git commit -m 'Updated at #{Time.now}.'`
+    [:prepare_data, :enable_appcache, :update_appcache, :minify_files].each do |task|
+      Rake::Task[task].invoke
+    end
+    `git add .`
+    `git commit -m 'Updated at #{Time.now}.'`
   #   `git push`
   # ensure
   #   `git checkout master`
