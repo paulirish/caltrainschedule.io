@@ -22,12 +22,38 @@ def prepare_data
   puts "Prepared Data."
 end
 
+def enable_appcache
+  require 'tempfile'
+  require 'fileutils'
+
+  path = 'index.html'
+  temp_file = Tempfile.new('index.html')
+  begin
+    File.open(path, 'r') do |file|
+      file.each_line do |line|
+        if line.match("<html>")
+          temp_file.puts '<html manifest="rCaltrain.appcache">'
+        else
+          temp_file.puts line
+        end
+      end
+    end
+    temp_file.close
+    FileUtils.mv(temp_file.path, path)
+  ensure
+    temp_file.close
+    temp_file.unlink
+  end
+
+  puts "Enabled Appcache."
+end
+
 def update_appcache
   require 'tempfile'
   require 'fileutils'
 
   path = 'rCaltrain.appcache'
-  temp_file = Tempfile.new('foo')
+  temp_file = Tempfile.new('rCaltrain.appcache')
   begin
     File.open(path, 'r') do |file|
       file.each_line do |line|
@@ -57,7 +83,17 @@ end
 
 
 if __FILE__==$0
-  prepare_data
-  update_appcache
-  minify_files
+  begin
+    `git checkout gh-pages`
+    `git checkout master -- .`
+    prepare_data
+    enable_appcache
+    update_appcache
+    minify_files
+    `git add .`
+    `git commit -m 'Updated at #{Time.now}.'`
+  #   `git push`
+  # ensure
+  #   `git checkout master`
+  end
 end
