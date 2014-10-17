@@ -1,6 +1,5 @@
-#!/usr/bin/env ruby
-
-def prepare_data
+desc "Prepare Data"
+task :prepare_data do
   require "csv"
 
   stops = CSV.read("gtfs/stops.txt").map! { |s| [s[0], s[2]]}
@@ -22,7 +21,8 @@ def prepare_data
   puts "Prepared Data."
 end
 
-def enable_appcache
+desc "Enable Appcache."
+task :enable_appcache do
   require 'tempfile'
   require 'fileutils'
 
@@ -48,7 +48,8 @@ def enable_appcache
   puts "Enabled Appcache."
 end
 
-def update_appcache
+desc "Update Appcache."
+task :update_appcache do
   require 'tempfile'
   require 'fileutils'
 
@@ -74,24 +75,21 @@ def update_appcache
   puts "Updated Appcache."
 end
 
-def minify_files
-  `uglifyjs src/default.js -o javascripts/default.min.js -c -m`
-  `uglifycss src/default.css > stylesheets/default.min.css`
+desc "Minify Files."
+task :minify_files do
+  `uglifyjs javascripts/default.js -o javascripts/default.js -c -m`
+  `uglifycss stylesheets/default.css > stylesheets/default.css`
 
   puts "Minified files."
 end
 
-
-if __FILE__==$0
+desc "Release"
+task :release => [:prepare_data, :enable_appcache, :update_appcache, :minify_files] do
   begin
     `git checkout gh-pages`
     `git checkout master -- .`
-    prepare_data
-    enable_appcache
-    update_appcache
-    minify_files
-    `git add .`
-    `git commit -m 'Updated at #{Time.now}.'`
+    # `git add .`
+    # `git commit -m 'Updated at #{Time.now}.'`
   #   `git push`
   # ensure
   #   `git checkout master`
