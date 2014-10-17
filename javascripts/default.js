@@ -77,8 +77,10 @@ function get_trip_match_regexp () {
     }
   } else {
     var value = $('input[name=when]:checked').val();
-    value = value.charAt(0).toUpperCase() + value.substring(1); // capitalize
-    return new RegExp(value, "i"); // ignore case
+    if (is_defined(value)) {
+      value = value.charAt(0).toUpperCase() + value.substring(1); // capitalize
+      return new RegExp(value, "i"); // ignore case
+    };
   }
 }
 
@@ -89,6 +91,9 @@ function compare_trip (a, b) {
 function get_trips (services, from_ids, to_ids) {
   var trips = []; // valid trips
   var trip_reg = get_trip_match_regexp();
+
+  // invalid when
+  if (!is_defined(trip_reg)) { return; };
 
   for (var trip_id in services) {
     if (!trip_reg.exec(trip_id)) {
@@ -147,11 +152,11 @@ function schedule (event) {
   var cities = event.data["cities"], services = event.data["services"];
   var from_ids = cities[from.getText()],
       to_ids = cities[to.getText()];
-  if (!is_defined(from_ids) || !is_defined(to_ids)) {
-    // if ids are invalid, just return. Since I schedule even when user is typing
+  var trips = get_trips(services, from_ids, to_ids);
+  if (!is_defined(from_ids) || !is_defined(to_ids) || !is_defined(trips)) {
+    // if ids are invalid, just return. Since some input is invalid
     return;
   };
-  var trips = get_trips(services, from_ids, to_ids);
 
   save_cookies();
   render_info(trips[0]);
@@ -238,8 +243,8 @@ function initialize (data) {
     cities: cities,
     services: services
   };
-  load_cookies();
   bind_events(data);
+  load_cookies();
   schedule({ data: data }); // init schedule
 }
 
