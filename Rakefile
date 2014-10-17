@@ -113,8 +113,5 @@ task :release do
     end
     `git add .`
     `git commit -m 'Updated at #{Time.now}.'`
-  #   `git push`
-  # ensure
-  #   `git checkout master`
   end
 end
