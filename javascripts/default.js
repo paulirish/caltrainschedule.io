@@ -276,7 +276,7 @@ $(document).ready(function() {
 
   from = rComplete($('#from')[0], { placeholder: "Departure" });
   to = rComplete($('#to')[0], { placeholder: "Destination" });
-  when = $('.when');
+  when = $('.when-label');
 
   Papa.parse("data/stops.csv", {
     download: true,

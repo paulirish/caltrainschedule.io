@@ -39,36 +39,38 @@
     <script type="text/javascript" src="javascripts/default.js"></script>
 </head>
 <body>
-    <h1>rCaltrain</h1>
-    <div id="inputs">
-        <div class="input-group">
+    <header>
+        <h1 class="header-group">
+            rCaltrain
+        </h1>
+        <div class="from header-group">
             <label class="input-label">From:</label>
             <div id="from" class="location"></div>
         </div>
-        <div class="input-group">
+        <div class="to header-group">
             <label class="input-label">To:</label>
             <div id="to" class="location"></div>
             <button id="reverse" type="submit"></button>
         </div>
-        <div class="input-group">
-            <label class="when">
-                From now
+        <div class="when header-group">
+            <label class="when-label">
+                <span class="text">From now</span>
                 <input type="radio" name="when" value="now">
             </label>
-            <label class="when">
-                Weekday
+            <label class="when-label">
+                <span class="text">Weekday</span>
                 <input type="radio" name="when" value="weekday">
             </label>
-            <label class="when">
-                Saturday
+            <label class="when-label">
+                <span class="text">Saturday</span>
                 <input type="radio" name="when" value="saturday">
             </label>
-            <label class="when">
-                Sunday
+            <label class="when-label">
+                <span class="text">Sunday</span>
                 <input type="radio" name="when" value="sunday">
             </label>
         </div>
-    </div>
+    </header>
 
     <div id="info"></div>
     <div id="result"></div>

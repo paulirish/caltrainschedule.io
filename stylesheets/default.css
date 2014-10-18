@@ -1,13 +1,10 @@
 body {
-    max-width: 300px;
+    max-width: 320px;
     margin: auto;
     text-align: center;
+    font-family: sans-serif;
+    font-weight: 100;
     font-size: 20px;
-}
-
-h1 {
-    font-size: 120%;
-    margin: 10px 0;
 }
 
 /* rComplete */
@@ -46,21 +43,34 @@ h1 {
 }
 
 /* Components */
-.input-group {
-    clear: both;
+h1.header-group {
+    font-size: 120%;
+    font-weight: 100;
+    margin-top: 10px;
+    margin-bottom: 0;
+    text-align: center;
+}
+.from, .to, .when {
     position: relative;
     text-align: left;
-    height: 40px;
+    border-bottom: 1px #ECECEC solid;
 }
+.from, .to {
+    padding: 15px 0;
+}
+
+/* Inputs */
 .input-label, .location {
     display: inline-block;
     font-size: 20px;
+    height: 30px;
+    line-height: 30px;
 }
-.input-group .input-label {
+.input-label {
     width: 60px;
     text-align: right;
 }
-.input-group .location {
+.location {
     width: 200px;
     text-align: left;
 }
@@ -74,28 +84,16 @@ h1 {
     font-family: sans-serif;
     color: #888;
 }
-.when {
-    color: #888;
-    font-size: 16px;
-    padding: 0 0.3em;
-}
-.when.selected {
-    color: black;
-}
-.when+.when {
-    border-left: 1px solid #e3e3e3;
-}
-.when input {
-    display: none;
-}
+
+/* Reverse button */
 #reverse {
     position: absolute;
     bottom: 0;
     right: 0;
     background: url("../images/switcher.png") no-repeat center;
     background-size: 20px;
-    height: 80px;
-    width: 32px;
+    height: 120px;
+    width: 40px;
     border: none;
     padding: 0;
     opacity: 0.7;
@@ -108,13 +106,41 @@ h1 {
     outline: none;
 }
 
-#inputs, #result {
-    margin: 10px 0;
+/* When */
+.when {
+    height: 60px;
+}
+.when-label {
+    color: #888;
+    font-size: 15px;
+    display: block;
+    float: left;
+    padding: 15px 0;
+}
+.when-label.selected {
+    color: black;
+    font-weight: 400;
+}
+.when .text {
+    padding: 0 8px;
+    line-height: 30px;
+}
+.when-label+.when-label .text {
+    border-left: 1px solid #e3e3e3;
+}
+input[name=when] {
+    display: none;
 }
 
-#info, .trip {
-    margin: 5px 0;
+/* Results */
+#info {
+    font-weight: 400;
+    margin: 10px 0;
+    margin-top: 20px;
+}
+.trip {
     font-size: 120%;
+    margin: 5px 0;
 }
 
 /* Footer */
