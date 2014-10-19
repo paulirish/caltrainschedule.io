@@ -8,7 +8,15 @@ task :prepare_data do
   stops.shift
   stops
     .keep_if { |s| /\A\d+\Z/.match(s.last) }
-    .map! { |s| s.first.gsub!(/ Caltrain| Station/, ''); s }
+    .map! { |s|
+      s.first.gsub!(/ Caltrain/, '')
+      # TODO: hack the data
+      s[0] = "So. San Francisco" if s[0] == "So. San Francisco Station" # shorten the name
+      s[0] = "Tamien" if s[0] == "Tamien Station" # merge station
+      s[0] = "San Jose" if s[0] == "San Jose Diridon"  # name reversed
+      s[0] = "San Jose Diridon" if s[0] == "San Jose Station" # name reversed
+      s
+    }
   stops = stops
     .group_by{|s| s.first}
     .inject({}) {|h, (k,v)| h[k] = v.map{|v| v.last}; h}
