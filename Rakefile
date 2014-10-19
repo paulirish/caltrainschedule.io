@@ -20,7 +20,9 @@ task :prepare_data do
   # stop_name, stop_id
   hash = Hash.new { |h, k| h[k] = [] }
   stops.each { |s| hash[s.first].push(s.last) }
-  File.open("data/stops.json", "wb").write(hash.to_json)
+  File.open("data/stops.json", "wb") do |f|
+    f.write(hash.to_json)
+  end
 
   times = CSV.read("gtfs/stop_times.txt").map! { |s| s[0..4]}
   times.shift
@@ -30,7 +32,9 @@ task :prepare_data do
   # trip_id, arrival_time, departure_time, stop_id, stop_sequence
   hash = Hash.new { |h, k| h[k] = {} }
   times.each { |t| hash[t[0]][t[3]] = [t[1], t[2], t[4]] }
-  File.open("data/times.json", "wb").write(hash.to_json)
+  File.open("data/times.json", "wb") do |f|
+    f.write(hash.to_json)
+  end
 
   puts "Prepared Data."
 end
