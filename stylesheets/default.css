@@ -113,7 +113,8 @@ h1.header-group {
 .when-button {
     color: #888;
     float: left;
-    padding: 23px 0;
+    padding: 23px 0; /* (height - font-size) / 2 */
+    margin: 0;
     background: none;
     border: none;
     outline: none;
@@ -124,9 +125,9 @@ h1.header-group {
 }
 .when .text {
     display: block;
-    width: 60px;
+    width: 65px; /* (320 - 3*1) / 4 - 5 * 2 = 69px */
     font-size: 14px;
-    padding: 0 8px;
+    padding: 0 5px;
     text-align: center;
 }
 .when-button+.when-button .text {
