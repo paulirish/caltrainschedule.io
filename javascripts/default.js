@@ -142,7 +142,9 @@ function render_result (trips) {
     var arrival_str = date2str(trip.arrival_time);
     var trip_time = time_relative(trip.departure_time, trip.arrival_time);
     result.append('<div class="trip">' +
-                  departure_str + ' => ' + arrival_str + ' (' + trip_time + 'min)' +
+                  '<span class="departure">' + departure_str + '</span>' +
+                  '<span class="duration">' + trip_time + ' min</span>' +
+                  '<span class="arrival">' + arrival_str + '</span>' +
                   '</div>');
   });
 }
