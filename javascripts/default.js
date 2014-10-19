@@ -1,7 +1,7 @@
 (function(){
   "use strict";
 
-  var from, to, when;
+  var from, to, when, data = {};
 
   function is_defined (obj) {
     return typeof(obj) !== "undefined";
@@ -208,7 +208,22 @@
     });
   }
 
-  function initialize (data) {
+  function initialize () {
+    // remove 300ms delay for mobiles click
+    FastClick.attach(document.body);
+
+    // init inputs elements
+    from = rComplete($('#from')[0], { placeholder: "Departure" });
+    to = rComplete($('#to')[0], { placeholder: "Destination" });
+    when = $('.when-button');
+
+    // add cancel buttons
+    [from, to].forEach(function(c) {
+      var cancel = $('<span class="cancel">x</span>');
+      $(c.wrapper).append(cancel);
+      c.cancel = cancel[0];
+    });
+
     var stops = data.stops, times = data.times;
 
     // generate cities
@@ -243,68 +258,60 @@
     });
 
     // init
-    var data = {
+    var prepared_data = {
       cities: cities,
       services: services
     };
-    bind_events(data);
+    bind_events(prepared_data);
     load_cookies();
-    schedule({ data: data }); // init schedule
+    schedule({ data: prepared_data }); // init schedule
   }
 
   function data_checker (names, callback) {
-    var mark = {}, all_data = {}, callback = callback;
+    var mark = {}, callback = callback;
     names.forEach(function(name) {
       mark[name] = false;
     });
-    return function(name, data) {
+
+    return function(name) {
       mark[name] = true;
-      all_data[name] = data;
 
       var all_true = true;
       for (var n in mark)
-        if (!mark[n])
+        if (!mark[n]) {
           all_true = false;
+          break;
+        };
 
       if (all_true)
-        callback(all_data);
+        callback();
     };
   }
 
-  $(function() {
-    FastClick.attach(document.body);
+  // init after document and data are ready
+  var checker = data_checker(["stops", "times"], function() {
+    $(initialize);
   });
 
-  $(document).ready(function() {
-    var checker = data_checker(["stops", "times"], initialize);
-
-    from = rComplete($('#from')[0], { placeholder: "Departure" });
-    to = rComplete($('#to')[0], { placeholder: "Destination" });
-    when = $('.when-button');
-
-    // add cancel buttons
-    [from, to].forEach(function(c) {
-      var cancel = $('<span class="cancel">x</span>');
-      $(c.wrapper).append(cancel);
-      c.cancel = cancel[0];
-    });
-
-    Papa.parse("data/stops.csv", {
-      download: true,
-      dynamicTyping: true,
-      header: true,
-      complete: function(results) {
-        checker("stops", results.data);
-      }
-    });
-
-    Papa.parse("data/times.csv", {
-      download: true,
-      dynamicTyping: true,
-      header: true,
-      complete: function(results) {
-        checker("times", results.data);
-      }
-    });
+  // download data
+  Papa.parse("data/stops.csv", {
+    download: true,
+    dynamicTyping: true,
+    header: true,
+    complete: function(results) {
+      data.stops = results.data;
+      checker("stops");
+    }
   });
+
+  Papa.parse("data/times.csv", {
+    download: true,
+    dynamicTyping: true,
+    header: true,
+    complete: function(results) {
+      data.times = results.data;
+      checker("times");
+    }
+  });
+
 }());
