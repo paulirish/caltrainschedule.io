@@ -224,18 +224,7 @@
       c.cancel = cancel[0];
     });
 
-    var stops = data.stops, times = data.times;
-
-    // generate cities
-    var cities = {};
-    stops.forEach(function(s) {
-      var id = s.stop_id, name = s.stop_name;
-      if (!is_defined(cities[name])) {
-        cities[name] = [id];
-      } else {
-        cities[name].push(id);
-      };
-    });
+    var cities = data.stops, times = data.times;
 
     // generate select options
     var names = Object.keys(cities);
@@ -294,14 +283,9 @@
   });
 
   // download data
-  Papa.parse("data/stops.csv", {
-    download: true,
-    dynamicTyping: true,
-    header: true,
-    complete: function(results) {
-      data.stops = results.data;
-      checker("stops");
-    }
+  $.getJSON("data/stops.json", function( stops ) {
+    data.stops = stops;
+    checker("stops");
   });
 
   Papa.parse("data/times.csv", {

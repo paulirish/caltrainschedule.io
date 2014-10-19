@@ -1,14 +1,18 @@
 desc "Prepare Data"
 task :prepare_data do
   require "csv"
+  require "json"
 
-  stops = CSV.read("gtfs/stops.txt").map! { |s| [s[0], s[2]]}
-  header = stops.shift
+  # stop_name, stop_id
+  stops = CSV.read("gtfs/stops.txt").map! { |s| [s[2], s[0]]}
+  stops.shift
   stops
-    .delete_if { |s| /Station/.match(s.last) }
-    .map! { |s| s.last.gsub!(/ Caltrain/, ''); s }
-  stops.unshift(header)
-  CSV.open("data/stops.csv", "wb") { |c| stops.each { |i| c << i } }
+    .keep_if { |s| /\A\d+\Z/.match(s.last) }
+    .map! { |s| s.first.gsub!(/ Caltrain| Station/, ''); s }
+  stops = stops
+    .group_by{|s| s.first}
+    .inject({}) {|h, (k,v)| h[k] = v.map{|v| v.last}; h}
+  File.open("data/stops.json", "wb").write(stops.to_json)
 
   times = CSV.read("gtfs/stop_times.txt").map! { |s| s[0..4]}
   header = times.shift
