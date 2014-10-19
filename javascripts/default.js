@@ -224,7 +224,7 @@
       c.cancel = cancel[0];
     });
 
-    var cities = data.stops, times = data.times;
+    var cities = data.stops, services = data.times;
 
     // generate select options
     var names = Object.keys(cities);
@@ -232,18 +232,15 @@
     to.setOptions(names);
 
     // generate services
-    var services = {};
-    times.forEach(function(t) {
-      var trip_id = t.trip_id;
-      if (!is_defined(services[trip_id])) {
-        services[trip_id] = {};
-      };
-
-      services[trip_id][t.stop_id] = {
-        departure_time: str2date(t.departure_time),
-        arrival_time: str2date(t.arrival_time),
-        stop_sequence: t.stop_sequence
-      };
+    Object.keys(services).forEach(function(service_id) {
+      Object.keys(services[service_id]).forEach(function(stop_id) {
+        var t = services[service_id][stop_id];
+        services[service_id][stop_id] = {
+          departure_time: str2date(t[0]),
+          arrival_time: str2date(t[1]),
+          stop_sequence: t[2]
+        };
+      });
     });
 
     // init
@@ -283,19 +280,13 @@
   });
 
   // download data
-  $.getJSON("data/stops.json", function( stops ) {
+  $.getJSON("data/stops.json", function(stops) {
     data.stops = stops;
     checker("stops");
   });
-
-  Papa.parse("data/times.csv", {
-    download: true,
-    dynamicTyping: true,
-    header: true,
-    complete: function(results) {
-      data.times = results.data;
-      checker("times");
-    }
+  $.getJSON("data/times.json", function(times) {
+    data.times = times;
+    checker("times");
   });
 
 }());

@@ -20,15 +20,17 @@ task :prepare_data do
   # stop_name, stop_id
   hash = Hash.new { |h, k| h[k] = [] }
   stops.each { |s| hash[s.first].push(s.last) }
-  File.open("data/stops.json", "wb").write(stops.to_json)
+  File.open("data/stops.json", "wb").write(hash.to_json)
 
   times = CSV.read("gtfs/stop_times.txt").map! { |s| s[0..4]}
-  header = times.shift
+  times.shift
   times
     .keep_if { |s| /14OCT/.match(s[0]) }
     .map! { |s| id = s[0].split('-'); s[0] = [id[0], id[4]].join('-'); s }
-  times.unshift(header)
-  CSV.open("data/times.csv", "wb") { |c| times.each { |i| c << i } }
+  # trip_id, arrival_time, departure_time, stop_id, stop_sequence
+  hash = Hash.new { |h, k| h[k] = {} }
+  times.each { |t| hash[t[0]][t[3]] = [t[1], t[2], t[4]] }
+  File.open("data/times.json", "wb").write(hash.to_json)
 
   puts "Prepared Data."
 end
