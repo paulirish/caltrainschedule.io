@@ -167,6 +167,7 @@ body {
 /* Footer */
 footer {
     color: grey;
+    margin-top: 30px;
     margin-bottom: 5em;
 }
 .copyright {
