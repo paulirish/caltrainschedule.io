@@ -90,53 +90,35 @@
     return a.departure_time - b.departure_time;
   }
 
-  function get_trips (services, from_ids, to_ids, trip_reg) {
-    var trips = []; // valid trips
+  function first_within (ids, service) {
+    return ids.map(function(id) {
+      return service[id];
+    }).filter(function(stop) {
+      return is_defined(stop);
+    })[0];
+  }
 
-    Object.keys(services)
+  function get_trips (services, from_ids, to_ids, trip_reg) {
+    return Object.keys(services)
       .filter(function(trip_id) {
         // select certian trip by when
         return trip_reg.test(trip_id);
-      }).forEach(function(trip_id) {
+      }).map(function(trip_id) {
         var service = services[trip_id];
+        var departure = first_within(from_ids, service);
+        var arrival = first_within(to_ids, service);
 
-        var valid_from_ids = from_ids.filter(function(id) {
-          return is_defined(service[id]);
-        });
-
-        var valid_to_ids = to_ids.filter(function(id) {
-          return is_defined(service[id]);
-        });
-
-        // FIXME:
-        if (valid_from_ids.length > 1 || valid_to_ids.length > 1) {
-          console.warn("Additional stops:", valid_from_ids, valid_to_ids);
-        };
-        var from_id = valid_from_ids[0];
-        var to_id = valid_to_ids[0];
-
-        // both in the trip
-        if (is_defined(from_id) && is_defined(to_id)) {
-          var departure = service[from_id];
-          var arrival = service[to_id];
-          // in right order
-          if (departure.stop_sequence < arrival.stop_sequence) {
-            // should display by when
-            if (!is_now() || departure.departure_time > new Date()) {
-              // console.debug(departure.departure_time, trip_id);
-              if (trip_id === '6507745-Weekday') {
-                debugger
-              };
-              trips.push({
-                departure_time: departure.departure_time,
-                arrival_time: arrival.arrival_time
-              });
-            };
+        if (is_defined(departure) && is_defined(arrival) && // both in the trip
+            (departure.stop_sequence < arrival.stop_sequence) && // in right order
+            (!is_now() || departure.departure_time > new Date())) { // should display by when
+          return {
+            departure_time: departure.departure_time,
+            arrival_time: arrival.arrival_time
           };
         };
-      });
-
-    return trips.sort(compare_trip);
+      }).filter(function(trip) {
+        return is_defined(trip);
+      }).sort(compare_trip);
   };
 
   function render_info (next_train) {
