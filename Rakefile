@@ -106,6 +106,9 @@ end
 desc "Publish"
 task :publish do
   begin
+    `git checkout master`
+    `git push`
+
     `git checkout gh-pages`
     `git checkout master -- .`
     [:prepare_data, :enable_appcache, :update_appcache, :minify_files].each do |task|
@@ -113,5 +116,8 @@ task :publish do
     end
     `git add .`
     `git commit -m 'Updated at #{Time.now}.'`
+    `git push`
+  ensure
+    `git checkout master`
   end
 end
