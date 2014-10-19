@@ -168,7 +168,7 @@ function bind_events (data) {
   [from, to].forEach(function(c) {
     // generate cancel button
     var cancel = $('<span class="cancel">x</span>')
-    .on("click", function(event) {
+    .on("click", function() {
       c.setText('');
       c.input.focus();
     });
