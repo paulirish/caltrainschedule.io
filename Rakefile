@@ -103,8 +103,8 @@ task :minify_files do
   puts "Minified files."
 end
 
-desc "Release"
-task :release do
+desc "Publish"
+task :publish do
   begin
     `git checkout gh-pages`
     `git checkout master -- .`
