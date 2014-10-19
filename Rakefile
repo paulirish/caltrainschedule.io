@@ -17,9 +17,9 @@ task :prepare_data do
       s[0] = "San Jose Diridon" if s[0] == "San Jose Station" # name reversed
       s
     }
-  stops = stops
-    .group_by{|s| s.first}
-    .inject({}) {|h, (k,v)| h[k] = v.map{|v| v.last}; h}
+  # stop_name, stop_id
+  hash = Hash.new { |h, k| h[k] = [] }
+  stops.each { |s| hash[s.first].push(s.last) }
   File.open("data/stops.json", "wb").write(stops.to_json)
 
   times = CSV.read("gtfs/stop_times.txt").map! { |s| s[0..4]}
