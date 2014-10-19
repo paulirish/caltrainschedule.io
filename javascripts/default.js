@@ -20,7 +20,7 @@ function load_cookies () {
     to.setText($.cookie("to"));
   };
   if (is_defined($.cookie("when"))) {
-    $('.when-button[value=' + $.cookie("when") + ']').addClass('selected');
+    $('.when-button[value="' + $.cookie("when") + '"]').addClass('selected');
   };
 }
 
@@ -168,12 +168,13 @@ function bind_events (data) {
   var event = { data: data };
 
   [from, to].forEach(function(c) {
-    // generate cancel button
-    var cancel = $('<span class="cancel">x</span>')
-    .on("click", function() {
+    var cancel = $(c.cancel);
+
+    cancel.on("click", function() {
       c.setText('');
       c.input.focus();
     });
+
     var hide_if_has_input_and_schedule = function() {
       if (c.input.value === '') {
         cancel.hide();
@@ -184,7 +185,6 @@ function bind_events (data) {
     };
     c.on("change", hide_if_has_input_and_schedule);
     c.on("complete", hide_if_has_input_and_schedule);
-    $(c.wrapper).append(cancel);
   });
 
   when.each(function(index, elem) {
@@ -194,11 +194,6 @@ function bind_events (data) {
       });
       $(elem).addClass("selected");
       schedule(event);
-    });
-
-    // in iOS, label is unclickable, this hack can fix it
-    $(elem).find('span').on('click', data, function(event) {
-      $(elem).trigger('click', event);
     });
   });
 
@@ -283,6 +278,13 @@ $(document).ready(function() {
   from = rComplete($('#from')[0], { placeholder: "Departure" });
   to = rComplete($('#to')[0], { placeholder: "Destination" });
   when = $('.when-button');
+
+  // add cancel buttons
+  [from, to].forEach(function(c) {
+    var cancel = $('<span class="cancel">x</span>');
+    $(c.wrapper).append(cancel);
+    c.cancel = cancel[0];
+  });
 
   Papa.parse("data/stops.csv", {
     download: true,

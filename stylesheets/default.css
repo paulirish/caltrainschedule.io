@@ -52,7 +52,6 @@ body {
     margin-top: 10px;
     margin-bottom: 0;
     padding: 5px 0;
-    text-align: center;
 }
 .from, .to {
     position: relative;
@@ -129,7 +128,6 @@ body {
     width: 65px; /* (320 - 3*1) / 4 - 5 * 2 = 69px */
     font-size: 14px;
     padding: 0 5px;
-    text-align: center;
 }
 .when-button+.when-button .text {
     border-left: 1px solid #e3e3e3;
@@ -156,7 +154,6 @@ body {
     text-align: left;
 }
 .duration {
-    text-align: center;
     font-weight: 100;
     font-size: 14px;
     margin: 0 10px;
