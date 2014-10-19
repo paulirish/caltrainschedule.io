@@ -2,8 +2,8 @@ CACHE MANIFEST
 # Updated at 2014-10-16 19:08:03 -0700
 
 CACHE:
-data/stops.csv
-data/times.csv
+data/stops.json
+data/times.json
 icons/icon-72.png
 icons/icon-72@2x.png
 icons/icon-76.png
@@ -17,7 +17,6 @@ javascripts/default.js
 javascripts/fastclick.min.js
 javascripts/jquery-2.1.0.min.js
 javascripts/jquery.cookie.min.js
-javascripts/papaparse.min.js
 javascripts/rComplete.min.js
 offline.html
 stylesheets/default.css
