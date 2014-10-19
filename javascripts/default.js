@@ -7,7 +7,7 @@ function is_defined (obj) {
 function save_cookies () {
   $.cookie("from", from.getText());
   $.cookie("to", to.getText());
-  $.cookie("when", $('input[name=when]:checked').val());
+  $.cookie("when", $('.when-button.selected').val());
 }
 
 function load_cookies () {
@@ -20,8 +20,7 @@ function load_cookies () {
     to.setText($.cookie("to"));
   };
   if (is_defined($.cookie("when"))) {
-    var input = $('input[name=when][value=' + $.cookie("when") + ']');
-    input.parent().click();
+    $('.when-button[value=' + $.cookie("when") + ']').addClass('selected');
   };
 }
 
@@ -58,7 +57,7 @@ function time_relative (from, to) {
 }
 
 function is_now () {
-  return $('input[name=when]:checked').val() === "now";
+  return $('.when-button.selected').val() === "now";
 }
 
 function get_trip_match_regexp () {
@@ -76,7 +75,7 @@ function get_trip_match_regexp () {
         return;
     }
   } else {
-    var value = $('input[name=when]:checked').val();
+    var value = $('.when-button.selected').val();
     if (is_defined(value)) {
       value = value.charAt(0).toUpperCase() + value.substring(1); // capitalize
       return new RegExp(value, "i"); // ignore case
@@ -194,6 +193,11 @@ function bind_events (data) {
       $(elem).addClass("selected");
       schedule(event);
     });
+
+    // in iOS, label is unclickable, this hack can fix it
+    $(elem).find('span').on('click', data, function(event) {
+      $(elem).trigger('click', event);
+    });
   });
 
   $("#reverse").on("click", data, function(event) {
@@ -276,7 +280,7 @@ $(document).ready(function() {
 
   from = rComplete($('#from')[0], { placeholder: "Departure" });
   to = rComplete($('#to')[0], { placeholder: "Destination" });
-  when = $('.when-label');
+  when = $('.when-button');
 
   Papa.parse("data/stops.csv", {
     download: true,

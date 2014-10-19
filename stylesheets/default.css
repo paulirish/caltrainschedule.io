@@ -110,26 +110,27 @@ h1.header-group {
 .when {
     height: 60px;
 }
-.when-label {
+.when-button {
     color: #888;
-    font-size: 15px;
-    display: block;
     float: left;
-    padding: 15px 0;
+    padding: 23px 0;
+    background: none;
+    border: none;
+    outline: none;
 }
-.when-label.selected {
+.when-button.selected {
     color: black;
     font-weight: 400;
 }
 .when .text {
+    display: block;
+    width: 60px;
+    font-size: 14px;
     padding: 0 8px;
-    line-height: 30px;
+    text-align: center;
 }
-.when-label+.when-label .text {
+.when-button+.when-button .text {
     border-left: 1px solid #e3e3e3;
-}
-input[name=when] {
-    display: none;
 }
 
 /* Results */
