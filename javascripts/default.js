@@ -152,8 +152,8 @@
     });
   }
 
-  function schedule (event) {
-    var cities = event.data["cities"], services = event.data["services"];
+  function schedule () {
+    var cities = data.cities, services = data.services;
     var from_ids = cities[from.getText()],
         to_ids = cities[to.getText()];
     var trips = get_trips(services, from_ids, to_ids);
@@ -167,9 +167,7 @@
     render_result(trips);
   }
 
-  function bind_events (data) {
-    var event = { data: data };
-
+  function bind_events () {
     [from, to].forEach(function(c) {
       var cancel = $(c.cancel);
 
@@ -184,27 +182,27 @@
         } else {
           cancel.show();
         };
-        schedule(event);
+        schedule();
       };
       c.on("change", hide_if_has_input_and_schedule);
       c.on("complete", hide_if_has_input_and_schedule);
     });
 
     when.each(function(index, elem) {
-      $(elem).on("click", data, function(event) {
+      $(elem).on("click", function() {
         when.each(function(index, elem) {
           $(elem).removeClass("selected");
         });
         $(elem).addClass("selected");
-        schedule(event);
+        schedule();
       });
     });
 
-    $("#reverse").on("click", data, function(event) {
+    $("#reverse").on("click", function() {
       var t = from.getText();
       from.setText(to.getText());
       to.setText(t);
-      schedule(event);
+      schedule();
     });
   }
 
@@ -244,13 +242,13 @@
     });
 
     // init
-    var prepared_data = {
+    data = {
       cities: cities,
       services: services
     };
-    bind_events(prepared_data);
+    bind_events();
     load_cookies();
-    schedule({ data: prepared_data }); // init schedule
+    schedule(); // init schedule
   }
 
   function data_checker (names, callback) {
