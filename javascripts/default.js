@@ -90,45 +90,54 @@
     return a.departure_time - b.departure_time;
   }
 
-  function get_trips (services, from_ids, to_ids) {
+  function get_trips (services, from_ids, to_ids, trip_reg) {
     var trips = []; // valid trips
-    var trip_reg = get_trip_match_regexp();
 
-    // invalid when
-    if (!is_defined(trip_reg)) { return; };
+    Object.keys(services)
+      .filter(function(trip_id) {
+        // select certian trip by when
+        return trip_reg.test(trip_id);
+      }).forEach(function(trip_id) {
+        var service = services[trip_id];
 
-    for (var trip_id in services) {
-      if (!trip_reg.exec(trip_id)) {
-        continue;
-      }
-
-      var service = services[trip_id],
-      from = undefined,
-      to = undefined;
-
-      from_ids.forEach(function(id) {
-        if (is_defined(service[id])) {
-          from = service[id];
-        }
-      });
-      to_ids.forEach(function(id) {
-        if (is_defined(service[id])) {
-          to = service[id];
-        }
-      });
-
-      if (is_defined(from) && is_defined(to) &&
-          from.stop_sequence < to.stop_sequence &&
-          (!is_now() || from.departure_time > new Date())) {
-        trips.push({
-          departure_time: from.departure_time,
-          arrival_time: to.arrival_time
+        var valid_from_ids = from_ids.filter(function(id) {
+          return is_defined(service[id]);
         });
-      };
-    }
+
+        var valid_to_ids = to_ids.filter(function(id) {
+          return is_defined(service[id]);
+        });
+
+        // FIXME:
+        if (valid_from_ids.length > 1 || valid_to_ids.length > 1) {
+          console.warn("Additional stops:", valid_from_ids, valid_to_ids);
+        };
+        var from_id = valid_from_ids[0];
+        var to_id = valid_to_ids[0];
+
+        // both in the trip
+        if (is_defined(from_id) && is_defined(to_id)) {
+          var departure = service[from_id];
+          var arrival = service[to_id];
+          // in right order
+          if (departure.stop_sequence < arrival.stop_sequence) {
+            // should display by when
+            if (!is_now() || departure.departure_time > new Date()) {
+              // console.debug(departure.departure_time, trip_id);
+              if (trip_id === '6507745-Weekday') {
+                debugger
+              };
+              trips.push({
+                departure_time: departure.departure_time,
+                arrival_time: arrival.arrival_time
+              });
+            };
+          };
+        };
+      });
 
     return trips.sort(compare_trip);
-  }
+  };
 
   function render_info (next_train) {
     var info = $("#info").empty();
@@ -155,12 +164,15 @@
   function schedule () {
     var cities = data.cities, services = data.services;
     var from_ids = cities[from.getText()],
-        to_ids = cities[to.getText()];
-    var trips = get_trips(services, from_ids, to_ids);
-    if (!is_defined(from_ids) || !is_defined(to_ids) || !is_defined(trips)) {
-      // if ids are invalid, just return. Since some input is invalid
+        to_ids = cities[to.getText()],
+        trip_reg = get_trip_match_regexp();
+
+    // if some input is invalid, just return
+    if (!is_defined(from_ids) || !is_defined(to_ids) || !is_defined(trip_reg)) {
       return;
     };
+
+    var trips = get_trips(services, from_ids, to_ids, trip_reg);
 
     save_cookies();
     render_info(trips[0]);
@@ -236,7 +248,7 @@
         services[service_id][stop_id] = {
           departure_time: str2date(t[0]),
           arrival_time: str2date(t[1]),
-          stop_sequence: t[2]
+          stop_sequence: parseInt(t[2])
         };
       });
     });
