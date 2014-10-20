@@ -163,23 +163,14 @@
 
   function bind_events () {
     [from, to].forEach(function(c) {
-      var cancel = $(c.cancel);
-
-      cancel.on("click", function() {
+      // when focus, reset input
+      c.on("focus", function() {
         c.setText('');
-        c.input.focus();
+        c.input.Show();
       });
-
-      var hide_if_has_input_and_schedule = function() {
-        if (c.input.value === '') {
-          cancel.hide();
-        } else {
-          cancel.show();
-        };
-        schedule();
-      };
-      c.on("change", hide_if_has_input_and_schedule);
-      c.on("complete", hide_if_has_input_and_schedule);
+      // when change or complete, schedule
+      c.on("change", schedule);
+      c.on("complete", schedule);
     });
 
     when.each(function(index, elem) {
@@ -208,13 +199,6 @@
     from = rComplete($('#from')[0], { placeholder: "Departure" });
     to = rComplete($('#to')[0], { placeholder: "Destination" });
     when = $('.when-button');
-
-    // add cancel buttons
-    [from, to].forEach(function(c) {
-      var cancel = $('<span class="cancel">x</span>');
-      $(c.wrapper).append(cancel);
-      c.cancel = cancel[0];
-    });
 
     var cities = data.stops, services = data.times;
 
