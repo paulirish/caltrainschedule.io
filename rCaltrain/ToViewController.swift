@@ -19,9 +19,11 @@ class ToViewController: LocationViewController {
             switch (id) {
             case "selectToLocation":
                 if let row = self.tableView.indexPathForSelectedRow()?.row {
-                    let name: String = self.locations[row].name
+                    let name: String = LocationViewController.locations[row].name
                     let destViewController = segue.destinationViewController as MainViewController
-                    //destViewController.placeholders[1] = name
+                    let button = destViewController.arrivalButton
+                    button.setTitle(name, forState: UIControlState.Normal)
+                    println("prepared:selectToLocation")
                 } else {
                     assert(false, "unexpected: no row is selected")
                 }

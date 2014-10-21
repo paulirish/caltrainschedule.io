@@ -16,17 +16,16 @@ class FromViewController: LocationViewController {
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if let id = segue.identifier {
-            println(id)
-
             switch (id) {
             case "selectFromLocation":
                 if let row = self.tableView.indexPathForSelectedRow()?.row {
-                    let name: String = self.locations[row].name
+                    let name: String = LocationViewController.locations[row].name
                     let destViewController = segue.destinationViewController as MainViewController
-                    println("changeFrom")
-                    //destViewController.placeholders[0] = name
+                    let button = destViewController.departureButton
+                    button.setTitle(name, forState: UIControlState.Normal)
+                    println("prepared:selectFromLocation")
                 } else {
-                    assert(false, "unexpected: no row is selected")
+                    fatalError("unexpected: no row is selected")
                 }
             default:
                 println(segue.identifier)

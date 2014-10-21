@@ -10,18 +10,28 @@ import UIKit
 
 class LocationViewController: UITableViewController {
     
-    var locations: [Location] = [];
+    class var locations: [Location] {
+        get {
+            return [
+                Location(name: "San Francisco", id: 1),
+                Location(name: "San Jose", id: 2),
+                Location(name: "Sunnyvale", id: 3),
+                Location(name: "Moutain View", id: 4),
+                Location(name: "So. San Francisco", id: 5)
+            ]
+        }
+    }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.locations.count
+        return LocationViewController.locations.count
     }
     
     func reusableCellName() -> String {
-        return "locationCell"
+        fatalError("reusable cell name need to be specified by subclass!")
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -29,7 +39,7 @@ class LocationViewController: UITableViewController {
         assert(possibleCell != nil, "reusableCell is missing!")
 
         let cell = possibleCell!
-        var location = self.locations[indexPath.row]
+        var location = LocationViewController.locations[indexPath.row]
         cell.textLabel.text = location.name
         cell.detailTextLabel?.text = String(location.id)
 
@@ -38,12 +48,7 @@ class LocationViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.locations.append(Location(name: "San Francisco", id: 1))
-        self.locations.append(Location(name: "San Jose", id: 2))
-        self.locations.append(Location(name: "Sunnyvale", id: 3))
-        self.locations.append(Location(name: "Moutain View", id: 4))
-        self.locations.append(Location(name: "South San Francisco", id: 5))
+//        TODO
     }
     
 }
