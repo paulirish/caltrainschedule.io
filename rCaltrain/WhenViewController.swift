@@ -41,25 +41,27 @@ class WhenViewController: UITableViewController {
 
         let cell = possibleCell!
         let service = self.services[indexPath.row]
-        cell.textLabel?.text = service.toRaw()
+        cell.textLabel.text = service.rawValue
         cell.detailTextLabel?.text = String(service.hashValue)
 
         return cell
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        switch (segue.identifier) {
-        case "selectWhenService":
-            if let row = self.tableView.indexPathForSelectedRow()?.row {
-                let name: String = self.services[row].toRaw()
-                let destViewController = segue.destinationViewController as MainViewController
-                println("change whenButton")
-                //destViewController.placeholders[2] = name
-            } else {
-                assert(false, "unexpected: no row is selected")
+        if let id = segue.identifier {
+            switch (id) {
+            case "selectWhenService":
+                if let row = self.tableView.indexPathForSelectedRow()?.row {
+                    let name: String = self.services[row].rawValue
+                    let destViewController = segue.destinationViewController as MainViewController
+                    println("change whenButton")
+                    //destViewController.placeholders[2] = name
+                } else {
+                    assert(false, "unexpected: no row is selected")
+                }
+            default:
+                return
             }
-        default:
-            return
         }
     }
 

@@ -15,21 +15,23 @@ class FromViewController: LocationViewController {
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        println(segue.identifier)
+        if let id = segue.identifier {
+            println(id)
 
-        switch (segue.identifier) {
-        case "selectFromLocation":
-            if let row = self.tableView.indexPathForSelectedRow()?.row {
-                let name: String = self.locations[row].name
-                let destViewController = segue.destinationViewController as MainViewController
-                println("changeFrom")
-                //destViewController.placeholders[0] = name
-            } else {
-                assert(false, "unexpected: no row is selected")
+            switch (id) {
+            case "selectFromLocation":
+                if let row = self.tableView.indexPathForSelectedRow()?.row {
+                    let name: String = self.locations[row].name
+                    let destViewController = segue.destinationViewController as MainViewController
+                    println("changeFrom")
+                    //destViewController.placeholders[0] = name
+                } else {
+                    assert(false, "unexpected: no row is selected")
+                }
+            default:
+                println(segue.identifier)
+                return
             }
-        default:
-            println(segue.identifier)
-            return
         }
     }
 

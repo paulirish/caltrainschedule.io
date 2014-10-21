@@ -30,7 +30,7 @@ class LocationViewController: UITableViewController {
 
         let cell = possibleCell!
         var location = self.locations[indexPath.row]
-        cell.textLabel?.text = location.name
+        cell.textLabel.text = location.name
         cell.detailTextLabel?.text = String(location.id)
 
         return cell
