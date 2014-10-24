@@ -89,10 +89,46 @@
                                     <segment title="Sunday"/>
                                 </segments>
                                 <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <action selector="whenChanged:" destination="APR-oj-O5d" eventType="valueChanged" id="Ezb-Dw-298"/>
+                                </connections>
                             </segmentedControl>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="fg9-IY-5vb">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="fg9-IY-5vb" customClass="ResultTableView" customModule="rCaltrain" customModuleProvider="target">
                                 <rect key="frame" x="16" y="224" width="288" height="334"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="resultCell" id="vkY-Cm-Q21" customClass="ResultTableViewCell" customModule="rCaltrain" customModuleProvider="target">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vkY-Cm-Q21" id="y6D-OC-nSy">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="20:30" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fif-Nk-J2s">
+                                                    <rect key="frame" x="182" y="8" width="63" height="28"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="30mins" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yDi-m8-jK1">
+                                                    <rect key="frame" x="114" y="4" width="60" height="35"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="10:20" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9El-vR-XCT">
+                                                    <rect key="frame" x="33" y="8" width="73" height="28"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="arrivalLabel" destination="fif-Nk-J2s" id="wGM-CE-QXX"/>
+                                            <outlet property="departureLabel" destination="9El-vR-XCT" id="AwA-Oa-jj0"/>
+                                            <outlet property="durationLabel" destination="yDi-m8-jK1" id="XTX-UK-Eph"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -122,13 +158,14 @@
                     <connections>
                         <outlet property="arrivalButton" destination="YKy-ql-lhr" id="hH8-lw-gp4"/>
                         <outlet property="departureButton" destination="VzG-ss-udx" id="Pz8-gZ-u2X"/>
+                        <outlet property="resultsTableView" destination="fg9-IY-5vb" id="FHs-7B-Sk6"/>
                         <outlet property="reverseButton" destination="9jE-vh-C4b" id="4mE-Aa-5Bk"/>
                         <outlet property="whenButton" destination="HRw-7p-ohb" id="ZmI-Bd-nC8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2W5-8X-aSH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="857" y="2382"/>
+            <point key="canvasLocation" x="858" y="2382"/>
         </scene>
         <!--From-->
         <scene sceneID="onw-1B-DxV">

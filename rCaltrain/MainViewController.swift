@@ -20,7 +20,7 @@ class MainViewController: UIViewController {
     @IBOutlet var arrivalButton: UIButton!
     @IBOutlet var whenButton: UISegmentedControl!
     @IBOutlet var reverseButton: UIButton!
-    @IBOutlet var resultsTableView: UITableView!
+    @IBOutlet var resultsTableView: ResultTableView!
 
     @IBAction func unwindFromModalViewController(segue: UIStoryboardSegue) {
         if let id = segue.identifier {
@@ -45,16 +45,42 @@ class MainViewController: UIViewController {
         }
     }
 
+    @IBAction func whenChanged(sender: UISegmentedControl) {
+        var selectedWhen = sender.titleForSegmentAtIndex(sender.selectedSegmentIndex)
+        println("whenChanged:\(selectedWhen)")
+        updateResults()
+    }
+
     var departurePlaceholder: String
     var arrivalPlaceholder: String
 
     override func viewDidLoad() {
         println("mainDidLoad")
-        super.viewDidLoad()
 
-        departurePlaceholder = departureButton.currentTitle!
-        arrivalPlaceholder = arrivalButton.currentTitle!
+        // save placeholder
+        if let title = departureButton.currentTitle {
+            departurePlaceholder = title
+        }
+
+        if let title = arrivalButton.currentTitle {
+            arrivalPlaceholder = title
+        }
+
+        // setups
+        resultsTableView.dataSource = resultsTableView
+
+        super.viewDidLoad()
     }
+
+    func updateResults() {
+        // TODO
+        resultsTableView.results = [
+            Result(departureTime: NSDate(timeIntervalSinceNow: 0), arrivalTime: NSDate(timeIntervalSinceNow: 10))
+        ]
+        println("resloadData")
+        resultsTableView.reloadData()
+    }
+
 
 }
 
