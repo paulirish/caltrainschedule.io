@@ -37,13 +37,15 @@
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9jE-vh-C4b">
-                                <rect key="frame" x="254" y="64" width="50" height="120"/>
+                            <button opaque="NO" alpha="0.59999999999999998" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9jE-vh-C4b">
+                                <rect key="frame" x="264" y="64" width="40" height="120"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="50" id="aXg-RZ-rHn"/>
+                                    <constraint firstAttribute="width" constant="40" id="aXg-RZ-rHn"/>
                                     <constraint firstAttribute="height" constant="120" id="z5J-OZ-uZD"/>
                                 </constraints>
-                                <state key="normal" title="Reverse">
+                                <inset key="contentEdgeInsets" minX="13" minY="50" maxX="13" maxY="50"/>
+                                <state key="normal" image="switcher">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -51,7 +53,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="VzG-ss-udx">
-                                <rect key="frame" x="76" y="64" width="178" height="60"/>
+                                <rect key="frame" x="76" y="64" width="188" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="HSt-9A-Xah"/>
                                 </constraints>
@@ -64,7 +66,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YKy-ql-lhr">
-                                <rect key="frame" x="76" y="124" width="178" height="60"/>
+                                <rect key="frame" x="76" y="124" width="188" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="9sc-PT-Pcm"/>
                                 </constraints>
@@ -288,6 +290,9 @@
             <point key="canvasLocation" x="371" y="2382"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="switcher" width="57" height="80"/>
+    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
