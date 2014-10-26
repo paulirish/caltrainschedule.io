@@ -71,35 +71,35 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
     }
 
-    func updateResults() {
-        let services = appDelegate.services
+    func getInputs() -> ([Station], [Station], String)? {
         let stationNameToStation = appDelegate.stationNameToStation
-
         var departureStations: [Station]
         var arrivalStations: [Station]
         var whenName: String
 
-        // if some input is missing, just return
+        // if some input is missing, return nil
         if let dName = departureButton.currentTitle {
             if (stationNameToStation[dName] != nil) {
                 departureStations = stationNameToStation[dName]!
             } else {
-                return
+                return nil
             }
         } else {
             fatalError("departureButton's title is missing!")
         }
+
         if let aName = arrivalButton.currentTitle {
             if (stationNameToStation[aName] != nil) {
                 arrivalStations = stationNameToStation[aName]!
             } else {
-                return
+                return nil
             }
         } else {
             fatalError("arrivalButton's title is missing!")
         }
+
         if (whenButton.selectedSegmentIndex == UISegmentedControlNoSegment) {
-            return
+            return nil
         } else {
             if let name = whenButton.titleForSegmentAtIndex(whenButton.selectedSegmentIndex) {
                 whenName = name
@@ -108,24 +108,41 @@ class MainViewController: UIViewController {
             }
         }
 
-        var trips = [Trip]()
-        for service in services {
-            // TODO: filter by whenName
+        return (departureStations, arrivalStations, whenName)
+    }
 
-            for dStation in departureStations {
-                for aStation in arrivalStations {
-                    if let (from, to) = service.findFrom(dStation, to: aStation) {
-                        trips.append(Trip(departure: from, arrival: to))
+    func updateResults() {
+        let services = appDelegate.services
+
+        if let (departureStations, arrivalStations, whenName) = getInputs() {
+            // if inputs are ready
+            var trips = [Trip]()
+
+            for service in services {
+                if (service.category != whenName) {
+                    continue
+                }
+
+                for dStation in departureStations {
+                    for aStation in arrivalStations {
+                        if let (from, to) = service.findFrom(dStation, to: aStation) {
+                            trips.append(Trip(departure: from, arrival: to))
+                        }
                     }
                 }
             }
+
+            println(trips.map { $0.departureStop.departureTime })
+            sort(&trips) { (a: Trip, b: Trip) -> Bool in
+                return a.departureStop.departureTime.timeIntervalSinceDate(b.departureStop.departureTime) < 0
+            }
+            println(trips.map { $0.departureStop.departureTime })
+
+            resultsTableView.trips = trips
+            println("reloadData")
+            resultsTableView.reloadData()
         }
-
-        resultsTableView.trips = trips
-        println("reloadData")
-        resultsTableView.reloadData()
     }
-
 
 }
 

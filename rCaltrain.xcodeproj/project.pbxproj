@@ -19,6 +19,7 @@
 		C144A1DF19FC5FE600FA8EC0 /* Station.swift in Sources */ = {isa = PBXBuildFile; fileRef = C144A1DE19FC5FE600FA8EC0 /* Station.swift */; };
 		C144A1E119FC606700FA8EC0 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = C144A1E019FC606700FA8EC0 /* Service.swift */; };
 		C15EFA8D19F8DA2500DCF751 /* ResultTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15EFA8C19F8DA2500DCF751 /* ResultTableView.swift */; };
+		C166A01819FD5A2D00C6676B /* CoreExtend.swift in Sources */ = {isa = PBXBuildFile; fileRef = C166A01719FD5A2D00C6676B /* CoreExtend.swift */; };
 		C198FFD719F9F4D60001283D /* ResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C198FFD619F9F4D60001283D /* ResultTableViewCell.swift */; };
 		C19F9B3319FA10C100B5B6B2 /* stops.json in Resources */ = {isa = PBXBuildFile; fileRef = C19F9B3119FA10C100B5B6B2 /* stops.json */; };
 		C19F9B3419FA10C100B5B6B2 /* times.json in Resources */ = {isa = PBXBuildFile; fileRef = C19F9B3219FA10C100B5B6B2 /* times.json */; };
@@ -53,6 +54,8 @@
 		C144A1DE19FC5FE600FA8EC0 /* Station.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Station.swift; sourceTree = "<group>"; };
 		C144A1E019FC606700FA8EC0 /* Service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		C15EFA8C19F8DA2500DCF751 /* ResultTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultTableView.swift; sourceTree = "<group>"; };
+		C166A01719FD5A2D00C6676B /* CoreExtend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreExtend.swift; sourceTree = "<group>"; };
+		C166A01919FD5A8200C6676B /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground.playground; sourceTree = "<group>"; };
 		C198FFD619F9F4D60001283D /* ResultTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultTableViewCell.swift; sourceTree = "<group>"; };
 		C19F9B3119FA10C100B5B6B2 /* stops.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = stops.json; path = data/stops.json; sourceTree = "<group>"; };
 		C19F9B3219FA10C100B5B6B2 /* times.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = times.json; path = data/times.json; sourceTree = "<group>"; };
@@ -99,6 +102,8 @@
 		C133540B19DB566C00F49789 /* rCaltrain */ = {
 			isa = PBXGroup;
 			children = (
+				C166A01719FD5A2D00C6676B /* CoreExtend.swift */,
+				C166A01919FD5A8200C6676B /* MyPlayground.playground */,
 				C133540E19DB566C00F49789 /* AppDelegate.swift */,
 				C133541219DB566C00F49789 /* Main.storyboard */,
 				C144A1E219FC610F00FA8EC0 /* Models */,
@@ -280,6 +285,7 @@
 				C133542F19DCC43E00F49789 /* FromViewController.swift in Sources */,
 				C133540F19DB566C00F49789 /* AppDelegate.swift in Sources */,
 				C198FFD719F9F4D60001283D /* ResultTableViewCell.swift in Sources */,
+				C166A01819FD5A2D00C6676B /* CoreExtend.swift in Sources */,
 				C1E0510819E21082006AC9DB /* MainViewController.swift in Sources */,
 				C144A1DD19FC4C2800FA8EC0 /* Stop.swift in Sources */,
 			);

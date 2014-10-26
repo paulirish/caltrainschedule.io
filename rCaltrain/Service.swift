@@ -10,11 +10,16 @@ import Foundation
 
 class Service {
 
-    let id: String!
+    let category: String
     let stops: [Stop]
 
     init(id: String, stops: [Stop]) {
-        self.id = id
+        // FIXME: should has better way to split
+        if let range = id.rangeOfString("-", options: .RegularExpressionSearch) {
+            self.category = id.splits({$0 == "-"}, allowEmptySlices: false)[1]
+        } else{
+            fatalError("invalid service id, since no '-' in it.")
+        }
         self.stops = stops
     }
 

@@ -15,22 +15,32 @@ class Trip {
 
     let timeFormater = NSDateFormatter()
 
-    var departureTime: String {
-        return timeFormater.stringFromDate(departureStop.departureTime)
+    var departureTime: NSDate {
+        return departureStop.departureTime
     }
-    var arrivalTime: String {
-        return timeFormater.stringFromDate(arrivalStop.arrivalTime)
+    var arrivalTime: NSDate {
+        return arrivalStop.arrivalTime
     }
+
+    var departureStr: String {
+        return timeFormater.stringFromDate(departureTime)
+    }
+    var arrivalStr: String {
+        return timeFormater.stringFromDate(arrivalTime)
+    }
+    
     var duration: NSTimeInterval {
         return arrivalStop.arrivalTime.timeIntervalSinceDate(departureStop.departureTime)
+    }
+    var durationInMin: Int {
+        return Int(duration) / 60
     }
 
     init(departure: Stop, arrival: Stop) {
         self.departureStop = departure
         self.arrivalStop = arrival
 
-        timeFormater.dateStyle = NSDateFormatterStyle.NoStyle
-        timeFormater.timeStyle = NSDateFormatterStyle.ShortStyle
+        timeFormater.dateFormat = "HH:mm"
     }
 
 }

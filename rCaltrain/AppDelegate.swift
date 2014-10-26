@@ -8,49 +8,6 @@
 
 import UIKit
 
-extension NSDate {
-    convenience init(timeString: String) {
-        let formatter = NSDateFormatter()
-        formatter.dateFormat = "HH:mm:ss"
-        formatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
-        if let time = formatter.dateFromString(timeString) {
-            self.init(timeInterval: 0, sinceDate: time)
-        } else {
-            // a special case that HH is greater than 23
-            var hour = timeString[0...1].toInt()!
-            if hour > 23 {
-                var newString = String("00" + timeString[1...timeString.length-1])
-                if let time = formatter.dateFromString(newString) {
-                    self.init(timeInterval: NSTimeInterval(hour*60*60), sinceDate: time)
-                } else {
-                    fatalError("Invalid timeString: \(timeString)")
-                }
-            } else {
-                fatalError("Invalid timeString: \(timeString)")
-            }
-        }
-    }
-}
-
-extension String {
-    subscript (i: Int) -> String {
-        return String(Array(self)[i])
-    }
-
-    subscript (r: Range<Int>) -> String {
-        var start = advance(startIndex, r.startIndex)
-        var end = advance(startIndex, r.endIndex)
-        return substringWithRange(Range(start: start, end: end))
-    }
-
-    var length: Int {
-        get {
-            return countElements(self)
-        }
-    }
-}
-
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
