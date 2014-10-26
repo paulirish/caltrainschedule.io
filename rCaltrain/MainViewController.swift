@@ -92,9 +92,12 @@ class MainViewController: UIViewController {
         // setups
         resultsTableView.dataSource = resultsTableView
         appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-        loadPreference()
 
         super.viewDidLoad()
+
+        // init update
+        loadPreference()
+        updateResults()
     }
 
     func getInputs() -> ([Station], [Station], String, Bool)? {
@@ -156,7 +159,7 @@ class MainViewController: UIViewController {
         }
 
         savePreference(departureButton.currentTitle!, to: arrivalButton.currentTitle!, when: whenButton.selectedSegmentIndex)
-        
+
         return (departureStations, arrivalStations, category, isNow)
     }
 
