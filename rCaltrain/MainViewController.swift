@@ -12,7 +12,7 @@ class MainViewController: UIViewController {
 
     var departurePlaceholder: String = "Departure"
     var arrivalPlaceholder: String = "Arrival"
-    var tripsData: [Trip] = []
+    var appDelegate: AppDelegate!
 
     @IBOutlet var departureButton: UIButton!
     @IBOutlet var arrivalButton: UIButton!
@@ -23,6 +23,7 @@ class MainViewController: UIViewController {
     @IBAction func unwindFromModalViewController(segue: UIStoryboardSegue) {
         if let id = segue.identifier {
             println("unwind:" + id + "!")
+            updateResults()
         }
     }
 
@@ -41,6 +42,8 @@ class MainViewController: UIViewController {
         } else {
             arrivalButton.setTitle(departureTitle, forState: UIControlState.Normal)
         }
+
+        updateResults()
     }
 
     @IBAction func whenChanged(sender: UISegmentedControl) {
@@ -63,22 +66,63 @@ class MainViewController: UIViewController {
 
         // setups
         resultsTableView.dataSource = resultsTableView
-//        tripsData = (UIApplication.sharedApplication().delegate as AppDelegate).tripsData
+        appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
 
         super.viewDidLoad()
     }
 
     func updateResults() {
-        let departureName = departureButton.currentTitle
-        let arrivalName = arrivalButton.currentTitle
+        let services = appDelegate.services
+        let stationNameToStation = appDelegate.stationNameToStation
 
-        
-        // TODO
-        resultsTableView.trips = [
-//            Trip(departure: <#Stop#>, arrival: <#Stop#>)
-//            Trip(departureTime: NSDate(timeIntervalSinceNow: 0), arrivalTime: NSDate(timeIntervalSinceNow: 10))
-        ]
-        println("resloadData")
+        var departureStations: [Station]
+        var arrivalStations: [Station]
+        var whenName: String
+
+        // if some input is missing, just return
+        if let dName = departureButton.currentTitle {
+            if (stationNameToStation[dName] != nil) {
+                departureStations = stationNameToStation[dName]!
+            } else {
+                return
+            }
+        } else {
+            fatalError("departureButton's title is missing!")
+        }
+        if let aName = arrivalButton.currentTitle {
+            if (stationNameToStation[aName] != nil) {
+                arrivalStations = stationNameToStation[aName]!
+            } else {
+                return
+            }
+        } else {
+            fatalError("arrivalButton's title is missing!")
+        }
+        if (whenButton.selectedSegmentIndex == UISegmentedControlNoSegment) {
+            return
+        } else {
+            if let name = whenButton.titleForSegmentAtIndex(whenButton.selectedSegmentIndex) {
+                whenName = name
+            } else {
+                fatalError("whenButton's title is missing!")
+            }
+        }
+
+        var trips = [Trip]()
+        for service in services {
+            // TODO: filter by whenName
+
+            for dStation in departureStations {
+                for aStation in arrivalStations {
+                    if let (from, to) = service.findFrom(dStation, to: aStation) {
+                        trips.append(Trip(departure: from, arrival: to))
+                    }
+                }
+            }
+        }
+
+        resultsTableView.trips = trips
+        println("reloadData")
         resultsTableView.reloadData()
     }
 

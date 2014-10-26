@@ -33,40 +33,4 @@ class Trip {
         timeFormater.timeStyle = NSDateFormatterStyle.ShortStyle
     }
 
-//    func stopTime(departure a: String, arrival b: String) -> (NSDate, NSDate)? {
-//        var i: Int = 0
-//        var aDate: NSDate, bDate: NSDate
-//
-//        // find the departure stop
-//        while (i < stops.count){
-//            if (stops[i].0 == a) {
-//                break
-//            }
-//            i++
-//        }
-//
-//        if i >= stops.count { // if missing
-//            return nil
-//        }
-//
-//        aDate = stops[i].1
-//        i++
-//
-//        // find the arrival stop
-//        while (i < stops.count) {
-//            if (stops[i].0 == b) {
-//                break
-//            }
-//            i++
-//        }
-//
-//        if (i >= stops.count) { // if missing
-//            return nil
-//        }
-//
-//        bDate = stops[i].1
-//
-//        return (aDate, bDate)
-//    }
-
 }
