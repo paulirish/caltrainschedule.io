@@ -14,19 +14,24 @@ class FromViewController: StationViewController {
         return "fromCell"
     }
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         if let id = segue.identifier {
             switch (id) {
             case "selectFromLocation":
-                if let row = self.tableView.indexPathForSelectedRow()?.row {
-                    let name: String = StationViewController.stations[row]
-                    let destViewController = segue.destinationViewController as MainViewController
-                    let button = destViewController.departureButton
-                    button.setTitle(name, forState: UIControlState.Normal)
-                    println("prepared:selectFromLocation")
+                let destViewController = segue.destinationViewController as MainViewController
+                var name: String
+
+                if let row = self.searchDisplayController!.searchResultsTableView.indexPathForSelectedRow()?.row {
+                    name = self.filteredStations[row]
+                } else if let row = self.tableView.indexPathForSelectedRow()?.row {
+                    name = StationViewController.stations[row]
                 } else {
                     fatalError("unexpected: no row is selected")
                 }
+
+                let button = destViewController.departureButton
+                button.setTitle(name, forState: UIControlState.Normal)
+                println("prepared:selectFromLocation")
             default:
                 println(segue.identifier)
                 return
