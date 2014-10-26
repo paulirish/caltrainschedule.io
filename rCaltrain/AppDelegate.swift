@@ -8,13 +8,89 @@
 
 import UIKit
 
+extension NSDate {
+    convenience init(timeString: String) {
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "HH:mm:ss"
+        formatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+        if let time = formatter.dateFromString(timeString) {
+            self.init(timeInterval: 0, sinceDate: time)
+        } else {
+            fatalError("Invalid timeString: \(timeString)")
+        }
+    }
+}
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
+    // Trip data
+    var stationNameToStation: [String: [Station]]!
+    var stationIdToStation: [Int: Station]!
+    var services: [Service]!
+
+    func readJSON(fileName: String) -> NSDictionary {
+        var error: NSError?
+
+        // get filePath
+        if let filePath = NSBundle.mainBundle().pathForResource(fileName, ofType: "json") {
+            // read file
+            if let jsonData = NSData(contentsOfFile: filePath) {
+                // parse JSON
+                if let json = NSJSONSerialization.JSONObjectWithData(jsonData, options: .MutableContainers, error: &error) as? NSDictionary {
+                    return json
+                } else {
+                    fatalError("Can't parse file: \(fileName).json")
+                }
+            } else {
+                fatalError("Can't read file: \(fileName).json")
+            }
+        } else {
+            fatalError("Can't find file: \(fileName).json")
+        }
+    }
+
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+
+        // load stops data
+        // {stationName: [stationId1, stationId2]}
+        stationNameToStation = [:]
+        stationIdToStation = [:]
+        for (name, idsArray) in readJSON("stops") as [String: NSArray] {
+            var stations = [Station]()
+            for idObj in idsArray {
+                if let id = (idObj as String).toInt() {
+                    var station = Station(name: name, id: id)
+                    stationIdToStation[id] = station
+                    stations.append(station)
+                } else {
+                    fatalError("invalid id in stops: \(idObj)")
+                }
+            }
+            stationNameToStation[name] = stations
+        }
+
+        // load trips data
+        // {serviceId: {stationId: [departTime, arrivalTime, sequence]}}
+        for (serviceId, stopsDict) in readJSON("times") as [String: NSDictionary] {
+            var stops = [Stop]()
+            for (stationId, data) in stopsDict as [String: NSArray] {
+                var id = stationId.toInt()!
+
+                assert(data.count == 3, "data length is \(data.count), expected 3!")
+                var dTime = NSDate(timeString: data[0] as String)
+                var aTime = NSDate(timeString: data[1] as String)
+                var sequence = (data[2] as String).toInt()
+                assert(sequence == stops.count, "Wrong sequence: \(sequence), expected \(stops.count)")
+
+                stops.append(Stop(station: stationIdToStation[id]!, departureTime: dTime, arrivalTime: aTime))
+            }
+            services.append(Service(id: serviceId, stops: stops))
+        }
+
         return true
     }
 

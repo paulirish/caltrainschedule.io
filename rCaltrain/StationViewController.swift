@@ -1,5 +1,5 @@
 //
-//  LocationViewController.swift
+//  StationViewController.swift
 //  rCaltrain
 //
 //  Created by Ranmocy on 10/2/14.
@@ -8,16 +8,16 @@
 
 import UIKit
 
-class LocationViewController: UITableViewController {
+class StationViewController: UITableViewController {
     
-    class var locations: [Location] {
+    class var stations: [Station] {
         get {
             return [
-                Location(name: "San Francisco", id: 1),
-                Location(name: "San Jose", id: 2),
-                Location(name: "Sunnyvale", id: 3),
-                Location(name: "Moutain View", id: 4),
-                Location(name: "So. San Francisco", id: 5)
+                Station(name: "San Francisco", id: 1),
+                Station(name: "San Jose", id: 2),
+                Station(name: "Sunnyvale", id: 3),
+                Station(name: "Moutain View", id: 4),
+                Station(name: "So. San Francisco", id: 5)
             ]
         }
     }
@@ -27,7 +27,7 @@ class LocationViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return LocationViewController.locations.count
+        return StationViewController.stations.count
     }
     
     func reusableCellName() -> String {
@@ -39,9 +39,9 @@ class LocationViewController: UITableViewController {
         assert(possibleCell != nil, "reusableCell is missing!")
 
         let cell = possibleCell!
-        var location = LocationViewController.locations[indexPath.row]
-        cell.textLabel.text = location.name
-        cell.detailTextLabel?.text = String(location.id)
+        var Station = StationViewController.stations[indexPath.row]
+        cell.textLabel.text = Station.name
+        cell.detailTextLabel?.text = String(Station.id)
 
         return cell
     }

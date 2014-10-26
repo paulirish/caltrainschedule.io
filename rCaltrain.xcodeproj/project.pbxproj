@@ -7,21 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C12C4BB019FC66D300B8E36C /* StationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12C4BAF19FC66D300B8E36C /* StationViewController.swift */; };
 		C133540F19DB566C00F49789 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C133540E19DB566C00F49789 /* AppDelegate.swift */; };
 		C133541419DB566C00F49789 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C133541219DB566C00F49789 /* Main.storyboard */; };
 		C133541619DB566C00F49789 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C133541519DB566C00F49789 /* Images.xcassets */; };
-		C133541919DB566C00F49789 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C133541719DB566C00F49789 /* LaunchScreen.xib */; };
 		C133542519DB566C00F49789 /* rCaltrainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C133542419DB566C00F49789 /* rCaltrainTests.swift */; };
 		C133542F19DCC43E00F49789 /* FromViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C133542E19DCC43E00F49789 /* FromViewController.swift */; };
-		C133543319DE07EC00F49789 /* LocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C133543219DE07EC00F49789 /* LocationViewController.swift */; };
 		C133543519DE082400F49789 /* ToViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C133543419DE082400F49789 /* ToViewController.swift */; };
 		C133543719DE18D900F49789 /* WhenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C133543619DE18D900F49789 /* WhenViewController.swift */; };
-		C153E9B519DCE8B200E03B7E /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = C153E9B419DCE8B200E03B7E /* Location.swift */; };
+		C144A1DD19FC4C2800FA8EC0 /* Stop.swift in Sources */ = {isa = PBXBuildFile; fileRef = C144A1DC19FC4C2800FA8EC0 /* Stop.swift */; };
+		C144A1DF19FC5FE600FA8EC0 /* Station.swift in Sources */ = {isa = PBXBuildFile; fileRef = C144A1DE19FC5FE600FA8EC0 /* Station.swift */; };
+		C144A1E119FC606700FA8EC0 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = C144A1E019FC606700FA8EC0 /* Service.swift */; };
 		C15EFA8D19F8DA2500DCF751 /* ResultTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15EFA8C19F8DA2500DCF751 /* ResultTableView.swift */; };
-		C15EFA8F19F9ECD200DCF751 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15EFA8E19F9ECD200DCF751 /* Result.swift */; };
 		C198FFD719F9F4D60001283D /* ResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C198FFD619F9F4D60001283D /* ResultTableViewCell.swift */; };
 		C19F9B3319FA10C100B5B6B2 /* stops.json in Resources */ = {isa = PBXBuildFile; fileRef = C19F9B3119FA10C100B5B6B2 /* stops.json */; };
 		C19F9B3419FA10C100B5B6B2 /* times.json in Resources */ = {isa = PBXBuildFile; fileRef = C19F9B3219FA10C100B5B6B2 /* times.json */; };
+		C19F9B3619FA115300B5B6B2 /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19F9B3519FA115300B5B6B2 /* Trip.swift */; };
 		C1E0510819E21082006AC9DB /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E0510719E21082006AC9DB /* MainViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -36,25 +37,26 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C12C4BAF19FC66D300B8E36C /* StationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationViewController.swift; sourceTree = "<group>"; };
 		C133540919DB566C00F49789 /* rCaltrain.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = rCaltrain.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C133540D19DB566C00F49789 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C133540E19DB566C00F49789 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C133541319DB566C00F49789 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C133541519DB566C00F49789 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		C133541819DB566C00F49789 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		C133541E19DB566C00F49789 /* rCaltrainTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = rCaltrainTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C133542319DB566C00F49789 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C133542419DB566C00F49789 /* rCaltrainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = rCaltrainTests.swift; sourceTree = "<group>"; };
 		C133542E19DCC43E00F49789 /* FromViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FromViewController.swift; sourceTree = "<group>"; };
-		C133543219DE07EC00F49789 /* LocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationViewController.swift; sourceTree = "<group>"; };
 		C133543419DE082400F49789 /* ToViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToViewController.swift; sourceTree = "<group>"; };
 		C133543619DE18D900F49789 /* WhenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhenViewController.swift; sourceTree = "<group>"; };
-		C153E9B419DCE8B200E03B7E /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		C144A1DC19FC4C2800FA8EC0 /* Stop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stop.swift; sourceTree = "<group>"; };
+		C144A1DE19FC5FE600FA8EC0 /* Station.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Station.swift; sourceTree = "<group>"; };
+		C144A1E019FC606700FA8EC0 /* Service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		C15EFA8C19F8DA2500DCF751 /* ResultTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultTableView.swift; sourceTree = "<group>"; };
-		C15EFA8E19F9ECD200DCF751 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		C198FFD619F9F4D60001283D /* ResultTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultTableViewCell.swift; sourceTree = "<group>"; };
 		C19F9B3119FA10C100B5B6B2 /* stops.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = stops.json; path = data/stops.json; sourceTree = "<group>"; };
 		C19F9B3219FA10C100B5B6B2 /* times.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = times.json; path = data/times.json; sourceTree = "<group>"; };
+		C19F9B3519FA115300B5B6B2 /* Trip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Trip.swift; sourceTree = "<group>"; };
 		C1E0510719E21082006AC9DB /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -97,19 +99,12 @@
 		C133540B19DB566C00F49789 /* rCaltrain */ = {
 			isa = PBXGroup;
 			children = (
-				C15EFA8E19F9ECD200DCF751 /* Result.swift */,
-				C15EFA8C19F8DA2500DCF751 /* ResultTableView.swift */,
-				C198FFD619F9F4D60001283D /* ResultTableViewCell.swift */,
-				C1E0510719E21082006AC9DB /* MainViewController.swift */,
 				C133540E19DB566C00F49789 /* AppDelegate.swift */,
 				C133541219DB566C00F49789 /* Main.storyboard */,
-				C153E9B419DCE8B200E03B7E /* Location.swift */,
-				C133543219DE07EC00F49789 /* LocationViewController.swift */,
-				C133542E19DCC43E00F49789 /* FromViewController.swift */,
-				C133543419DE082400F49789 /* ToViewController.swift */,
-				C133543619DE18D900F49789 /* WhenViewController.swift */,
+				C144A1E219FC610F00FA8EC0 /* Models */,
+				C144A1E319FC619600FA8EC0 /* Controllers */,
+				C144A1E419FC61A600FA8EC0 /* Views */,
 				C133541519DB566C00F49789 /* Images.xcassets */,
-				C133541719DB566C00F49789 /* LaunchScreen.xib */,
 				C133540C19DB566C00F49789 /* Supporting Files */,
 			);
 			path = rCaltrain;
@@ -140,6 +135,38 @@
 				C133542319DB566C00F49789 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C144A1E219FC610F00FA8EC0 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				C144A1DE19FC5FE600FA8EC0 /* Station.swift */,
+				C144A1E019FC606700FA8EC0 /* Service.swift */,
+				C144A1DC19FC4C2800FA8EC0 /* Stop.swift */,
+				C19F9B3519FA115300B5B6B2 /* Trip.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		C144A1E319FC619600FA8EC0 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				C1E0510719E21082006AC9DB /* MainViewController.swift */,
+				C12C4BAF19FC66D300B8E36C /* StationViewController.swift */,
+				C133542E19DCC43E00F49789 /* FromViewController.swift */,
+				C133543419DE082400F49789 /* ToViewController.swift */,
+				C133543619DE18D900F49789 /* WhenViewController.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		C144A1E419FC61A600FA8EC0 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C15EFA8C19F8DA2500DCF751 /* ResultTableView.swift */,
+				C198FFD619F9F4D60001283D /* ResultTableViewCell.swift */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -223,7 +250,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C133541419DB566C00F49789 /* Main.storyboard in Resources */,
-				C133541919DB566C00F49789 /* LaunchScreen.xib in Resources */,
 				C133541619DB566C00F49789 /* Images.xcassets in Resources */,
 				C19F9B3419FA10C100B5B6B2 /* times.json in Resources */,
 				C19F9B3319FA10C100B5B6B2 /* stops.json in Resources */,
@@ -244,16 +270,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C15EFA8F19F9ECD200DCF751 /* Result.swift in Sources */,
-				C133543319DE07EC00F49789 /* LocationViewController.swift in Sources */,
+				C19F9B3619FA115300B5B6B2 /* Trip.swift in Sources */,
+				C12C4BB019FC66D300B8E36C /* StationViewController.swift in Sources */,
+				C144A1E119FC606700FA8EC0 /* Service.swift in Sources */,
 				C133543719DE18D900F49789 /* WhenViewController.swift in Sources */,
 				C15EFA8D19F8DA2500DCF751 /* ResultTableView.swift in Sources */,
+				C144A1DF19FC5FE600FA8EC0 /* Station.swift in Sources */,
 				C133543519DE082400F49789 /* ToViewController.swift in Sources */,
 				C133542F19DCC43E00F49789 /* FromViewController.swift in Sources */,
-				C153E9B519DCE8B200E03B7E /* Location.swift in Sources */,
 				C133540F19DB566C00F49789 /* AppDelegate.swift in Sources */,
 				C198FFD719F9F4D60001283D /* ResultTableViewCell.swift in Sources */,
 				C1E0510819E21082006AC9DB /* MainViewController.swift in Sources */,
+				C144A1DD19FC4C2800FA8EC0 /* Stop.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -282,14 +310,6 @@
 				C133541319DB566C00F49789 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		C133541719DB566C00F49789 /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C133541819DB566C00F49789 /* Base */,
-			);
-			name = LaunchScreen.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

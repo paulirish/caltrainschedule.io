@@ -10,11 +10,9 @@ import UIKit
 
 class MainViewController: UIViewController {
 
-    required init(coder aDecoder: NSCoder) {
-        self.departurePlaceholder = "Departure"
-        self.arrivalPlaceholder = "Arrival"
-        super.init(coder: aDecoder)
-    }
+    var departurePlaceholder: String = "Departure"
+    var arrivalPlaceholder: String = "Arrival"
+    var tripsData: [Trip] = []
 
     @IBOutlet var departureButton: UIButton!
     @IBOutlet var arrivalButton: UIButton!
@@ -51,9 +49,6 @@ class MainViewController: UIViewController {
         updateResults()
     }
 
-    var departurePlaceholder: String
-    var arrivalPlaceholder: String
-
     override func viewDidLoad() {
         println("mainDidLoad")
 
@@ -68,14 +63,20 @@ class MainViewController: UIViewController {
 
         // setups
         resultsTableView.dataSource = resultsTableView
+//        tripsData = (UIApplication.sharedApplication().delegate as AppDelegate).tripsData
 
         super.viewDidLoad()
     }
 
     func updateResults() {
+        let departureName = departureButton.currentTitle
+        let arrivalName = arrivalButton.currentTitle
+
+        
         // TODO
-        resultsTableView.results = [
-            Result(departureTime: NSDate(timeIntervalSinceNow: 0), arrivalTime: NSDate(timeIntervalSinceNow: 10))
+        resultsTableView.trips = [
+//            Trip(departure: <#Stop#>, arrival: <#Stop#>)
+//            Trip(departureTime: NSDate(timeIntervalSinceNow: 0), arrivalTime: NSDate(timeIntervalSinceNow: 10))
         ]
         println("resloadData")
         resultsTableView.reloadData()

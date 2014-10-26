@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ToViewController: LocationViewController {
+class ToViewController: StationViewController {
     
     override func reusableCellName() -> String {
         return "toCell"
@@ -19,7 +19,7 @@ class ToViewController: LocationViewController {
             switch (id) {
             case "selectToLocation":
                 if let row = self.tableView.indexPathForSelectedRow()?.row {
-                    let name: String = LocationViewController.locations[row].name
+                    let name: String = StationViewController.stations[row].name
                     let destViewController = segue.destinationViewController as MainViewController
                     let button = destViewController.arrivalButton
                     button.setTitle(name, forState: UIControlState.Normal)

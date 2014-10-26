@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum Service: String {
+enum When: String {
     case fromNow = "From Now"
     case weekday = "Weekday"
     case saturday = "Saturday"
@@ -16,7 +16,7 @@ enum Service: String {
 }
 
 class WhenViewController: UITableViewController {
-    var services: [Service] = [
+    var services: [When] = [
         .fromNow,
         .weekday,
         .saturday,
