@@ -71,11 +71,12 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
     }
 
-    func getInputs() -> ([Station], [Station], String)? {
+    func getInputs() -> ([Station], [Station], String, Bool)? {
         let stationNameToStation = appDelegate.stationNameToStation
         var departureStations: [Station]
         var arrivalStations: [Station]
-        var whenName: String
+        var category: String
+        var isNow: Bool = false
 
         // if some input is missing, return nil
         if let dName = departureButton.currentTitle {
@@ -102,37 +103,59 @@ class MainViewController: UIViewController {
             return nil
         } else {
             if let name = whenButton.titleForSegmentAtIndex(whenButton.selectedSegmentIndex) {
-                whenName = name
+                category = name
             } else {
                 fatalError("whenButton's title is missing!")
             }
         }
 
-        return (departureStations, arrivalStations, whenName)
+        if (category == "Now") {
+            isNow = true
+
+            let today = NSDate()
+            let f = NSDateFormatter()
+            f.dateFormat = "e"
+            let weekDay = f.stringFromDate(today).toInt()!
+
+            switch (weekDay) {
+            case 1:
+                category = "Sunday"
+            case 2...6:
+                category = "Weekday"
+            case 7:
+                category = "Saturday"
+            default:
+                fatalError("Invalid weekDay: \(weekDay)")
+            }
+        }
+
+        return (departureStations, arrivalStations, category, isNow)
     }
 
     func updateResults() {
         let services = appDelegate.services
 
-        if let (departureStations, arrivalStations, whenName) = getInputs() {
+        if let (departureStations, arrivalStations, category, isNow) = getInputs() {
             // if inputs are ready
             var trips = [Trip]()
 
             for service in services {
-                if (service.category != whenName) {
+                if (service.category != category) {
                     continue
                 }
 
                 for dStation in departureStations {
                     for aStation in arrivalStations {
                         if let (from, to) = service.findFrom(dStation, to: aStation) {
-                            trips.append(Trip(departure: from, arrival: to))
+                            // check if it's a valid stop
+                            if (!isNow || from.laterThanNow) {
+                                trips.append(Trip(departure: from, arrival: to))
+                            }
                         }
                     }
                 }
             }
 
-            println(trips.map { $0.departureStop.departureTime })
             sort(&trips) { (a: Trip, b: Trip) -> Bool in
                 return a.departureStop.departureTime.timeIntervalSinceDate(b.departureStop.departureTime) < 0
             }

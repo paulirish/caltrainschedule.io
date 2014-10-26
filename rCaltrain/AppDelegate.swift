@@ -69,8 +69,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 assert(data.count == 3, "data length is \(data.count), expected 3!")
 
                 var id = (data[0] as String).toInt()!
-                var dTime = NSDate(timeString: data[1] as String)
-                var aTime = NSDate(timeString: data[2] as String)
+                var dTime = NSDate(timeStringSinceToday: data[1] as String)
+                var aTime = NSDate(timeStringSinceToday: data[2] as String)
 
                 stops.append(Stop(station: stationIdToStation[id]!, departureTime: dTime, arrivalTime: aTime))
             }

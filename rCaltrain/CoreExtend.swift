@@ -36,22 +36,26 @@ extension String {
 }
 
 extension NSDate {
-    convenience init(timeString: String) {
+    convenience init(timeStringSinceToday timeString: String) {
+        // generate today's date string
         let formatter = NSDateFormatter()
-        formatter.dateFormat = "HH:mm:ss"
-        formatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
-        if let time = formatter.dateFromString(timeString) {
+        formatter.dateFormat = "MM/dd/yy"
+        var todayStr = formatter.stringFromDate(NSDate())
+
+        formatter.dateFormat = "MM/dd/yy, HH:mm:ss"
+
+        if let time = formatter.dateFromString("\(todayStr), \(timeString)") {
             self.init(timeInterval: 0, sinceDate: time)
         } else {
             // a special case that HH is greater than 23
             var hour = timeString[0...1].toInt()!
-            if hour > 23 {
-                var newString = String("00" + timeString[2...timeString.length-1])
-                if let time = formatter.dateFromString(newString) {
-                    self.init(timeInterval: NSTimeInterval(hour*60*60), sinceDate: time)
-                } else {
-                    fatalError("Invalid timeString: \(timeString)")
-                }
+            if hour <= 23 {
+                fatalError("Invalid timeString: \(timeString)")
+            }
+
+            var newString = String("00" + timeString[2...timeString.length-1])
+            if let time = formatter.dateFromString("\(todayStr), \(newString)") {
+                self.init(timeInterval: NSTimeInterval(hour * 60 * 60), sinceDate: time)
             } else {
                 fatalError("Invalid timeString: \(timeString)")
             }

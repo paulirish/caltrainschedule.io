@@ -14,6 +14,10 @@ class Stop {
     let departureTime: NSDate
     let arrivalTime: NSDate
 
+    var laterThanNow: Bool {
+        return departureTime.timeIntervalSinceDate(NSDate()) >= 0
+    }
+
     init(station: Station, departureTime dTime: NSDate, arrivalTime aTime: NSDate) {
         self.station = station
         self.departureTime = dTime

@@ -41,6 +41,7 @@ class Trip {
         self.arrivalStop = arrival
 
         timeFormater.dateFormat = "HH:mm"
+        timeFormater.locale = NSLocale.currentLocale()
     }
 
 }

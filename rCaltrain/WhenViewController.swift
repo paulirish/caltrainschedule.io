@@ -52,12 +52,11 @@ class WhenViewController: UITableViewController {
             switch (id) {
             case "selectWhenService":
                 if let row = self.tableView.indexPathForSelectedRow()?.row {
-                    let name: String = self.services[row].rawValue
-                    let destViewController = segue.destinationViewController as MainViewController
+//                    let name: String = self.services[row].rawValue
+//                    let destViewController = segue.destinationViewController as MainViewController
                     println("change whenButton")
-                    //destViewController.placeholders[2] = name
                 } else {
-                    assert(false, "unexpected: no row is selected")
+                    fatalError("unexpected: no row is selected")
                 }
             default:
                 return
