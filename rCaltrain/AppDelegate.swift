@@ -16,10 +16,40 @@ extension NSDate {
         if let time = formatter.dateFromString(timeString) {
             self.init(timeInterval: 0, sinceDate: time)
         } else {
-            fatalError("Invalid timeString: \(timeString)")
+            // a special case that HH is greater than 23
+            var hour = timeString[0...1].toInt()!
+            if hour > 23 {
+                var newString = String("00" + timeString[1...timeString.length-1])
+                if let time = formatter.dateFromString(newString) {
+                    self.init(timeInterval: NSTimeInterval(hour*60*60), sinceDate: time)
+                } else {
+                    fatalError("Invalid timeString: \(timeString)")
+                }
+            } else {
+                fatalError("Invalid timeString: \(timeString)")
+            }
         }
     }
 }
+
+extension String {
+    subscript (i: Int) -> String {
+        return String(Array(self)[i])
+    }
+
+    subscript (r: Range<Int>) -> String {
+        var start = advance(startIndex, r.startIndex)
+        var end = advance(startIndex, r.endIndex)
+        return substringWithRange(Range(start: start, end: end))
+    }
+
+    var length: Int {
+        get {
+            return countElements(self)
+        }
+    }
+}
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -74,17 +104,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         // load trips data
-        // {serviceId: {stationId: [departTime, arrivalTime, sequence]}}
-        for (serviceId, stopsDict) in readJSON("times") as [String: NSDictionary] {
+        // {serviceId: [[stationId, departTime, arrivalTime],...]}
+        services = []
+        for (serviceId, stopsArray) in readJSON("times") as [String: NSArray] {
             var stops = [Stop]()
-            for (stationId, data) in stopsDict as [String: NSArray] {
-                var id = stationId.toInt()!
-
+            for data in stopsArray as [NSArray] {
                 assert(data.count == 3, "data length is \(data.count), expected 3!")
-                var dTime = NSDate(timeString: data[0] as String)
-                var aTime = NSDate(timeString: data[1] as String)
-                var sequence = (data[2] as String).toInt()
-                assert(sequence == stops.count, "Wrong sequence: \(sequence), expected \(stops.count)")
+
+                var id = (data[0] as String).toInt()!
+                var dTime = NSDate(timeString: data[1] as String)
+                var aTime = NSDate(timeString: data[2] as String)
 
                 stops.append(Stop(station: stationIdToStation[id]!, departureTime: dTime, arrivalTime: aTime))
             }
