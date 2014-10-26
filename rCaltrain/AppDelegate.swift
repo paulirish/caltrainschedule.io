@@ -14,6 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     // Trip data
+    var stationsNames: [String]!
     var stationNameToStation: [String: [Station]]!
     var stationIdToStation: [Int: Station]!
     var services: [Service]!
@@ -44,9 +45,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // load stops data
         // {stationName: [stationId1, stationId2]}
+        stationsNames = []
         stationNameToStation = [:]
         stationIdToStation = [:]
         for (name, idsArray) in readJSON("stops") as [String: NSArray] {
+            stationsNames.append(name)
+
             var stations = [Station]()
             for idObj in idsArray {
                 if let id = (idObj as String).toInt() {

@@ -10,16 +10,9 @@ import UIKit
 
 class StationViewController: UITableViewController {
     
-    class var stations: [Station] {
-        get {
-            return [
-                Station(name: "San Francisco", id: 1),
-                Station(name: "San Jose", id: 2),
-                Station(name: "Sunnyvale", id: 3),
-                Station(name: "Moutain View", id: 4),
-                Station(name: "So. San Francisco", id: 5)
-            ]
-        }
+    class var stations: [String] {
+        var appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        return appDelegate.stationsNames
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -39,9 +32,8 @@ class StationViewController: UITableViewController {
         assert(possibleCell != nil, "reusableCell is missing!")
 
         let cell = possibleCell!
-        var Station = StationViewController.stations[indexPath.row]
-        cell.textLabel.text = Station.name
-        cell.detailTextLabel?.text = String(Station.id)
+        var station = StationViewController.stations[indexPath.row]
+        cell.textLabel.text = station
 
         return cell
     }

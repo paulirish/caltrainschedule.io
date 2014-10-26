@@ -19,7 +19,7 @@ class FromViewController: StationViewController {
             switch (id) {
             case "selectFromLocation":
                 if let row = self.tableView.indexPathForSelectedRow()?.row {
-                    let name: String = StationViewController.stations[row].name
+                    let name: String = StationViewController.stations[row]
                     let destViewController = segue.destinationViewController as MainViewController
                     let button = destViewController.departureButton
                     button.setTitle(name, forState: UIControlState.Normal)

@@ -52,6 +52,31 @@ class MainViewController: UIViewController {
         updateResults()
     }
 
+    func savePreference(from: String, to: String, when: Int) {
+        let pref = NSUserDefaults.standardUserDefaults()
+        pref.setObject(from, forKey: "from")
+        pref.setObject(to, forKey: "to")
+        pref.setInteger(when, forKey: "when")
+        pref.synchronize()
+    }
+
+    func loadPreference() {
+        let pref = NSUserDefaults.standardUserDefaults()
+
+        if let from = pref.stringForKey("from") {
+            departureButton.setTitle(from, forState: .Normal)
+        }
+
+        if let to = pref.stringForKey("to") {
+            arrivalButton.setTitle(to, forState: .Normal)
+        }
+
+        let when = pref.integerForKey("when")
+        if (0 <= when && when <= 3) {
+            whenButton.selectedSegmentIndex = when
+        }
+    }
+
     override func viewDidLoad() {
         println("mainDidLoad")
 
@@ -67,6 +92,7 @@ class MainViewController: UIViewController {
         // setups
         resultsTableView.dataSource = resultsTableView
         appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        loadPreference()
 
         super.viewDidLoad()
     }
@@ -129,6 +155,8 @@ class MainViewController: UIViewController {
             }
         }
 
+        savePreference(departureButton.currentTitle!, to: arrivalButton.currentTitle!, when: whenButton.selectedSegmentIndex)
+        
         return (departureStations, arrivalStations, category, isNow)
     }
 
@@ -159,7 +187,6 @@ class MainViewController: UIViewController {
             sort(&trips) { (a: Trip, b: Trip) -> Bool in
                 return a.departureStop.departureTime.timeIntervalSinceDate(b.departureStop.departureTime) < 0
             }
-            println(trips.map { $0.departureStop.departureTime })
 
             resultsTableView.trips = trips
             println("reloadData")
