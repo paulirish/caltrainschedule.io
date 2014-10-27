@@ -10,35 +10,21 @@ import UIKit
 
 class StationViewController: UITableViewController, UISearchBarDelegate, UISearchDisplayDelegate {
 
-    class var stations: [String] {
-        var appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-        return appDelegate.stationsNames
-    }
+    var stationNames = [String]()
+    var filteredNames = [String]()
 
     // search functionality
     @IBOutlet var searchBar: UISearchBar!
-
-    var filteredStations = [String]()
-
-    func filterStations(searchText: String) {
-        if (searchText == "") {
-            filteredStations = StationViewController.stations
-        } else {
-            filteredStations = StationViewController.stations.filter() {
-                $0.rangeOfString(searchText, options: .RegularExpressionSearch) != nil
-            }
-        }
-    }
 
     func searchDisplayController(controller: UISearchDisplayController!, shouldReloadTableForSearchString searchString: String!) -> Bool {
         self.filterStations(searchString)
         return true
     }
 
-//    func searchDisplayController(controller: UISearchDisplayController!, shouldReloadTableForSearchScope searchOption: Int) -> Bool {
-//        self.filterStations(self.searchDisplayController!.searchBar.text)
-//        return true
-//    }
+    func searchDisplayController(controller: UISearchDisplayController!, shouldReloadTableForSearchScope searchOption: Int) -> Bool {
+        self.filterStations(self.searchDisplayController!.searchBar.text)
+        return true
+    }
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
@@ -46,9 +32,9 @@ class StationViewController: UITableViewController, UISearchBarDelegate, UISearc
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == self.searchDisplayController!.searchResultsTableView {
-            return self.filteredStations.count
+            return filteredNames.count
         } else {
-            return StationViewController.stations.count
+            return stationNames.count
         }
     }
     
@@ -57,24 +43,34 @@ class StationViewController: UITableViewController, UISearchBarDelegate, UISearc
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let possibleCell = self.tableView.dequeueReusableCellWithIdentifier(self.reusableCellName()) as UITableViewCell?
-        assert(possibleCell != nil, "reusableCell: (\(self.reusableCellName())) is missing!")
-        let cell = possibleCell!
+        if let cell = self.tableView.dequeueReusableCellWithIdentifier(self.reusableCellName()) as UITableViewCell? {
+            var stations: [String]
+            if tableView == self.searchDisplayController!.searchResultsTableView {
+                stations = filteredNames
+            } else {
+                stations = stationNames
+            }
+            cell.textLabel.text = stations[indexPath.row]
 
-        var stationName: String
-        if tableView == self.searchDisplayController!.searchResultsTableView {
-            stationName = self.filteredStations[indexPath.row]
+            return cell
         } else {
-            stationName = StationViewController.stations[indexPath.row]
+            fatalError("reusableCell: (\(self.reusableCellName())) is missing!")
         }
-        cell.textLabel.text = stationName
+    }
 
-        return cell
-    }
-    
     override func viewDidLoad() {
-        super.viewDidLoad()
-//        TODO
+        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        stationNames = appDelegate.stationNames
     }
-    
+
+    // private helper
+
+    func filterStations(searchText: String) {
+        if (searchText == "") {
+            filteredNames = stationNames
+        } else {
+            filteredNames = stationNames.filter() { /searchText/"i" =~ $0 }
+        }
+    }
+
 }

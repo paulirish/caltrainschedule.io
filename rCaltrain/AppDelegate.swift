@@ -14,9 +14,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     // Trip data
-    var stationsNames: [String]!
-    var stationNameToStation: [String: [Station]]!
-    var stationIdToStation: [Int: Station]!
+    var stationNames: [String]!
+    var nameToStation: [String: [Station]]!
+    var idToStation: [Int: Station]!
     var services: [Service]!
 
     func readJSON(fileName: String) -> NSDictionary {
@@ -45,24 +45,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // load stops data
         // {stationName: [stationId1, stationId2]}
-        stationsNames = []
-        stationNameToStation = [:]
-        stationIdToStation = [:]
+        stationNames = []
+        nameToStation = [:]
+        idToStation = [:]
         for (name, idsArray) in readJSON("stops") as [String: NSArray] {
-            stationsNames.append(name)
+            stationNames.append(name)
 
             var stations = [Station]()
             for idObj in idsArray {
                 if let id = (idObj as String).toInt() {
                     var station = Station(name: name, id: id)
-                    stationIdToStation[id] = station
+                    idToStation[id] = station
                     stations.append(station)
                 } else {
                     fatalError("invalid id in stops: \(idObj)")
                 }
             }
-            stationNameToStation[name] = stations
+            nameToStation[name] = stations
         }
+
+        // sort stationNames
+        stationNames.sort(<)
 
         // load trips data
         // {serviceId: [[stationId, departTime, arrivalTime],...]}
@@ -76,7 +79,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 var dTime = NSDate(timeStringSinceToday: data[1] as String)
                 var aTime = NSDate(timeStringSinceToday: data[2] as String)
 
-                stops.append(Stop(station: stationIdToStation[id]!, departureTime: dTime, arrivalTime: aTime))
+                stops.append(Stop(station: idToStation[id]!, departureTime: dTime, arrivalTime: aTime))
             }
             services.append(Service(id: serviceId, stops: stops))
         }

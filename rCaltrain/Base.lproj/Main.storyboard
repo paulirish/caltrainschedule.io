@@ -44,7 +44,7 @@
                                     <constraint firstAttribute="width" constant="40" id="aXg-RZ-rHn"/>
                                     <constraint firstAttribute="height" constant="120" id="z5J-OZ-uZD"/>
                                 </constraints>
-                                <inset key="contentEdgeInsets" minX="13" minY="50" maxX="13" maxY="50"/>
+                                <inset key="contentEdgeInsets" minX="12" minY="50" maxX="12" maxY="50"/>
                                 <state key="normal" image="switcher">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>

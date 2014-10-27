@@ -8,6 +8,45 @@
 
 import Foundation
 
+// Regexp
+prefix operator / { }
+prefix func /(pattern:String) -> NSRegularExpression {
+    return NSRegularExpression(pattern: pattern, options: nil, error: nil)!
+}
+infix operator / {}
+func / (regexp: NSRegularExpression, optionStr: String) -> NSRegularExpression {
+    var options: UInt = 0
+    for char in Array(optionStr) {
+        switch char {
+        case "g":
+            options += NSRegularExpressionOptions.AnchorsMatchLines.rawValue
+        case "s":
+            options += NSRegularExpressionOptions.AllowCommentsAndWhitespace.rawValue
+        case "i":
+            options += NSRegularExpressionOptions.CaseInsensitive.rawValue
+        case "m":
+            options += NSRegularExpressionOptions.DotMatchesLineSeparators.rawValue
+        case "M":
+            options += NSRegularExpressionOptions.IgnoreMetacharacters.rawValue
+        case "u":
+            options += NSRegularExpressionOptions.UseUnixLineSeparators.rawValue
+        case "U":
+            options += NSRegularExpressionOptions.UseUnicodeWordBoundaries.rawValue
+        default:
+            println("Unknown regexp options: \(char)")
+        }
+    }
+    return NSRegularExpression(pattern: regexp.pattern, options: NSRegularExpressionOptions(options), error: nil)!
+}
+infix operator =~ { }
+func =~ (string: String, regex: NSRegularExpression!) -> Bool {
+    let matches = regex.numberOfMatchesInString(string, options: nil, range: NSMakeRange(0, string.length))
+    return matches > 0
+}
+func =~ (regex: NSRegularExpression?, str: String) -> Bool {
+    return str =~ regex
+}
+
 extension String {
     subscript(index:Int) -> Character{
         return self[advance(self.startIndex, index)]
@@ -35,6 +74,16 @@ extension String {
     
 }
 
+
+func < (left: NSDate, right: NSDate) -> Bool {
+    return left.timeIntervalSinceDate(right) < 0
+}
+func > (left: NSDate, right: NSDate) -> Bool {
+    return left.timeIntervalSinceDate(right) > 0
+}
+func == (left: NSDate, right: NSDate) -> Bool {
+    return left.timeIntervalSinceDate(right) == 0
+}
 extension NSDate {
     convenience init(timeStringSinceToday timeString: String) {
         // generate today's date string
@@ -60,5 +109,15 @@ extension NSDate {
                 fatalError("Invalid timeString: \(timeString)")
             }
         }
+    }
+}
+
+extension NSDateFormatter {
+    convenience public init(dateFormat: String!) {
+        self.init()
+        self.dateFormat = dateFormat
+    }
+    class func weekDayOf(Date: NSDate) -> Int? {
+        return NSDateFormatter(dateFormat: "e").stringFromDate(Date).toInt()
     }
 }

@@ -22,16 +22,14 @@ class FromViewController: StationViewController {
                 var name: String
 
                 if let row = self.searchDisplayController!.searchResultsTableView.indexPathForSelectedRow()?.row {
-                    name = self.filteredStations[row]
+                    name = filteredNames[row]
                 } else if let row = self.tableView.indexPathForSelectedRow()?.row {
-                    name = StationViewController.stations[row]
+                    name = stationNames[row]
                 } else {
-                    fatalError("unexpected: no row is selected")
+                    fatalError("unexpected: no row is selected in FromTableView")
                 }
 
-                let button = destViewController.departureButton
-                button.setTitle(name, forState: UIControlState.Normal)
-                println("prepared:selectFromLocation")
+                destViewController.departureButton.setTitle(name, forState: .Normal)
             default:
                 println(segue.identifier)
                 return

@@ -22,8 +22,9 @@ class MainViewController: UIViewController {
 
     @IBAction func unwindFromModalViewController(segue: UIStoryboardSegue) {
         if let id = segue.identifier {
-            println("unwind:" + id + "!")
             updateResults()
+        } else {
+            fatalError("Unexpected segue without identifier!")
         }
     }
 
@@ -47,8 +48,6 @@ class MainViewController: UIViewController {
     }
 
     @IBAction func whenChanged(sender: UISegmentedControl) {
-        var selectedWhen = sender.titleForSegmentAtIndex(sender.selectedSegmentIndex)
-        println("whenChanged:\(selectedWhen)")
         updateResults()
     }
 
@@ -72,22 +71,16 @@ class MainViewController: UIViewController {
         }
 
         let when = pref.integerForKey("when")
-        if (0 <= when && when <= 3) {
+        let length = whenButton.numberOfSegments
+        if (0 <= when && when < length) {
             whenButton.selectedSegmentIndex = when
         }
     }
 
     override func viewDidLoad() {
-        println("mainDidLoad")
-
-        // save placeholder
-        if let title = departureButton.currentTitle {
-            departurePlaceholder = title
-        }
-
-        if let title = arrivalButton.currentTitle {
-            arrivalPlaceholder = title
-        }
+        // load placeholder
+        departureButton.setTitle(departurePlaceholder, forState: .Normal)
+        arrivalButton.setTitle(arrivalPlaceholder, forState: .Normal)
 
         // setups
         resultsTableView.dataSource = resultsTableView
@@ -100,17 +93,19 @@ class MainViewController: UIViewController {
         updateResults()
     }
 
+    // Get inputs value. If some input is missing, return nil
+    // Return: ([departure_stations], [arrival_stations], category, isNow)?
     func getInputs() -> ([Station], [Station], String, Bool)? {
-        let stationNameToStation = appDelegate.stationNameToStation
+        let nameToStation = appDelegate.nameToStation
         var departureStations: [Station]
         var arrivalStations: [Station]
         var category: String
         var isNow: Bool = false
 
-        // if some input is missing, return nil
+        // get departure stations
         if let dName = departureButton.currentTitle {
-            if (stationNameToStation[dName] != nil) {
-                departureStations = stationNameToStation[dName]!
+            if let stations = nameToStation[dName] {
+                departureStations = stations
             } else {
                 return nil
             }
@@ -118,9 +113,10 @@ class MainViewController: UIViewController {
             fatalError("departureButton's title is missing!")
         }
 
+        // get arrival stations
         if let aName = arrivalButton.currentTitle {
-            if (stationNameToStation[aName] != nil) {
-                arrivalStations = stationNameToStation[aName]!
+            if let stations = nameToStation[aName] {
+                arrivalStations = stations
             } else {
                 return nil
             }
@@ -128,33 +124,32 @@ class MainViewController: UIViewController {
             fatalError("arrivalButton's title is missing!")
         }
 
+        // get service category
         if (whenButton.selectedSegmentIndex == UISegmentedControlNoSegment) {
             return nil
+        } else if let name = whenButton.titleForSegmentAtIndex(whenButton.selectedSegmentIndex) {
+            category = name
         } else {
-            if let name = whenButton.titleForSegmentAtIndex(whenButton.selectedSegmentIndex) {
-                category = name
-            } else {
-                fatalError("whenButton's title is missing!")
-            }
+            fatalError("whenButton's title is missing!")
         }
 
+        // if it is now
         if (category == "Now") {
             isNow = true
 
-            let today = NSDate()
-            let f = NSDateFormatter()
-            f.dateFormat = "e"
-            let weekDay = f.stringFromDate(today).toInt()!
-
-            switch (weekDay) {
-            case 1:
-                category = "Sunday"
-            case 2...6:
-                category = "Weekday"
-            case 7:
-                category = "Saturday"
-            default:
-                fatalError("Invalid weekDay: \(weekDay)")
+            if let weekDay = NSDateFormatter.weekDayOf(NSDate()) {
+                switch (weekDay) {
+                case 1:
+                    category = "Sunday"
+                case 2...6:
+                    category = "Weekday"
+                case 7:
+                    category = "Saturday"
+                default:
+                    fatalError("Invalid weekDay: \(weekDay)")
+                }
+            } else {
+                fatalError("Unexpected: no weekDay for today(\(NSDate()))?")
             }
         }
 
@@ -166,6 +161,7 @@ class MainViewController: UIViewController {
     func updateResults() {
         let services = appDelegate.services
 
+        // if inputs are ready update, otherwise ignore it
         if let (departureStations, arrivalStations, category, isNow) = getInputs() {
             // if inputs are ready
             var trips = [Trip]()
@@ -187,12 +183,9 @@ class MainViewController: UIViewController {
                 }
             }
 
-            sort(&trips) { (a: Trip, b: Trip) -> Bool in
-                return a.departureStop.departureTime.timeIntervalSinceDate(b.departureStop.departureTime) < 0
-            }
+            trips.sort { $0.departureTime < $1.departureTime }
 
             resultsTableView.trips = trips
-            println("reloadData")
             resultsTableView.reloadData()
         }
     }
