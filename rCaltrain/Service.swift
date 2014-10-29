@@ -14,12 +14,10 @@ class Service {
     let stops: [Stop]
 
     init(id: String, stops: [Stop]) {
-        // FIXME: should has better way to split
-        if let range = id.rangeOfString("-", options: .RegularExpressionSearch) {
-            self.category = id.splits({$0 == "-"}, allowEmptySlices: false)[1]
-        } else{
-            fatalError("invalid service id, since no '-' in it.")
-        }
+        let parts = id.splits({$0 == "-"}, allowEmptySlices: false)
+        assert(parts.count == 2, "invalid service id, since no '-' in it.")
+
+        self.category = parts[1]
         self.stops = stops
     }
 
