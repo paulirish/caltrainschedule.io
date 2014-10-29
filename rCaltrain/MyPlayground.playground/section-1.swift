@@ -2,5 +2,7 @@
 
 import UIKit
 
-var r = NSRegularExpression(pattern: "abc", options: nil, error: nil)!
-r.pattern
+var t = "123"
+var a = Array(t)
+var c = a[0]
+String(c).toInt()!

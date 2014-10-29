@@ -96,7 +96,7 @@ extension NSDate {
         return timeFormatter.dateFromString(str)!
     }
 
-    convenience init(timeStringSinceToday timeString: String) {
+    convenience init(fromTimeString timeString: String) {
         if let time = NSDate.timeFormatter.dateFromString(timeString) {
             self.init(timeInterval: 0, sinceDate: time)
         } else {

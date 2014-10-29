@@ -9,11 +9,15 @@
 import Foundation
 
 class Trip {
+    struct Cache {
+        static let formatter = NSDateFormatter(dateFormat: "HH:mm")
+    }
+    class var timeFormatter: NSDateFormatter {
+        return Cache.formatter
+    }
 
     let departureStop: Stop
     let arrivalStop: Stop
-
-    let timeFormater = NSDateFormatter()
 
     var departureTime: NSDate {
         return departureStop.departureTime
@@ -23,10 +27,10 @@ class Trip {
     }
 
     var departureStr: String {
-        return timeFormater.stringFromDate(departureTime)
+        return Trip.timeFormatter.stringFromDate(departureTime)
     }
     var arrivalStr: String {
-        return timeFormater.stringFromDate(arrivalTime)
+        return Trip.timeFormatter.stringFromDate(arrivalTime)
     }
     
     var duration: NSTimeInterval {
@@ -39,9 +43,6 @@ class Trip {
     init(departure: Stop, arrival: Stop) {
         self.departureStop = departure
         self.arrivalStop = arrival
-
-        timeFormater.dateFormat = "HH:mm"
-        timeFormater.locale = NSLocale.currentLocale()
     }
 
 }
