@@ -3,6 +3,6 @@
 import UIKit
 
 var t = "123"
-var a = Array(t)
-var c = a[0]
-String(c).toInt()!
+var d = NSDate()
+var calendar = NSCalendar.currentCalendar()
+var c = calendar.components(.HourCalendarUnit | .MinuteCalendarUnit | .SecondCalendarUnit, fromDate: d)

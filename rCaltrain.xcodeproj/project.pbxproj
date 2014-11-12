@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C128FC4C1A130DBD006A6324 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C128FC4B1A130DBD006A6324 /* Launch Screen.xib */; };
 		C12C4BB019FC66D300B8E36C /* StationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12C4BAF19FC66D300B8E36C /* StationViewController.swift */; };
 		C133540F19DB566C00F49789 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C133540E19DB566C00F49789 /* AppDelegate.swift */; };
 		C133541419DB566C00F49789 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C133541219DB566C00F49789 /* Main.storyboard */; };
@@ -38,6 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C128FC4B1A130DBD006A6324 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
 		C12C4BAF19FC66D300B8E36C /* StationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationViewController.swift; sourceTree = "<group>"; };
 		C133540919DB566C00F49789 /* rCaltrain.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = rCaltrain.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C133540D19DB566C00F49789 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 		C133540B19DB566C00F49789 /* rCaltrain */ = {
 			isa = PBXGroup;
 			children = (
+				C128FC4B1A130DBD006A6324 /* Launch Screen.xib */,
 				C166A01719FD5A2D00C6676B /* CoreExtend.swift */,
 				C166A01919FD5A8200C6676B /* MyPlayground.playground */,
 				C133540E19DB566C00F49789 /* AppDelegate.swift */,
@@ -259,6 +262,7 @@
 				C133541619DB566C00F49789 /* Images.xcassets in Resources */,
 				C19F9B3419FA10C100B5B6B2 /* times.json in Resources */,
 				C19F9B3319FA10C100B5B6B2 /* stops.json in Resources */,
+				C128FC4C1A130DBD006A6324 /* Launch Screen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
