@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>22nd St</key>
+	<array>
+		<string>70021</string>
+		<string>70022</string>
+	</array>
+	<key>Atherton</key>
+	<array>
+		<string>70151</string>
+		<string>70152</string>
+	</array>
+	<key>Bayshore</key>
+	<array>
+		<string>70031</string>
+		<string>70032</string>
+	</array>
+	<key>Belmont</key>
+	<array>
+		<string>70121</string>
+		<string>70122</string>
+	</array>
+	<key>Blossom Hill</key>
+	<array>
+		<string>70291</string>
+		<string>70292</string>
+	</array>
+	<key>Broadway</key>
+	<array>
+		<string>70071</string>
+		<string>70072</string>
+	</array>
+	<key>Burlingame</key>
+	<array>
+		<string>70081</string>
+		<string>70082</string>
+	</array>
+	<key>California Ave</key>
+	<array>
+		<string>70191</string>
+		<string>70192</string>
+	</array>
+	<key>Capitol</key>
+	<array>
+		<string>70281</string>
+		<string>70282</string>
+	</array>
+	<key>College Park</key>
+	<array>
+		<string>70251</string>
+		<string>70252</string>
+	</array>
+	<key>Gilroy</key>
+	<array>
+		<string>70321</string>
+		<string>70322</string>
+	</array>
+	<key>Hayward Park</key>
+	<array>
+		<string>70101</string>
+		<string>70102</string>
+	</array>
+	<key>Hillsdale</key>
+	<array>
+		<string>70111</string>
+		<string>70112</string>
+	</array>
+	<key>Lawrence</key>
+	<array>
+		<string>70231</string>
+		<string>70232</string>
+	</array>
+	<key>Menlo Park</key>
+	<array>
+		<string>70161</string>
+		<string>70162</string>
+	</array>
+	<key>Millbrae</key>
+	<array>
+		<string>70061</string>
+		<string>70062</string>
+	</array>
+	<key>Morgan Hill</key>
+	<array>
+		<string>70301</string>
+		<string>70302</string>
+	</array>
+	<key>Mt View</key>
+	<array>
+		<string>70211</string>
+		<string>70212</string>
+	</array>
+	<key>Palo Alto</key>
+	<array>
+		<string>70171</string>
+		<string>70172</string>
+	</array>
+	<key>Redwood City</key>
+	<array>
+		<string>70141</string>
+		<string>70142</string>
+	</array>
+	<key>San Antonio</key>
+	<array>
+		<string>70201</string>
+		<string>70202</string>
+	</array>
+	<key>San Bruno</key>
+	<array>
+		<string>70051</string>
+		<string>70052</string>
+	</array>
+	<key>San Carlos</key>
+	<array>
+		<string>70131</string>
+		<string>70132</string>
+	</array>
+	<key>San Francisco</key>
+	<array>
+		<string>70011</string>
+		<string>70012</string>
+	</array>
+	<key>San Jose</key>
+	<array>
+		<string>70261</string>
+		<string>70262</string>
+	</array>
+	<key>San Jose Diridon</key>
+	<array>
+		<string>777402</string>
+	</array>
+	<key>San Martin</key>
+	<array>
+		<string>70311</string>
+		<string>70312</string>
+	</array>
+	<key>San Mateo</key>
+	<array>
+		<string>70091</string>
+		<string>70092</string>
+	</array>
+	<key>Santa Clara</key>
+	<array>
+		<string>70241</string>
+		<string>70242</string>
+	</array>
+	<key>So. San Francisco</key>
+	<array>
+		<string>70041</string>
+		<string>70042</string>
+	</array>
+	<key>Sunnyvale</key>
+	<array>
+		<string>70221</string>
+		<string>70222</string>
+	</array>
+	<key>Tamien</key>
+	<array>
+		<string>70271</string>
+		<string>70272</string>
+		<string>777403</string>
+	</array>
+</dict>
+</plist>
