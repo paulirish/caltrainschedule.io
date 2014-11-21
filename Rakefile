@@ -2,26 +2,30 @@ desc "Prepare Data"
 task :prepare_data do
   require "csv"
   require "json"
+  require "plist"
 
-  # stop_name, stop_id
-  stops = CSV.read("gtfs/stops.txt").map! { |s| [s[2], s[0]]}
-  stops.shift
-  stops
+  # remove header and unify station_id by name
+  hash = CSV.read("gtfs/stops.txt")[1..-1]
+    .map! { |s| [s[2], s[0]]}
     .keep_if { |s| /\A\d+\Z/.match(s.last) }
-    .map! { |s|
-      s.first.gsub!(/ Caltrain/, '')
+    .inject(Hash.new { |h, k| h[k] = [] }) { |h, s|
+      name = s[0].gsub(/ Caltrain/, '')
       # TODO: hack the data
-      s[0] = "So. San Francisco" if s[0] == "So. San Francisco Station" # shorten the name
-      s[0] = "Tamien" if s[0] == "Tamien Station" # merge station
-      s[0] = "San Jose" if s[0] == "San Jose Diridon"  # name reversed
-      s[0] = "San Jose Diridon" if s[0] == "San Jose Station" # name reversed
-      s
+      name = "So. San Francisco" if name == "So. San Francisco Station" # shorten the name
+      name = "Tamien" if name == "Tamien Station" # merge station
+      name = "San Jose" if name == "San Jose Diridon"  # name reversed
+      name = "San Jose Diridon" if name == "San Jose Station" # name reversed
+      # stop_name, stop_id
+      h[name].push(s.last.to_i)
+      h
     }
-  # stop_name, stop_id
-  hash = Hash.new { |h, k| h[k] = [] }
-  stops.each { |s| hash[s.first].push(s.last) }
+  # JSON
   File.open("data/stops.json", "wb") do |f|
     f.write(hash.to_json)
+  end
+  # Plist
+  File.open("data/stops.plist", "wb") do |f|
+    f.write(Plist::Emit.dump(hash))
   end
 
   times = CSV.read("gtfs/stop_times.txt").map! { |s| s[0..4]}
