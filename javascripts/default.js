@@ -41,22 +41,24 @@
       return this;
   }
 
-  function str2date (str) {
-    var parts = str.split(':').map(function(t) { return parseInt(t) });
+  // now in seconds since the midnight
+  function now () {
     var date = new Date();
-    date.setHours(parts[0], parts[1], parts[2]);
-    return date;
+    return date.getHours() * 60 * 60 + date.getMinutes() * 60 + date.getSeconds();
   }
 
-  function date2str (date) {
+  function second2str (seconds) {
+    var minutes = Math.floor(seconds / 60);
     return [
-    date.getHours().toString().rjust(2, '0'),
-    date.getMinutes().toString().rjust(2, '0')
-    ].join(':');
+      Math.floor(minutes / 60),
+      minutes % 60
+    ].map(function(item) {
+      return item.toString().rjust(2, '0');
+    }).join(':');
   }
 
   function time_relative (from, to) {
-    return Math.round((to - from) / 1000 / 60); // in minute
+    return Math.round((to - from) / 60); // in minute
   }
 
   function is_now () {
@@ -90,14 +92,6 @@
     return a.departure_time - b.departure_time;
   }
 
-  function first_within (ids, service) {
-    return ids.map(function(id) {
-      return service[id];
-    }).filter(function(stop) {
-      return is_defined(stop);
-    })[0];
-  }
-
   function get_trips (services, from_ids, to_ids, trip_reg) {
     return Object.keys(services)
       .filter(function(trip_id) {
@@ -105,15 +99,24 @@
         return trip_reg.test(trip_id);
       }).map(function(trip_id) {
         var service = services[trip_id];
-        var departure = first_within(from_ids, service);
-        var arrival = first_within(to_ids, service);
+        var i = 0, length = service.length;
 
-        if (is_defined(departure) && is_defined(arrival) && // both in the trip
-            (departure.stop_sequence < arrival.stop_sequence) && // in right order
-            (!is_now() || departure.departure_time > new Date())) { // should display by when
+        var times = [from_ids, to_ids].map(function(ids) {
+          while (i < length) {
+            var id = service[i][0];
+            var valid = ids.filter(function(tid) { return tid == id; })[0];
+            if (is_defined(valid)) {
+              return service[i][1];
+            };
+            ++i;
+          };
+        });
+        if (!is_defined(times[0]) || !is_defined(times[1])) { return; };
+
+        if (!is_now() || times[0] > now()) { // should display by when
           return {
-            departure_time: departure.departure_time,
-            arrival_time: arrival.arrival_time
+            departure_time: times[0],
+            arrival_time: times[1]
           };
         };
       }).filter(function(trip) {
@@ -124,7 +127,7 @@
   function render_info (next_train) {
     var info = $("#info").empty();
     if (is_now() && is_defined(next_train)) {
-      var next_relative = time_relative(new Date(), next_train.departure_time);
+      var next_relative = time_relative(now(), next_train.departure_time);
       info.append('<div class="info">Next train: ' + next_relative + 'min</div>');
     };
   }
@@ -132,13 +135,10 @@
   function render_result (trips) {
     var result = $("#result").empty();
     trips.forEach(function(trip) {
-      var departure_str = date2str(trip.departure_time);
-      var arrival_str = date2str(trip.arrival_time);
-      var trip_time = time_relative(trip.departure_time, trip.arrival_time);
       result.append('<div class="trip">' +
-                    '<span class="departure">' + departure_str + '</span>' +
-                    '<span class="duration">' + trip_time + ' min</span>' +
-                    '<span class="arrival">' + arrival_str + '</span>' +
+                    '<span class="departure">' + second2str(trip.departure_time) + '</span>' +
+                    '<span class="duration">' + time_relative(trip.departure_time, trip.arrival_time) + ' min</span>' +
+                    '<span class="arrival">' + second2str(trip.arrival_time) + '</span>' +
                     '</div>');
     });
   }
@@ -200,29 +200,15 @@
     to = rComplete($('#to')[0], { placeholder: "Destination" });
     when = $('.when-button');
 
-    var cities = data.stops, services = data.times;
-
     // generate select options
-    var names = Object.keys(cities);
+    var names = Object.keys(data.stops);
     from.setOptions(names);
     to.setOptions(names);
 
-    // generate services
-    Object.keys(services).forEach(function(service_id) {
-      Object.keys(services[service_id]).forEach(function(stop_id) {
-        var t = services[service_id][stop_id];
-        services[service_id][stop_id] = {
-          departure_time: str2date(t[0]),
-          arrival_time: str2date(t[1]),
-          stop_sequence: parseInt(t[2])
-        };
-      });
-    });
-
     // init
     data = {
-      cities: cities,
-      services: services
+      cities: data.stops,
+      services: data.times
     };
     bind_events();
     load_cookies();
