@@ -48,16 +48,6 @@ func =~ (regex: NSRegularExpression?, str: String) -> Bool {
 }
 
 extension String {
-    subscript(index:Int) -> Character{
-        return self[advance(self.startIndex, index)]
-    }
-
-    subscript (r: Range<Int>) -> String {
-        var start = advance(startIndex, r.startIndex)
-        var end = advance(startIndex, r.endIndex)
-        return substringWithRange(Range(start: start, end: end))
-    }
-
     var length: Int {
         get {
             return countElements(self)
@@ -71,7 +61,18 @@ extension String {
             return split(self, isSeparator, maxSplit: maxSplit, allowEmptySlices: allowEmptySlices)
         }
     }
-    
+
+    func repeat(times: Int) -> String {
+        var str = ""
+        for (var i = 0; i < times; i++) {
+            str += self
+        }
+        return str
+    }
+
+    func rjust(length: Int, withStr: String = " ") -> String {
+        return withStr.repeat(length - self.length) + self
+    }
 }
 
 
@@ -86,31 +87,20 @@ func == (left: NSDate, right: NSDate) -> Bool {
 }
 extension NSDate {
     struct Cache {
-        static let formatter = NSDateFormatter(dateFormat: "HH:mm:ss")
+        static let currentCalendar = NSCalendar.currentCalendar()
     }
-    class var timeFormatter: NSDateFormatter {
-        return Cache.formatter
+    class var currentCalendar: NSCalendar {
+        return Cache.currentCalendar
     }
     class var nowTime: NSDate {
-        let str = timeFormatter.stringFromDate(NSDate())
-        return timeFormatter.dateFromString(str)!
+        let calendar = NSDate.currentCalendar
+        let components = calendar.components(.CalendarUnitHour | .CalendarUnitMinute | .CalendarUnitSecond, fromDate:  NSDate())
+        let seconds = components.hour * 60 * 60 + components.minute * 60 + components.second
+        return NSDate(secondsSinceMidnight: seconds)
     }
 
-    convenience init(fromTimeString timeString: String) {
-        if let time = NSDate.timeFormatter.dateFromString(timeString) {
-            self.init(timeInterval: 0, sinceDate: time)
-        } else {
-            // a special case that HH is greater than 23
-            var hour = timeString[0...1].toInt()!
-            assert(hour > 23, "Invalid timeString: \(timeString)")
-
-            var newString = String("00" + timeString[2...timeString.length-1])
-            if let time = NSDate.timeFormatter.dateFromString(newString) {
-                self.init(timeInterval: NSTimeInterval(hour * 60 * 60), sinceDate: time)
-            } else {
-                fatalError("Invalid timeString: \(timeString)")
-            }
-        }
+    convenience init(secondsSinceMidnight seconds: Int) {
+        self.init(timeIntervalSince1970: NSTimeInterval(seconds))
     }
 }
 
@@ -119,6 +109,7 @@ extension NSDateFormatter {
         self.init()
         self.dateFormat = dateFormat
     }
+
     class func weekDayOf(Date: NSDate) -> Int? {
         return NSDateFormatter(dateFormat: "e").stringFromDate(Date).toInt()
     }

@@ -23,23 +23,21 @@ class Service {
 
     func findFrom(from: Station, to: Station) -> (Stop, Stop)? {
         var i: Int = 0
-        var fromStop: Stop, toStop: Stop
+        var fromStop: Stop?, toStop: Stop?
 
         // find the departure stop
         while (i < stops.count){
             if (stops[i].station === from) {
+                fromStop = stops[i]
                 break
             }
             i++
         }
 
         // if missing
-        if i >= stops.count {
+        if (fromStop == nil) {
             return nil
         }
-
-        // if found
-        fromStop = stops[i]
 
         // from and to can't be the same
         i++
@@ -47,20 +45,18 @@ class Service {
         // find the arrival stop
         while (i < stops.count) {
             if (stops[i].station === to) {
+                toStop = stops[i]
                 break
             }
             i++
         }
 
         // if missing
-        if (i >= stops.count) {
+        if (toStop == nil) {
             return nil
         }
-        
-        // if found
-        toStop = stops[i]
 
-        return (fromStop, toStop)
+        return (fromStop!, toStop!)
     }
 
 }

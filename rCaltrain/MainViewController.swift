@@ -166,11 +166,7 @@ class MainViewController: UIViewController {
             // if inputs are ready
             var trips = [Trip]()
 
-            for service in services {
-                if (service.category != category) {
-                    continue
-                }
-
+            for service in services.filter({s in return s.category == category }) {
                 for dStation in departureStations {
                     for aStation in arrivalStations {
                         if let (from, to) = service.findFrom(dStation, to: aStation) {

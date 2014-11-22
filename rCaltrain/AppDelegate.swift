@@ -58,7 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         assert(data.count == 2, "data length is \(data.count), expected 2!")
 
                         var id = data[0] as Int;
-                        var time = NSDate(timeIntervalSince1970: NSTimeInterval(data[0] as Int))
+                        var time = NSDate(timeIntervalSince1970: NSTimeInterval(data[1] as Int))
                         stops.append(Stop(station: idToStation[id]!, departureTime: time, arrivalTime: time))
                     }
                     services.append(Service(id: serviceId, stops: stops))
