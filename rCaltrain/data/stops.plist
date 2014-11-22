@@ -1,166 +1,166 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>22nd St</key>
 	<array>
-		<string>70021</string>
-		<string>70022</string>
+		<integer>70021</integer>
+		<integer>70022</integer>
 	</array>
 	<key>Atherton</key>
 	<array>
-		<string>70151</string>
-		<string>70152</string>
+		<integer>70151</integer>
+		<integer>70152</integer>
 	</array>
 	<key>Bayshore</key>
 	<array>
-		<string>70031</string>
-		<string>70032</string>
+		<integer>70031</integer>
+		<integer>70032</integer>
 	</array>
 	<key>Belmont</key>
 	<array>
-		<string>70121</string>
-		<string>70122</string>
+		<integer>70121</integer>
+		<integer>70122</integer>
 	</array>
 	<key>Blossom Hill</key>
 	<array>
-		<string>70291</string>
-		<string>70292</string>
+		<integer>70291</integer>
+		<integer>70292</integer>
 	</array>
 	<key>Broadway</key>
 	<array>
-		<string>70071</string>
-		<string>70072</string>
+		<integer>70071</integer>
+		<integer>70072</integer>
 	</array>
 	<key>Burlingame</key>
 	<array>
-		<string>70081</string>
-		<string>70082</string>
+		<integer>70081</integer>
+		<integer>70082</integer>
 	</array>
 	<key>California Ave</key>
 	<array>
-		<string>70191</string>
-		<string>70192</string>
+		<integer>70191</integer>
+		<integer>70192</integer>
 	</array>
 	<key>Capitol</key>
 	<array>
-		<string>70281</string>
-		<string>70282</string>
+		<integer>70281</integer>
+		<integer>70282</integer>
 	</array>
 	<key>College Park</key>
 	<array>
-		<string>70251</string>
-		<string>70252</string>
+		<integer>70251</integer>
+		<integer>70252</integer>
 	</array>
 	<key>Gilroy</key>
 	<array>
-		<string>70321</string>
-		<string>70322</string>
+		<integer>70321</integer>
+		<integer>70322</integer>
 	</array>
 	<key>Hayward Park</key>
 	<array>
-		<string>70101</string>
-		<string>70102</string>
+		<integer>70101</integer>
+		<integer>70102</integer>
 	</array>
 	<key>Hillsdale</key>
 	<array>
-		<string>70111</string>
-		<string>70112</string>
+		<integer>70111</integer>
+		<integer>70112</integer>
 	</array>
 	<key>Lawrence</key>
 	<array>
-		<string>70231</string>
-		<string>70232</string>
+		<integer>70231</integer>
+		<integer>70232</integer>
 	</array>
 	<key>Menlo Park</key>
 	<array>
-		<string>70161</string>
-		<string>70162</string>
+		<integer>70161</integer>
+		<integer>70162</integer>
 	</array>
 	<key>Millbrae</key>
 	<array>
-		<string>70061</string>
-		<string>70062</string>
+		<integer>70061</integer>
+		<integer>70062</integer>
 	</array>
 	<key>Morgan Hill</key>
 	<array>
-		<string>70301</string>
-		<string>70302</string>
+		<integer>70301</integer>
+		<integer>70302</integer>
 	</array>
 	<key>Mt View</key>
 	<array>
-		<string>70211</string>
-		<string>70212</string>
+		<integer>70211</integer>
+		<integer>70212</integer>
 	</array>
 	<key>Palo Alto</key>
 	<array>
-		<string>70171</string>
-		<string>70172</string>
+		<integer>70171</integer>
+		<integer>70172</integer>
 	</array>
 	<key>Redwood City</key>
 	<array>
-		<string>70141</string>
-		<string>70142</string>
+		<integer>70141</integer>
+		<integer>70142</integer>
 	</array>
 	<key>San Antonio</key>
 	<array>
-		<string>70201</string>
-		<string>70202</string>
+		<integer>70201</integer>
+		<integer>70202</integer>
 	</array>
 	<key>San Bruno</key>
 	<array>
-		<string>70051</string>
-		<string>70052</string>
+		<integer>70051</integer>
+		<integer>70052</integer>
 	</array>
 	<key>San Carlos</key>
 	<array>
-		<string>70131</string>
-		<string>70132</string>
+		<integer>70131</integer>
+		<integer>70132</integer>
 	</array>
 	<key>San Francisco</key>
 	<array>
-		<string>70011</string>
-		<string>70012</string>
+		<integer>70011</integer>
+		<integer>70012</integer>
 	</array>
 	<key>San Jose</key>
 	<array>
-		<string>70261</string>
-		<string>70262</string>
+		<integer>70261</integer>
+		<integer>70262</integer>
 	</array>
 	<key>San Jose Diridon</key>
 	<array>
-		<string>777402</string>
+		<integer>777402</integer>
 	</array>
 	<key>San Martin</key>
 	<array>
-		<string>70311</string>
-		<string>70312</string>
+		<integer>70311</integer>
+		<integer>70312</integer>
 	</array>
 	<key>San Mateo</key>
 	<array>
-		<string>70091</string>
-		<string>70092</string>
+		<integer>70091</integer>
+		<integer>70092</integer>
 	</array>
 	<key>Santa Clara</key>
 	<array>
-		<string>70241</string>
-		<string>70242</string>
+		<integer>70241</integer>
+		<integer>70242</integer>
 	</array>
 	<key>So. San Francisco</key>
 	<array>
-		<string>70041</string>
-		<string>70042</string>
+		<integer>70041</integer>
+		<integer>70042</integer>
 	</array>
 	<key>Sunnyvale</key>
 	<array>
-		<string>70221</string>
-		<string>70222</string>
+		<integer>70221</integer>
+		<integer>70222</integer>
 	</array>
 	<key>Tamien</key>
 	<array>
-		<string>70271</string>
-		<string>70272</string>
-		<string>777403</string>
+		<integer>70271</integer>
+		<integer>70272</integer>
+		<integer>777403</integer>
 	</array>
 </dict>
 </plist>

@@ -19,69 +19,51 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var idToStation: [Int: Station]!
     var services: [Service]!
 
-    func readJSON(fileName: String) -> NSDictionary {
-        var error: NSError?
-
-        // get filePath
-        if let filePath = NSBundle.mainBundle().pathForResource(fileName, ofType: "json") {
-            // read file
-            if let jsonData = NSData(contentsOfFile: filePath) {
-                // parse JSON
-                if let json = NSJSONSerialization.JSONObjectWithData(jsonData, options: .MutableContainers, error: &error) as? NSDictionary {
-                    return json
-                } else {
-                    fatalError("Can't parse file: \(fileName).json")
-                }
-            } else {
-                fatalError("Can't read file: \(fileName).json")
-            }
-        } else {
-            fatalError("Can't find file: \(fileName).json")
-        }
-    }
-
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
-
         // load stops data
         // {stationName: [stationId1, stationId2]}
         stationNames = []
         nameToStation = [:]
         idToStation = [:]
-        for (name, idsArray) in readJSON("stops") as [String: NSArray] {
-            stationNames.append(name)
 
-            var stations = [Station]()
-            for idObj in idsArray {
-                if let id = (idObj as String).toInt() {
-                    var station = Station(name: name, id: id)
-                    idToStation[id] = station
-                    stations.append(station)
-                } else {
-                    fatalError("invalid id in stops: \(idObj)")
+        if let filePath = NSBundle.mainBundle().pathForResource("stops", ofType: "plist") {
+            if let stops = NSDictionary(contentsOfFile: filePath) {
+                for (name, idsArray) in stops as [String: NSArray] {
+                    stationNames.append(name)
+
+                    var stations = [Station]()
+                    for id in idsArray as [Int] {
+                        var station = Station(name: name, id: id)
+                        idToStation[id] = station
+                        stations.append(station)
+                    }
+                    nameToStation[name] = stations
                 }
             }
-            nameToStation[name] = stations
         }
 
         // sort stationNames
         stationNames.sort(<)
 
+
         // load trips data
-        // {serviceId: [[stationId, departTime, arrivalTime],...]}
+        // {serviceId: [[stationId, departTime/arrivalTime],...]}
         services = []
-        for (serviceId, stopsArray) in readJSON("times") as [String: NSArray] {
-            var stops = [Stop]()
-            for data in stopsArray as [NSArray] {
-                assert(data.count == 3, "data length is \(data.count), expected 3!")
 
-                var id = (data[0] as String).toInt()!
-                var dTime = NSDate(fromTimeString: data[1] as String)
-                var aTime = NSDate(fromTimeString: data[2] as String)
+        if let filePath = NSBundle.mainBundle().pathForResource("times", ofType: "plist") {
+            if let times = NSDictionary(contentsOfFile: filePath) {
+                for (serviceId, stopsArray) in times as [String: NSArray] {
+                    var stops = [Stop]()
+                    for data in stopsArray {
+                        assert(data.count == 2, "data length is \(data.count), expected 2!")
 
-                stops.append(Stop(station: idToStation[id]!, departureTime: dTime, arrivalTime: aTime))
+                        var id = data[0] as Int;
+                        var time = NSDate(timeIntervalSince1970: NSTimeInterval(data[0] as Int))
+                        stops.append(Stop(station: idToStation[id]!, departureTime: time, arrivalTime: time))
+                    }
+                    services.append(Service(id: serviceId, stops: stops))
+                }
             }
-            services.append(Service(id: serviceId, stops: stops))
         }
 
         return true
