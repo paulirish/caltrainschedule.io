@@ -6,7 +6,7 @@ task :prepare_data do
 
   # remove header and unify station_id by name
   hash = CSV.read("gtfs/stops.txt")[1..-1]
-    .map! { |s| [s[2], s[0]]}
+    .map! { |s| [s[2], s[0]] }
     .keep_if { |s| /\A\d+\Z/.match(s.last) }
     .inject(Hash.new { |h, k| h[k] = [] }) { |h, s|
       name = s[0].gsub(/ Caltrain/, '')
@@ -15,7 +15,7 @@ task :prepare_data do
       name = "Tamien" if name == "Tamien Station" # merge station
       name = "San Jose" if name == "San Jose Diridon"  # name reversed
       name = "San Jose Diridon" if name == "San Jose Station" # name reversed
-      # stop_name, stop_id
+      # stop_name => [stop_id]
       h[name].push(s.last.to_i)
       h
     }
@@ -28,16 +28,23 @@ task :prepare_data do
     f.write(Plist::Emit.dump(hash))
   end
 
-  times = CSV.read("gtfs/stop_times.txt").map! { |s| s[0..4]}
-  times.shift
-  times
+  hash = CSV.read("gtfs/stop_times.txt")[1..-1]
+    .map! { |s| s[0..4] }
     .keep_if { |s| /14OCT/.match(s[0]) }
-    .map! { |s| id = s[0].split('-'); s[0] = [id[0], id[4]].join('-'); s }
-  # trip_id, arrival_time, departure_time, stop_id, stop_sequence
-  hash = Hash.new { |h, k| h[k] = {} }
-  times.each { |t| hash[t[0]][t[3]] = [t[1], t[2], t[4]] }
+    .inject(Hash.new { |h, k| h[k] = {} }) { |h, s|
+      id = s[0].split('-')
+      s[0] = [id[0], id[4]].join('-')
+      # (trip_id, stop_id) => (arrival_time, departure_time, stop_sequence)
+      h[s[0]][s[3]] = [s[1], s[2], s[4]]
+      h
+    }
+  # JSON
   File.open("data/times.json", "wb") do |f|
     f.write(hash.to_json)
+  end
+  # Plist
+  File.open("data/times.plist", "wb") do |f|
+    f.write(Plist::Emit.dump(hash))
   end
 
   puts "Prepared Data."
