@@ -28,14 +28,16 @@ task :prepare_data do
     f.write(Plist::Emit.dump(hash))
   end
 
+  # trip_id => [[stop_id, arrival_time/departure_time(in seconds)]]
   hash = CSV.read("gtfs/stop_times.txt")[1..-1]
     .map! { |s| s[0..4] }
     .keep_if { |s| /14OCT/.match(s[0]) }
-    .inject(Hash.new { |h, k| h[k] = {} }) { |h, s|
+    .inject(Hash.new { |h, k| h[k] = [] }) { |h, s|
       id = s[0].split('-')
       s[0] = [id[0], id[4]].join('-')
-      # (trip_id, stop_id) => (arrival_time, departure_time, stop_sequence)
-      h[s[0]][s[3]] = [s[1], s[2], s[4]]
+      require 'pry'; binding.pry if s[1] != s[2] # arrival_time should always equal to departure_time
+      t = s[1].split(":").map(&:to_i)
+      h[s[0]][s[4].to_i - 1] = [s[3].to_i, t[0] * 60 * 60 + t[1] * 60 + t[2]]
       h
     }
   # JSON
