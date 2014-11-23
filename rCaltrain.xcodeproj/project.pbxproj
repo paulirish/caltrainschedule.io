@@ -22,8 +22,6 @@
 		C15EFA8D19F8DA2500DCF751 /* ResultTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15EFA8C19F8DA2500DCF751 /* ResultTableView.swift */; };
 		C166A01819FD5A2D00C6676B /* CoreExtend.swift in Sources */ = {isa = PBXBuildFile; fileRef = C166A01719FD5A2D00C6676B /* CoreExtend.swift */; };
 		C198FFD719F9F4D60001283D /* ResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C198FFD619F9F4D60001283D /* ResultTableViewCell.swift */; };
-		C19F9B3319FA10C100B5B6B2 /* stops.json in Resources */ = {isa = PBXBuildFile; fileRef = C19F9B3119FA10C100B5B6B2 /* stops.json */; };
-		C19F9B3419FA10C100B5B6B2 /* times.json in Resources */ = {isa = PBXBuildFile; fileRef = C19F9B3219FA10C100B5B6B2 /* times.json */; };
 		C19F9B3619FA115300B5B6B2 /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19F9B3519FA115300B5B6B2 /* Trip.swift */; };
 		C1A2EE791A1FD7B600342AD7 /* stops.plist in Resources */ = {isa = PBXBuildFile; fileRef = C1A2EE771A1FD7B600342AD7 /* stops.plist */; };
 		C1A2EE7A1A1FD7B600342AD7 /* times.plist in Resources */ = {isa = PBXBuildFile; fileRef = C1A2EE781A1FD7B600342AD7 /* times.plist */; };
@@ -61,8 +59,6 @@
 		C166A01719FD5A2D00C6676B /* CoreExtend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreExtend.swift; sourceTree = "<group>"; };
 		C166A01919FD5A8200C6676B /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground.playground; sourceTree = "<group>"; };
 		C198FFD619F9F4D60001283D /* ResultTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultTableViewCell.swift; sourceTree = "<group>"; };
-		C19F9B3119FA10C100B5B6B2 /* stops.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = stops.json; path = data/stops.json; sourceTree = "<group>"; };
-		C19F9B3219FA10C100B5B6B2 /* times.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = times.json; path = data/times.json; sourceTree = "<group>"; };
 		C19F9B3519FA115300B5B6B2 /* Trip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Trip.swift; sourceTree = "<group>"; };
 		C1A2EE771A1FD7B600342AD7 /* stops.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = stops.plist; path = data/stops.plist; sourceTree = "<group>"; };
 		C1A2EE781A1FD7B600342AD7 /* times.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = times.plist; path = data/times.plist; sourceTree = "<group>"; };
@@ -109,10 +105,10 @@
 			isa = PBXGroup;
 			children = (
 				C128FC4B1A130DBD006A6324 /* Launch Screen.xib */,
+				C133541219DB566C00F49789 /* Main.storyboard */,
 				C166A01719FD5A2D00C6676B /* CoreExtend.swift */,
 				C166A01919FD5A8200C6676B /* MyPlayground.playground */,
 				C133540E19DB566C00F49789 /* AppDelegate.swift */,
-				C133541219DB566C00F49789 /* Main.storyboard */,
 				C144A1E219FC610F00FA8EC0 /* Models */,
 				C144A1E319FC619600FA8EC0 /* Controllers */,
 				C144A1E419FC61A600FA8EC0 /* Views */,
@@ -127,8 +123,6 @@
 			children = (
 				C1A2EE771A1FD7B600342AD7 /* stops.plist */,
 				C1A2EE781A1FD7B600342AD7 /* times.plist */,
-				C19F9B3119FA10C100B5B6B2 /* stops.json */,
-				C19F9B3219FA10C100B5B6B2 /* times.json */,
 				C133540D19DB566C00F49789 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -268,8 +262,6 @@
 				C133541419DB566C00F49789 /* Main.storyboard in Resources */,
 				C133541619DB566C00F49789 /* Images.xcassets in Resources */,
 				C1A2EE7A1A1FD7B600342AD7 /* times.plist in Resources */,
-				C19F9B3419FA10C100B5B6B2 /* times.json in Resources */,
-				C19F9B3319FA10C100B5B6B2 /* stops.json in Resources */,
 				C128FC4C1A130DBD006A6324 /* Launch Screen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -422,6 +414,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -436,6 +429,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
