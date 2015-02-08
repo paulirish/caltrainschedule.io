@@ -1,3 +1,20 @@
+desc "Download GTFS data"
+task :download_data do
+  require 'tempfile'
+  require 'fileutils'
+
+  url = 'http://www.caltrain.com/Assets/GTFS/caltrain/GTFS-Caltrain-Devs.zip'
+  Tempfile.open('index.html') do |f|
+    temp_file = f.path
+    system("curl #{url} -o #{temp_file} && unzip -o #{temp_file} -d ./gtfs/ && rm #{temp_file}")
+    f.unlink
+  end
+
+  [:prepare_data, :update_appcache].each do |task|
+    Rake::Task[task].invoke
+  end
+end
+
 desc "Prepare Data"
 task :prepare_data do
   require "csv"
