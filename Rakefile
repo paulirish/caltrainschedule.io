@@ -1,3 +1,13 @@
+class Hash
+  def map(&block)
+    if block_given?
+      self.inject({}) { |h, (k,v)| h[k] = yield(k, v); h }
+    else
+      raise "block is needed for map."
+    end
+  end
+end
+
 desc "Download GTFS data"
 task :download_data do
   require 'tempfile'
@@ -45,17 +55,32 @@ task :prepare_data do
     f.write(Plist::Emit.dump(hash))
   end
 
-  # trip_id => [[stop_id, arrival_time/departure_time(in seconds)]]
-  hash = CSV.read("gtfs/stop_times.txt")[1..-1]
-    .map! { |s| s[0..4] }
-    .keep_if { |s| /14OCT/.match(s[0]) }
-    .inject(Hash.new { |h, k| h[k] = [] }) { |h, s|
-      id = s[0].split('-')
-      s[0] = [id[0], id[4]].join('-')
-      require 'pry'; binding.pry if s[1] != s[2] # arrival_time should always equal to departure_time
-      t = s[1].split(":").map(&:to_i)
-      h[s[0]][s[4].to_i - 1] = [s[3].to_i, t[0] * 60 * 60 + t[1] * 60 + t[2]]
-      h
+  # From:
+  #   trip_id,arrival_time,departure_time,stop_id,stop_sequence,pickup_type,drop_off_type
+  #   6507770-CT-14OCT-Caltrain-Saturday-02,08:15:00,08:15:00,70012,1,0,0
+  # To:
+  #   service_id => [[stop_id, arrival_time/departure_time(in seconds)]]
+  #   Saturday-6507770-02 => [[70012, 29700], [70022, 30000], ...]
+  hash = CSV.read("gtfs/stop_times.txt")[1..-1] # remove CSV header
+    .each { |item|
+      # check data (if its scheme is changed)
+      if item.size != 7 || # totally 7 columns
+        item[1] != item[2] || # if arrival_time is not equal to departure_time, something is changed
+        item[5] != '0' || item[6] != '0' # pickup_type and drop_off_type should be 0
+        require 'pry'; binding.pry
+      end
+    }
+    .map { |item| item[0..4] } # trip_id,arrival_time,departure_time,stop_id,stop_sequence
+    .keep_if { |item| /14OCT/.match(item[0]) } # only 14 OCT plans
+    .map { |item| id = item[0].split('-'); item[0] = [id[4], id[0], id[5]].join('-'); item } # generate service_id
+    .group_by { |item| item.first } # group_by service_id
+    .map { |service_id, trips| # customized Hash#map
+      trips
+        .sort_by { |trip| trip.last.to_i } # sort by stop_sequence
+        .map { |trip|
+          t = trip[1].split(":").map(&:to_i) # split arrival_time into hh:mm:ss
+          [trip[3].to_i, t[0] * 60 * 60 + t[1] * 60 + t[2]] # stop_id, arrival_time/departure_time
+        }
     }
   # JSON
   File.open("data/times.json", "wb") do |f|
