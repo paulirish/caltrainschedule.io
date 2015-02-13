@@ -8,6 +8,12 @@ class Hash
   end
 end
 
+class File
+  def self.write(filename, content, mode='')
+    open(filename, "w#{mode}") { |f| f.write(content) }
+  end
+end
+
 desc "Download GTFS data"
 task :download_data do
   require 'tempfile'
@@ -47,13 +53,9 @@ task :prepare_data do
       h
     }
   # JSON
-  File.open("data/stops.json", "wb") do |f|
-    f.write(hash.to_json)
-  end
+  File.write("data/stops.json", hash.to_json)
   # Plist
-  File.open("data/stops.plist", "wb") do |f|
-    f.write(Plist::Emit.dump(hash))
-  end
+  File.write("data/stops.plist", Plist::Emit.dump(hash))
 
   # From:
   #   trip_id,arrival_time,departure_time,stop_id,stop_sequence,pickup_type,drop_off_type
@@ -83,13 +85,9 @@ task :prepare_data do
         }
     }
   # JSON
-  File.open("data/times.json", "wb") do |f|
-    f.write(hash.to_json)
-  end
+  File.write("data/times.json", hash.to_json)
   # Plist
-  File.open("data/times.plist", "wb") do |f|
-    f.write(Plist::Emit.dump(hash))
-  end
+  File.write("data/times.plist", Plist::Emit.dump(hash))
 
   puts "Prepared Data."
 end
