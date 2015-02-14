@@ -37,21 +37,34 @@ task :prepare_data do
   require "json"
   require "plist"
 
-  # remove header and unify station_id by name
-  hash = CSV.read("gtfs/stops.txt")[1..-1]
-    .map! { |s| [s[2], s[0]] }
-    .keep_if { |s| /\A\d+\Z/.match(s.last) }
-    .inject(Hash.new { |h, k| h[k] = [] }) { |h, s|
-      name = s[0].gsub(/ Caltrain/, '')
+  # Remove header and unify station_id by name
+  # From:
+  #   stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,location_type,parent_station,platform_code
+  #   70011,70011,"San Francisco Caltrain",,  37.776390,-122.394992,1,,0,ctsf,NB
+  # To:
+  #   stop_name => [stop_id1, stop_id2]
+  #   "San Francisco" => [70011, 70012]
+  hash = CSV.read("gtfs/stops.txt")[1..-1] # remove CSV header
+    .each { |item|
+      # check data (if its scheme is changed)
+      if item.size != 11 ||
+        item[2] !~ / Caltrain/ # stop_name has Caltrain suffix
+        puts item
+        require 'pry'; binding.pry
+      end
+    }
+    .keep_if { |item| /\A\d+\Z/.match(item[0]) } # keep only stop_id is integer
+    .map { |item|
+      name = item[2].gsub(/ Caltrain/, '')
       # TODO: hack the data
       name = "So. San Francisco" if name == "So. San Francisco Station" # shorten the name
       name = "Tamien" if name == "Tamien Station" # merge station
       name = "San Jose" if name == "San Jose Diridon"  # name reversed
       name = "San Jose Diridon" if name == "San Jose Station" # name reversed
-      # stop_name => [stop_id]
-      h[name].push(s.last.to_i)
-      h
+      [name, item[0].to_i] # stop_name, stop_id
     }
+    .group_by { |stop| stop.first } # by stop_name
+    .map { |name, stops| stops.map(&:last).sort } # sort stop_ids
   # JSON
   File.write("data/stops.json", hash.to_json)
   # Plist
@@ -69,6 +82,7 @@ task :prepare_data do
       if item.size != 7 || # totally 7 columns
         item[1] != item[2] || # if arrival_time is not equal to departure_time, something is changed
         item[5] != '0' || item[6] != '0' # pickup_type and drop_off_type should be 0
+        puts item
         require 'pry'; binding.pry
       end
     }
