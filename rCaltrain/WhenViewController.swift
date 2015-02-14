@@ -41,7 +41,7 @@ class WhenViewController: UITableViewController {
 
         let cell = possibleCell!
         let service = self.services[indexPath.row]
-        cell.textLabel.text = service.rawValue
+        cell.textLabel!.text = service.rawValue
         cell.detailTextLabel?.text = String(service.hashValue)
 
         return cell

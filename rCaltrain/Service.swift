@@ -15,9 +15,9 @@ class Service {
 
     init(id: String, stops: [Stop]) {
         let parts = id.splits({$0 == "-"}, allowEmptySlices: false)
-        assert(parts.count == 2, "invalid service id, since no '-' in it.")
+        assert(parts.count == 3, "invalid service id, since no '-' in it.")
 
-        self.category = parts[1]
+        self.category = parts[0]
         self.stops = stops
     }
 

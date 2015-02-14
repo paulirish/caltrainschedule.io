@@ -50,7 +50,7 @@ class StationViewController: UITableViewController, UISearchBarDelegate, UISearc
             } else {
                 stations = stationNames
             }
-            cell.textLabel.text = stations[indexPath.row]
+            cell.textLabel!.text = stations[indexPath.row]
 
             return cell
         } else {
