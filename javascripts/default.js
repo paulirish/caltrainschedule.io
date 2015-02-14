@@ -27,11 +27,11 @@
     };
   }
 
-  String.prototype.repeat = function (num) {
+  String.prototype.repeat = function(num) {
     return (num <= 0) ? "" : this + this.repeat(num - 1);
   }
 
-  String.prototype.rjust = function (width, padding) {
+  String.prototype.rjust = function(width, padding) {
     padding = (padding || " ").substr(0, 1); // one and only one char
     return padding.repeat(width - this.length) + this;
   }
@@ -77,7 +77,6 @@
     } else {
       var value = $('.when-button.selected').val();
       if (is_defined(value)) {
-        value = value.charAt(0).toUpperCase() + value.substring(1); // capitalize
         return new RegExp(value, "i"); // ignore case
       };
     }
