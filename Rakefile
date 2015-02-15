@@ -85,18 +85,20 @@ task :prepare_data do
           require 'pry'; binding.pry
         end
       }
-      .keep_if { |item| item.stop_id.is_a?(Integer) } # keep only stop_id is integer
-      .map { |item|
+      .keep_if { |item| item.stop_id.is_a?(Integer) }
+      .each { |item|
         name = item.stop_name.gsub(/ Caltrain/, '')
         # TODO: hack the data
         name = "So. San Francisco" if name == "So. San Francisco Station" # shorten the name
         name = "Tamien" if name == "Tamien Station" # merge station
         name = "San Jose" if name == "San Jose Diridon"  # name reversed
         name = "San Jose Diridon" if name == "San Jose Station" # name reversed
-        [name, item.stop_id] # stop_name, stop_id
+        item.stop_name = name
       }
-      .group_by { |stop| stop.first } # by stop_name
-      .map { |name, stops| stops.map(&:last).sort } # sort stop_ids
+      .group_by(&:stop_name)
+      .map { |name, items| # customized Hash#map
+        items.map(&:stop_id).sort
+      }
   end
 
   # From:
@@ -117,18 +119,15 @@ task :prepare_data do
         end
       }
       .keep_if { |item| /14OCT/.match(item.trip_id) } # only 14 OCT plans
-      .map { |item|
-        # generate service_id
+      .each { |item|
         id = item.trip_id.split('-')
         item.service_id = [id[4], id[0], id[5]].join('-')
-        item
       }
-      .group_by { |item| item.service_id } # group_by service_id
+      .group_by(&:service_id)
       .map { |service_id, trips| # customized Hash#map
         trips
-          .sort_by { |trip| trip.stop_sequence }
+          .sort_by(&:stop_sequence)
           .map { |trip|
-            # stop_id, arrival_time/departure_time
             t = trip.arrival_time.split(":").map(&:to_i)
             [trip.stop_id, t[0] * 60 * 60 + t[1] * 60 + t[2]]
           }
