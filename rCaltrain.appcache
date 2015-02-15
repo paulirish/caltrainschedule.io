@@ -1,9 +1,9 @@
 CACHE MANIFEST
-# Updated at 2015-02-08 14:30:31 -0800
+# Updated at 2015-02-15 08:05:09 -0800
 
 CACHE:
 data/stops.json
-data/times.json
+data/stop_times.json
 icons/icon-72.png
 icons/icon-72@2x.png
 icons/icon-76.png

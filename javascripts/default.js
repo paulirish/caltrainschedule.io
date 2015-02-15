@@ -240,7 +240,7 @@
     data.stops = stops;
     checker("stops");
   });
-  $.getJSON("data/times.json", function(times) {
+  $.getJSON("data/stop_times.json", function(times) {
     data.times = times;
     checker("times");
   });
