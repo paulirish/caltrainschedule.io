@@ -37,6 +37,37 @@ task :prepare_data do
   require "json"
   require "plist"
 
+  # Read from CSV, prepare it with `block`, write what returns to JSON and PLIST files
+  def prepare_for(name, &block)
+    if block_given?
+      csv = CSV.read("gtfs/#{name}.txt", headers: true, header_converters: :symbol, converters: :all)
+      hash = yield(csv)
+      File.write("data/#{name}.json", hash.to_json)
+      File.write("data/#{name}.plist", Plist::Emit.dump(hash))
+    else
+      raise "block is needed for prepare_for!"
+    end
+  end
+
+  # Extend CSV
+  class CSV
+    class Table
+      def keep_if(&block)
+        delete_if { |item| !yield(item) }
+      end
+    end
+    class Row
+      # supports row.attr access method
+      def method_missing(meth, *args, &blk)
+        if meth =~ /\A(.*)\=\Z/
+          self[$1.to_sym] = block_given? ? yield(args[0]) : args[0]
+        else
+          fetch(meth, *args, &blk)
+        end
+      end
+    end
+  end
+
   # Remove header and unify station_id by name
   # From:
   #   stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,location_type,parent_station,platform_code
@@ -44,31 +75,29 @@ task :prepare_data do
   # To:
   #   stop_name => [stop_id1, stop_id2]
   #   "San Francisco" => [70011, 70012]
-  hash = CSV.read("gtfs/stops.txt")[1..-1] # remove CSV header
-    .each { |item|
-      # check data (if its scheme is changed)
-      if item.size != 11 ||
-        item[2] !~ / Caltrain/ # stop_name has Caltrain suffix
-        puts item
-        require 'pry'; binding.pry
-      end
-    }
-    .keep_if { |item| /\A\d+\Z/.match(item[0]) } # keep only stop_id is integer
-    .map { |item|
-      name = item[2].gsub(/ Caltrain/, '')
-      # TODO: hack the data
-      name = "So. San Francisco" if name == "So. San Francisco Station" # shorten the name
-      name = "Tamien" if name == "Tamien Station" # merge station
-      name = "San Jose" if name == "San Jose Diridon"  # name reversed
-      name = "San Jose Diridon" if name == "San Jose Station" # name reversed
-      [name, item[0].to_i] # stop_name, stop_id
-    }
-    .group_by { |stop| stop.first } # by stop_name
-    .map { |name, stops| stops.map(&:last).sort } # sort stop_ids
-  # JSON
-  File.write("data/stops.json", hash.to_json)
-  # Plist
-  File.write("data/stops.plist", Plist::Emit.dump(hash))
+  prepare_for("stops") do |csv|
+    csv
+      .each { |item|
+        # check data (if its scheme is changed)
+        if item.size != 11 ||
+          item.stop_name !~ / Caltrain/
+          puts item
+          require 'pry'; binding.pry
+        end
+      }
+      .keep_if { |item| item.stop_id.is_a?(Integer) } # keep only stop_id is integer
+      .map { |item|
+        name = item.stop_name.gsub(/ Caltrain/, '')
+        # TODO: hack the data
+        name = "So. San Francisco" if name == "So. San Francisco Station" # shorten the name
+        name = "Tamien" if name == "Tamien Station" # merge station
+        name = "San Jose" if name == "San Jose Diridon"  # name reversed
+        name = "San Jose Diridon" if name == "San Jose Station" # name reversed
+        [name, item.stop_id] # stop_name, stop_id
+      }
+      .group_by { |stop| stop.first } # by stop_name
+      .map { |name, stops| stops.map(&:last).sort } # sort stop_ids
+  end
 
   # From:
   #   trip_id,arrival_time,departure_time,stop_id,stop_sequence,pickup_type,drop_off_type
@@ -76,32 +105,35 @@ task :prepare_data do
   # To:
   #   service_id => [[stop_id, arrival_time/departure_time(in seconds)]]
   #   Saturday-6507770-02 => [[70012, 29700], [70022, 30000], ...]
-  hash = CSV.read("gtfs/stop_times.txt")[1..-1] # remove CSV header
-    .each { |item|
-      # check data (if its scheme is changed)
-      if item.size != 7 || # totally 7 columns
-        item[1] != item[2] || # if arrival_time is not equal to departure_time, something is changed
-        item[5] != '0' || item[6] != '0' # pickup_type and drop_off_type should be 0
-        puts item
-        require 'pry'; binding.pry
-      end
-    }
-    .map { |item| item[0..4] } # trip_id,arrival_time,departure_time,stop_id,stop_sequence
-    .keep_if { |item| /14OCT/.match(item[0]) } # only 14 OCT plans
-    .map { |item| id = item[0].split('-'); item[0] = [id[4], id[0], id[5]].join('-'); item } # generate service_id
-    .group_by { |item| item.first } # group_by service_id
-    .map { |service_id, trips| # customized Hash#map
-      trips
-        .sort_by { |trip| trip.last.to_i } # sort by stop_sequence
-        .map { |trip|
-          t = trip[1].split(":").map(&:to_i) # split arrival_time into hh:mm:ss
-          [trip[3].to_i, t[0] * 60 * 60 + t[1] * 60 + t[2]] # stop_id, arrival_time/departure_time
-        }
-    }
-  # JSON
-  File.write("data/times.json", hash.to_json)
-  # Plist
-  File.write("data/times.plist", Plist::Emit.dump(hash))
+  prepare_for("stop_times") do |csv|
+    csv
+      .each { |item|
+        # check data (if its scheme is changed)
+        if item.size != 7 ||
+          item.arrival_time != item.departure_time ||
+          item.pickup_type != 0 || item.drop_off_type != 0
+          puts item
+          require 'pry'; binding.pry
+        end
+      }
+      .keep_if { |item| /14OCT/.match(item.trip_id) } # only 14 OCT plans
+      .map { |item|
+        # generate service_id
+        id = item.trip_id.split('-')
+        item.service_id = [id[4], id[0], id[5]].join('-')
+        item
+      }
+      .group_by { |item| item.service_id } # group_by service_id
+      .map { |service_id, trips| # customized Hash#map
+        trips
+          .sort_by { |trip| trip.stop_sequence }
+          .map { |trip|
+            # stop_id, arrival_time/departure_time
+            t = trip.arrival_time.split(":").map(&:to_i)
+            [trip.stop_id, t[0] * 60 * 60 + t[1] * 60 + t[2]]
+          }
+      }
+  end
 
   puts "Prepared Data."
 end
