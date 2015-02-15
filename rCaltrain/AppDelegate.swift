@@ -50,7 +50,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // {serviceId: [[stationId, departTime/arrivalTime],...]}
         services = []
 
-        if let filePath = NSBundle.mainBundle().pathForResource("times", ofType: "plist") {
+        if let filePath = NSBundle.mainBundle().pathForResource("stop_times", ofType: "plist") {
             if let times = NSDictionary(contentsOfFile: filePath) {
                 for (serviceId, stopsArray) in times as [String: NSArray] {
                     var stops = [Stop]()
