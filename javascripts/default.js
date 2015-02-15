@@ -27,18 +27,13 @@
     };
   }
 
-  String.prototype.repeat = function( num ) {
-    for( var i = 0, buf = ""; i < num; i++ ) buf += this;
-    return buf;
+  String.prototype.repeat = function(num) {
+    return (num <= 0) ? "" : this + this.repeat(num - 1);
   }
 
-  String.prototype.rjust = function( width, padding ) {
-    padding = padding || " ";
-    padding = padding.substr( 0, 1 );
-    if( this.length < width )
-      return padding.repeat( width - this.length ) + this;
-    else
-      return this;
+  String.prototype.rjust = function(width, padding) {
+    padding = (padding || " ").substr(0, 1); // one and only one char
+    return padding.repeat(width - this.length) + this;
   }
 
   // now in seconds since the midnight
@@ -82,7 +77,6 @@
     } else {
       var value = $('.when-button.selected').val();
       if (is_defined(value)) {
-        value = value.charAt(0).toUpperCase() + value.substring(1); // capitalize
         return new RegExp(value, "i"); // ignore case
       };
     }
@@ -246,7 +240,7 @@
     data.stops = stops;
     checker("stops");
   });
-  $.getJSON("data/times.json", function(times) {
+  $.getJSON("data/stop_times.json", function(times) {
     data.times = times;
     checker("times");
   });
