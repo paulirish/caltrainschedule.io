@@ -137,11 +137,14 @@ task :prepare_data do
   puts "Prepared Data."
 end
 
-desc "Download and prepare data."
-task :download_prepare_data => [:download_data, :prepare_data] do
+desc "Copy prepared data from master branch."
+task :copy_data, [:branch] do |t, args|
   require 'fileutils'
 
-  FileUtils.rm('data/*.json')
+  branch = args[:branch] || 'master'
+  system("git checkout #{branch} -- data/")
+  system("git reset")
+  FileUtils.rm(Dir.glob('data/*.json'))
   FileUtils.rm_r('rCaltrain/data', secure: true)
   FileUtils.mv('data', 'rCaltrain/data')
 end
