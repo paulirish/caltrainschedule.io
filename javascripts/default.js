@@ -156,7 +156,7 @@
   }
 
   function schedule () {
-    var stops = data.stops, trips = data.trips;
+    var stops = data.stops, routes = data.routes;
     var from_ids = stops[from.getText()],
         to_ids = stops[to.getText()],
         trip_reg = get_trip_match_regexp();
@@ -166,7 +166,7 @@
       return;
     };
 
-    var trips = get_trips(trips, from_ids, to_ids, trip_reg);
+    var trips = get_trips(routes, from_ids, to_ids, trip_reg);
 
     save_cookies();
     render_info(trips[0]);
@@ -245,7 +245,7 @@
   }
 
   // init after document and data are ready
-  var data_names = ["calendar", "calendar_dates", "stops", "trips"];
+  var data_names = ["calendar", "calendar_dates", "stops", "routes"];
   var checker = data_checker(data_names, function() {
     $(initialize);
   });

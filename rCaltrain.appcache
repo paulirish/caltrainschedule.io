@@ -4,8 +4,8 @@ CACHE MANIFEST
 CACHE:
 data/calendar.json
 data/calendar_dates.json
+data/routes.json
 data/stops.json
-data/trips.json
 icons/icon-72.png
 icons/icon-72@2x.png
 icons/icon-76.png

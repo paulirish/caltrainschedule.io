@@ -196,7 +196,7 @@ task :prepare_data do
           }
       }
 
-    { trips: routes }
+    { routes: routes }
   end
 
   puts "Prepared Data."
