@@ -80,42 +80,61 @@
     return $('.when-button.selected').val() === "now";
   }
 
+  function get_service_id (calendar, calendar_dates) {
+    switch($('.when-button.selected').val()) {
+      case 'now': {
+        var date = now_date();
+        var day = (new Date().getDay() + 6) % 7; // getDay starts from Sunday
+
+        // calendar:
+        //   service_id => [monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date]
+        // calendar_dates:
+        //   service_id => [date,exception_type]
+        var service_ids = Object.keys(calendar).filter(function(service_id) {
+          // check calendar start/end dates
+          var item = calendar[service_id];
+          return (item[7] <= date) && (date <= item[8]);
+        }).filter(function(service_id) {
+          // check calendar available days
+          return calendar[service_id][day] === 1;
+        }).filter(function(service_id) {
+          // check calendar_dates with exception_type 2 (to remove)
+          var item = calendar_dates[service_id];
+          return (!is_defined(item)) ||
+            ((item[0] === date) && (item[1] === 2));
+        }).concat(Object.keys(calendar_dates).filter(function(service_id) {
+          // check calendar_dates with exception_type 1 (to add)
+          var item = calendar_dates[service_id];
+          return (item[0] === date) && (item[1] === 1);
+        }));
+
+        if (service_ids.length !== 1) {
+          console.log("Can't get service for now.", service_ids);
+        }
+        return service_ids[0];
+      }
+      // Hard-coded service_id selection
+      case 'weekday': return 'CT-14OCT-Combo-Weekday-01';
+      case 'saturday': return 'CT-14OCT-Caltrain-Saturday-02';
+      case 'sunday': return 'CT-14OCT-Caltrain-Sunday-02';
+      default: return '';
+    }
+  }
+
   function get_available_services (routes, calendar, calendar_dates) {
     var availables = {};
+    var service_id = get_service_id(calendar, calendar_dates);
+    if (!is_defined(service_id)) { return {}; }
 
     Object.keys(routes)
       .forEach(function(route_name) {
         var services = routes[route_name];
-        Object.keys(services)
-          .filter(function(service_id) {
-            // check service in calendar
-            // service_id => [monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date]
-            var c = calendar[service_id];
-            var start_date = c[7], end_date = c[8];
-            var available_days = c.slice(0,7);
-            var day;
+        var trips = services[service_id];
 
-            if (is_now()) {
-              var date = now_date();
-              day = (new Date().getDay() + 6) % 7; // getDay starts from Sunday
-              return (start_date <= date) && (date <= end_date) && (available_days[day] === 1);
-            } else {
-              switch ($('.when-button.selected').val()) {
-                case 'weekday': day = 0; break;
-                case 'saturday': day = 5; break;
-                case 'sunday': day = 6; break;
-                default: day = -1; // no value
-              }
-              return available_days[day] === 1;
-            }
-          })
-          .forEach(function(service_id) {
-            var trips = services[service_id];
-            if (!is_defined(availables[route_name])) {
-              availables[route_name] = {};
-            }
-            Object.extend(availables[route_name], trips);
-          });
+        if (!is_defined(availables[route_name])) {
+          availables[route_name] = {};
+        }
+        Object.extend(availables[route_name], trips);
       });
 
     return availables;
