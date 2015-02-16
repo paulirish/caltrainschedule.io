@@ -84,9 +84,7 @@ task :prepare_data do
     csv
       .each { |item|
         # check data (if its scheme is changed)
-        if item.size != 11 ||
-          item.stop_name !~ / Caltrain/
-          puts item
+        if item.stop_name !~ / Caltrain/
           require 'pry'; binding.pry
         end
       }
