@@ -36,10 +36,30 @@
     return padding.repeat(width - this.length) + this;
   };
 
+  Object.extend = function(destination, source) {
+    for (var property in source) {
+      if (source.hasOwnProperty(property)) {
+        destination[property] = source[property];
+      }
+    }
+    return destination;
+  };
+
   // now in seconds since the midnight
   function now () {
     var date = new Date();
-    return date.getHours() * 60 * 60 + date.getMinutes() * 60 + date.getSeconds();
+    return date.getHours() * 60 * 60 +
+           date.getMinutes() * 60 +
+           date.getSeconds();
+  }
+
+  // now date in format YYYYMMDD
+  function now_date () {
+    var d = new Date();
+    // getMonth starts from 0
+    return parseInt([d.getFullYear(), d.getMonth() + 1, d.getDate()].map(function(n){
+      return n.toString().rjust(2, '0');
+    }).join(''));
   }
 
   function second2str (seconds) {
@@ -60,26 +80,45 @@
     return $('.when-button.selected').val() === "now";
   }
 
-  function get_available_services (routes) {
-    if (is_now()) {
-      var now_date = new Date();
-      switch (now_date.getDay()) {
-        case 1: case 2: case 3: case 4: case 5:
-          return /Weekday/i;
-        case 6:
-          return /Saturday/i;
-        case 0:
-          return /Sunday/i;
-        default:
-          alert("now_date.getDay() got wrong: " + now_date.getDay());
-          return;
-      }
-    } else {
-      var value = $('.when-button.selected').val();
-      if (is_defined(value)) {
-        return new RegExp(value, "i"); // ignore case
-      }
-    }
+  function get_available_services (routes, calendar, calendar_dates) {
+    var availables = {};
+
+    Object.keys(routes)
+      .forEach(function(route_name) {
+        var services = routes[route_name];
+        Object.keys(services)
+          .filter(function(service_id) {
+            // check service in calendar
+            // service_id => [monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date]
+            var c = calendar[service_id];
+            var start_date = c[7], end_date = c[8];
+            var available_days = c.slice(0,7);
+            var day;
+
+            if (is_now()) {
+              var date = now_date();
+              day = (new Date().getDay() + 6) % 7; // getDay starts from Sunday
+              return (start_date <= date) && (date <= end_date) && (available_days[day] === 1);
+            } else {
+              switch ($('.when-button.selected').val()) {
+                case 'weekday': day = 0; break;
+                case 'saturday': day = 5; break;
+                case 'sunday': day = 6; break;
+                default: day = -1; // no value
+              }
+              return available_days[day] === 1;
+            }
+          })
+          .forEach(function(service_id) {
+            var trips = services[service_id];
+            if (!is_defined(availables[route_name])) {
+              availables[route_name] = {};
+            }
+            Object.extend(availables[route_name], trips);
+          });
+      });
+
+    return availables;
   }
 
   function search_index (trip_ids, target_ids) {
@@ -149,10 +188,11 @@
   }
 
   function schedule () {
-    var stops = data.stops, routes = data.routes;
+    var stops = data.stops, routes = data.routes,
+        calendar = data.calendar, calendar_dates = data.calendar_dates;
     var from_ids = stops[from.getText()],
         to_ids = stops[to.getText()],
-        services = get_available_services(routes);
+        services = get_available_services(routes, calendar, calendar_dates);
 
     // if some input is invalid, just return
     if (!is_defined(from_ids) || !is_defined(to_ids) || !is_defined(services)) {
