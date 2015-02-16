@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C117224D1A92B4A300D99992 /* calendar.plist in Resources */ = {isa = PBXBuildFile; fileRef = C11722491A92B4A300D99992 /* calendar.plist */; };
+		C117224E1A92B4A300D99992 /* calendar_dates.plist in Resources */ = {isa = PBXBuildFile; fileRef = C117224A1A92B4A300D99992 /* calendar_dates.plist */; };
+		C117224F1A92B4A300D99992 /* routes.plist in Resources */ = {isa = PBXBuildFile; fileRef = C117224B1A92B4A300D99992 /* routes.plist */; };
+		C11722501A92B4A300D99992 /* stops.plist in Resources */ = {isa = PBXBuildFile; fileRef = C117224C1A92B4A300D99992 /* stops.plist */; };
 		C128FC4C1A130DBD006A6324 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C128FC4B1A130DBD006A6324 /* Launch Screen.xib */; };
 		C12C4BB019FC66D300B8E36C /* StationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12C4BAF19FC66D300B8E36C /* StationViewController.swift */; };
 		C133540F19DB566C00F49789 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C133540E19DB566C00F49789 /* AppDelegate.swift */; };
@@ -23,9 +27,7 @@
 		C166A01819FD5A2D00C6676B /* CoreExtend.swift in Sources */ = {isa = PBXBuildFile; fileRef = C166A01719FD5A2D00C6676B /* CoreExtend.swift */; };
 		C198FFD719F9F4D60001283D /* ResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C198FFD619F9F4D60001283D /* ResultTableViewCell.swift */; };
 		C19F9B3619FA115300B5B6B2 /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19F9B3519FA115300B5B6B2 /* Trip.swift */; };
-		C1A2EE791A1FD7B600342AD7 /* stops.plist in Resources */ = {isa = PBXBuildFile; fileRef = C1A2EE771A1FD7B600342AD7 /* stops.plist */; };
 		C1E0510819E21082006AC9DB /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E0510719E21082006AC9DB /* MainViewController.swift */; };
-		C1F4F5DF1A91026B00E39E7A /* stop_times.plist in Resources */ = {isa = PBXBuildFile; fileRef = C1F4F5DE1A91026B00E39E7A /* stop_times.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,6 +41,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C11722491A92B4A300D99992 /* calendar.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = calendar.plist; sourceTree = "<group>"; };
+		C117224A1A92B4A300D99992 /* calendar_dates.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = calendar_dates.plist; sourceTree = "<group>"; };
+		C117224B1A92B4A300D99992 /* routes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = routes.plist; sourceTree = "<group>"; };
+		C117224C1A92B4A300D99992 /* stops.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = stops.plist; sourceTree = "<group>"; };
 		C128FC4B1A130DBD006A6324 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
 		C12C4BAF19FC66D300B8E36C /* StationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationViewController.swift; sourceTree = "<group>"; };
 		C133540919DB566C00F49789 /* rCaltrain.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = rCaltrain.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -60,9 +66,7 @@
 		C166A01919FD5A8200C6676B /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground.playground; sourceTree = "<group>"; };
 		C198FFD619F9F4D60001283D /* ResultTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultTableViewCell.swift; sourceTree = "<group>"; };
 		C19F9B3519FA115300B5B6B2 /* Trip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Trip.swift; sourceTree = "<group>"; };
-		C1A2EE771A1FD7B600342AD7 /* stops.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = stops.plist; path = data/stops.plist; sourceTree = "<group>"; };
 		C1E0510719E21082006AC9DB /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
-		C1F4F5DE1A91026B00E39E7A /* stop_times.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = stop_times.plist; path = data/stop_times.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +87,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C11722481A92B4A300D99992 /* data */ = {
+			isa = PBXGroup;
+			children = (
+				C11722491A92B4A300D99992 /* calendar.plist */,
+				C117224A1A92B4A300D99992 /* calendar_dates.plist */,
+				C117224B1A92B4A300D99992 /* routes.plist */,
+				C117224C1A92B4A300D99992 /* stops.plist */,
+			);
+			path = data;
+			sourceTree = "<group>";
+		};
 		C133540019DB566C00F49789 = {
 			isa = PBXGroup;
 			children = (
@@ -121,8 +136,7 @@
 		C133540C19DB566C00F49789 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				C1F4F5DE1A91026B00E39E7A /* stop_times.plist */,
-				C1A2EE771A1FD7B600342AD7 /* stops.plist */,
+				C11722481A92B4A300D99992 /* data */,
 				C133540D19DB566C00F49789 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -258,11 +272,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C1A2EE791A1FD7B600342AD7 /* stops.plist in Resources */,
 				C133541419DB566C00F49789 /* Main.storyboard in Resources */,
 				C133541619DB566C00F49789 /* Images.xcassets in Resources */,
-				C1F4F5DF1A91026B00E39E7A /* stop_times.plist in Resources */,
 				C128FC4C1A130DBD006A6324 /* Launch Screen.xib in Resources */,
+				C117224E1A92B4A300D99992 /* calendar_dates.plist in Resources */,
+				C117224F1A92B4A300D99992 /* routes.plist in Resources */,
+				C11722501A92B4A300D99992 /* stops.plist in Resources */,
+				C117224D1A92B4A300D99992 /* calendar.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
