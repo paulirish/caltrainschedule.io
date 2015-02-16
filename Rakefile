@@ -73,6 +73,38 @@ task :prepare_data do
     end
   end
 
+  # From:
+  #   calendar:
+  #     service_id,monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date
+  #     CT-14OCT-Caltrain-Sunday-02,0,0,0,0,0,0,1,20150118,20240929
+  #   calendar_dates:
+  #     service_id,date,exception_type
+  #     CT-14OCT-Caltrain-Sunday-02,20150704,1
+  # To:
+  #   calendar:
+  #     service_id => [[fields]]
+  #     CT-14OCT-XXX => [[0,0,0,0,0,0,1,20150118,20240929]]
+  #   calendar_dates:
+  #     service_id => [[date, exception_type]]
+  #     CT-14OCT-XXX => [[20150704,1]]
+  prepare_for("calendar", "calendar_dates") do |calendar, calendar_dates|
+    calendar = calendar
+      .group_by(&:service_id)
+      .map { |service_id, items|
+        items.map { |item|
+          item.fields[1..-1]
+        }
+      }
+
+    dates = calendar_dates
+      .group_by(&:service_id)
+      .map { |service_id, items|
+        items.map { |item| item.fields[1..-1] }
+      }
+
+    { calendar: calendar, calendar_dates: dates }
+  end
+
   # Remove header and unify station_id by name
   # From:
   #   stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,location_type,parent_station,platform_code
