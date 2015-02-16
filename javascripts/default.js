@@ -82,40 +82,58 @@
     }
   }
 
+  function search_index (trip_ids, target_ids) {
+    return target_ids.map(function(target_id) {
+      return trip_ids.indexOf(target_id);
+    }).filter(function(index) {
+      return index != -1;
+    });
+  }
+
   function compare_trip (a, b) {
     return a.departure_time - b.departure_time;
   }
 
-  function get_trips (trips, from_ids, to_ids, trip_reg) {
-    return Object.keys(trips)
-      .filter(function(trip_id) {
-        // select certian trip by when
-        return trip_reg.test(trip_id);
-      }).map(function(trip_id) {
-        var service = trips[trip_id];
-        var i = 0, length = service.length;
+  function get_trips (routes, from_ids, to_ids, trip_reg) {
+    var result = [];
 
-        var times = [from_ids, to_ids].map(function(ids) {
-          while (i < length) {
-            var id = service[i][0];
-            var valid = ids.filter(function(tid) { return tid == id; })[0];
-            if (is_defined(valid)) {
-              return service[i][1];
-            };
-            ++i;
-          };
-        });
-        if (!is_defined(times[0]) || !is_defined(times[1])) { return; };
+    Object.keys(routes)
+      .forEach(function(route_name) {
+        var services = routes[route_name];
+        Object.keys(services)
+          .forEach(function(service_id) {
+            var trips = services[service_id];
+            Object.keys(trips)
+              .filter(function(trip_id) {
+                return trip_reg.test(trip_id);
+              })
+              .forEach(function(trip_id) {
+                var trip = trips[trip_id];
+                var trip_stop_ids = trip.map(function(t) { return t[0]; });
+                var from_indexes = search_index(trip_stop_ids, from_ids);
+                var to_indexes = search_index(trip_stop_ids, to_ids);
+                if (!is_defined(from_indexes) || !is_defined(to_indexes) ||
+                    from_indexes.length == 0 || to_indexes.length == 0) {
+                  return;
+                };
+                var from_index = Math.min.apply(this, from_indexes);
+                var to_index = Math.max.apply(this, to_indexes);
+                // must be in order
+                if (from_index >= to_index) {
+                  return;
+                };
 
-        if (!is_now() || times[0] > now()) { // should display by when
-          return {
-            departure_time: times[0],
-            arrival_time: times[1]
-          };
-        };
-      }).filter(function(trip) {
-        return is_defined(trip);
-      }).sort(compare_trip);
+                if (!is_now() || trip[from_index][1] > now()) {
+                  result.push({
+                    departure_time: trip[from_index][1],
+                    arrival_time: trip[to_index][1]
+                  });
+                };
+              });
+          });
+      });
+
+    return result.sort(compare_trip);
   };
 
   function render_info (next_train) {
