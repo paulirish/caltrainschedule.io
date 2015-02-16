@@ -86,13 +86,13 @@
     return a.departure_time - b.departure_time;
   }
 
-  function get_trips (services, from_ids, to_ids, trip_reg) {
-    return Object.keys(services)
+  function get_trips (trips, from_ids, to_ids, trip_reg) {
+    return Object.keys(trips)
       .filter(function(trip_id) {
         // select certian trip by when
         return trip_reg.test(trip_id);
       }).map(function(trip_id) {
-        var service = services[trip_id];
+        var service = trips[trip_id];
         var i = 0, length = service.length;
 
         var times = [from_ids, to_ids].map(function(ids) {
@@ -138,9 +138,9 @@
   }
 
   function schedule () {
-    var cities = data.cities, services = data.services;
-    var from_ids = cities[from.getText()],
-        to_ids = cities[to.getText()],
+    var stops = data.stops, trips = data.trips;
+    var from_ids = stops[from.getText()],
+        to_ids = stops[to.getText()],
         trip_reg = get_trip_match_regexp();
 
     // if some input is invalid, just return
@@ -148,7 +148,7 @@
       return;
     };
 
-    var trips = get_trips(services, from_ids, to_ids, trip_reg);
+    var trips = get_trips(trips, from_ids, to_ids, trip_reg);
 
     save_cookies();
     render_info(trips[0]);
@@ -200,10 +200,6 @@
     to.setOptions(names);
 
     // init
-    data = {
-      cities: data.stops,
-      services: data.times
-    };
     bind_events();
     load_cookies();
     schedule(); // init schedule
@@ -231,18 +227,16 @@
   }
 
   // init after document and data are ready
-  var checker = data_checker(["stops", "times"], function() {
+  var data_names = ["calendar", "calendar_dates", "stops", "trips"];
+  var checker = data_checker(data_names, function() {
     $(initialize);
   });
 
   // download data
-  $.getJSON("data/stops.json", function(stops) {
-    data.stops = stops;
-    checker("stops");
+  data_names.forEach(function(name) {
+    $.getJSON("data/" + name + ".json", function(json) {
+      data[name] = json;
+      checker(name);
+    });
   });
-  $.getJSON("data/stop_times.json", function(times) {
-    data.times = times;
-    checker("times");
-  });
-
 }());
