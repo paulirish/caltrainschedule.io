@@ -18,23 +18,23 @@
     $.cookie.defaults.path = '/'; // available across the whole site
     if (is_defined($.cookie("from"))) {
       from.setText($.cookie("from"));
-    };
+    }
     if (is_defined($.cookie("to"))) {
       to.setText($.cookie("to"));
-    };
+    }
     if (is_defined($.cookie("when"))) {
       $('.when-button[value="' + $.cookie("when") + '"]').addClass('selected');
-    };
+    }
   }
 
   String.prototype.repeat = function(num) {
     return (num <= 0) ? "" : this + this.repeat(num - 1);
-  }
+  };
 
   String.prototype.rjust = function(width, padding) {
     padding = (padding || " ").substr(0, 1); // one and only one char
     return padding.repeat(width - this.length) + this;
-  }
+  };
 
   // now in seconds since the midnight
   function now () {
@@ -78,7 +78,7 @@
       var value = $('.when-button.selected').val();
       if (is_defined(value)) {
         return new RegExp(value, "i"); // ignore case
-      };
+      }
     }
   }
 
@@ -107,34 +107,34 @@
             var from_indexes = search_index(trip_stop_ids, from_ids);
             var to_indexes = search_index(trip_stop_ids, to_ids);
             if (!is_defined(from_indexes) || !is_defined(to_indexes) ||
-                from_indexes.length == 0 || to_indexes.length == 0) {
+                from_indexes.length === 0 || to_indexes.length === 0) {
               return;
-            };
+            }
             var from_index = Math.min.apply(this, from_indexes);
             var to_index = Math.max.apply(this, to_indexes);
             // must be in order
             if (from_index >= to_index) {
               return;
-            };
+            }
 
             if (!is_now() || trip[from_index][1] > now()) {
               result.push({
                 departure_time: trip[from_index][1],
                 arrival_time: trip[to_index][1]
               });
-            };
+            }
           });
       });
 
     return result.sort(compare_trip);
-  };
+  }
 
   function render_info (next_train) {
     var info = $("#info").empty();
     if (is_now() && is_defined(next_train)) {
       var next_relative = time_relative(now(), next_train.departure_time);
       info.append('<div class="info">Next train: ' + next_relative + 'min</div>');
-    };
+    }
   }
 
   function render_result (trips) {
@@ -157,7 +157,7 @@
     // if some input is invalid, just return
     if (!is_defined(from_ids) || !is_defined(to_ids) || !is_defined(services)) {
       return;
-    };
+    }
 
     var trips = get_trips(services, from_ids, to_ids);
 
@@ -217,7 +217,7 @@
   }
 
   function data_checker (names, callback) {
-    var mark = {}, callback = callback;
+    var mark = {};
     names.forEach(function(name) {
       mark[name] = false;
     });
@@ -230,7 +230,7 @@
         if (!mark[n]) {
           all_true = false;
           break;
-        };
+        }
 
       if (all_true)
         callback();
