@@ -38,15 +38,20 @@ task :prepare_data do
   require "plist"
 
   # Read from CSV, prepare it with `block`, write what returns to JSON and PLIST files
-  def prepare_for(name, &block)
-    if block_given?
-      csv = CSV.read("gtfs/#{name}.txt", headers: true, header_converters: :symbol, converters: :all)
-      hash = yield(csv)
+  # If multiply names, expected to return a hash as NAME => CONTENT
+  def prepare_for(*names, &block)
+    raise "block is needed for prepare_for!" unless block_given?
+    raise "filename is needed!" if names.size < 1
+
+    csvs = names.map { |name|
+      CSV.read("gtfs/#{name}.txt", headers: true, header_converters: :symbol, converters: :all)
+    }
+    hashes = yield(*csvs)
+    hashes = { names[0] => hashes } if names.size == 1 # if only one name, make result as a hash
+    hashes.each { |name, hash|
       File.write("data/#{name}.json", hash.to_json)
       File.write("data/#{name}.plist", Plist::Emit.dump(hash))
-    else
-      raise "block is needed for prepare_for!"
-    end
+    }
   end
 
   # Extend CSV
