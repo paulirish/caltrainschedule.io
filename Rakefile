@@ -140,6 +140,7 @@ task :prepare_data do
           }
       }
 
+    # { route_id => { service_id => { trip_id => ... } } }
     trips = trips
       .group_by(&:route_id)
       .map { |route_id, route_trips|
@@ -154,6 +155,7 @@ task :prepare_data do
           }
       }
 
+    # { route_long_name => { service_id => ... } }
     routes = routes
       .group_by(&:route_long_name)
       .map { |name, routes|
