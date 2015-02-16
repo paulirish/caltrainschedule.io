@@ -251,8 +251,8 @@
     to.setOptions(names);
 
     // init
-    bind_events();
     load_cookies();
+    bind_events();
     schedule(); // init schedule
   }
 
