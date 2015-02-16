@@ -60,7 +60,7 @@
     return $('.when-button.selected').val() === "now";
   }
 
-  function get_trip_match_regexp () {
+  function get_available_services (routes) {
     if (is_now()) {
       var now_date = new Date();
       switch (now_date.getDay()) {
@@ -94,42 +94,35 @@
     return a.departure_time - b.departure_time;
   }
 
-  function get_trips (routes, from_ids, to_ids, trip_reg) {
+  function get_trips (services, from_ids, to_ids) {
     var result = [];
 
-    Object.keys(routes)
-      .forEach(function(route_name) {
-        var services = routes[route_name];
-        Object.keys(services)
-          .forEach(function(service_id) {
-            var trips = services[service_id];
-            Object.keys(trips)
-              .filter(function(trip_id) {
-                return trip_reg.test(trip_id);
-              })
-              .forEach(function(trip_id) {
-                var trip = trips[trip_id];
-                var trip_stop_ids = trip.map(function(t) { return t[0]; });
-                var from_indexes = search_index(trip_stop_ids, from_ids);
-                var to_indexes = search_index(trip_stop_ids, to_ids);
-                if (!is_defined(from_indexes) || !is_defined(to_indexes) ||
-                    from_indexes.length == 0 || to_indexes.length == 0) {
-                  return;
-                };
-                var from_index = Math.min.apply(this, from_indexes);
-                var to_index = Math.max.apply(this, to_indexes);
-                // must be in order
-                if (from_index >= to_index) {
-                  return;
-                };
+    Object.keys(services)
+      .forEach(function(service_id) {
+        var trips = services[service_id];
+        Object.keys(trips)
+          .forEach(function(trip_id) {
+            var trip = trips[trip_id];
+            var trip_stop_ids = trip.map(function(t) { return t[0]; });
+            var from_indexes = search_index(trip_stop_ids, from_ids);
+            var to_indexes = search_index(trip_stop_ids, to_ids);
+            if (!is_defined(from_indexes) || !is_defined(to_indexes) ||
+                from_indexes.length == 0 || to_indexes.length == 0) {
+              return;
+            };
+            var from_index = Math.min.apply(this, from_indexes);
+            var to_index = Math.max.apply(this, to_indexes);
+            // must be in order
+            if (from_index >= to_index) {
+              return;
+            };
 
-                if (!is_now() || trip[from_index][1] > now()) {
-                  result.push({
-                    departure_time: trip[from_index][1],
-                    arrival_time: trip[to_index][1]
-                  });
-                };
+            if (!is_now() || trip[from_index][1] > now()) {
+              result.push({
+                departure_time: trip[from_index][1],
+                arrival_time: trip[to_index][1]
               });
+            };
           });
       });
 
@@ -159,14 +152,14 @@
     var stops = data.stops, routes = data.routes;
     var from_ids = stops[from.getText()],
         to_ids = stops[to.getText()],
-        trip_reg = get_trip_match_regexp();
+        services = get_available_services(routes);
 
     // if some input is invalid, just return
-    if (!is_defined(from_ids) || !is_defined(to_ids) || !is_defined(trip_reg)) {
+    if (!is_defined(from_ids) || !is_defined(to_ids) || !is_defined(services)) {
       return;
     };
 
-    var trips = get_trips(routes, from_ids, to_ids, trip_reg);
+    var trips = get_trips(services, from_ids, to_ids);
 
     save_cookies();
     render_info(trips[0]);
