@@ -37,23 +37,6 @@ task :prepare_data do
   require "json"
   require "plist"
 
-  # Read from CSV, prepare it with `block`, write what returns to JSON and PLIST files
-  # If multiply names, expected to return a hash as NAME => CONTENT
-  def prepare_for(*names, &block)
-    raise "block is needed for prepare_for!" unless block_given?
-    raise "filename is needed!" if names.size < 1
-
-    csvs = names.map { |name|
-      CSV.read("gtfs/#{name}.txt", headers: true, header_converters: :symbol, converters: :all)
-    }
-    hashes = yield(*csvs)
-    hashes = { names[0] => hashes } if names.size == 1 # if only one name, make result as a hash
-    hashes.each { |name, hash|
-      File.write("data/#{name}.json", hash.to_json)
-      File.write("data/#{name}.plist", Plist::Emit.dump(hash))
-    }
-  end
-
   # Extend CSV
   class CSV
     class Table
@@ -71,6 +54,23 @@ task :prepare_data do
         end
       end
     end
+  end
+
+  # Read from CSV, prepare it with `block`, write what returns to JSON and PLIST files
+  # If multiply names, expected to return a hash as NAME => CONTENT
+  def prepare_for(*names, &block)
+    raise "block is needed for prepare_for!" unless block_given?
+    raise "filename is needed!" if names.size < 1
+
+    csvs = names.map { |name|
+      CSV.read("gtfs/#{name}.txt", headers: true, header_converters: :symbol, converters: :all)
+    }
+    hashes = yield(*csvs)
+    hashes = { names[0] => hashes } if names.size == 1 # if only one name, make result as a hash
+    hashes.each { |name, hash|
+      File.write("data/#{name}.json", hash.to_json)
+      File.write("data/#{name}.plist", Plist::Emit.dump(hash))
+    }
   end
 
   # From:
@@ -112,8 +112,8 @@ task :prepare_data do
   # To:
   #   stop_name => [stop_id1, stop_id2]
   #   "San Francisco" => [70011, 70012]
-  prepare_for("stops") do |csv|
-    csv
+  prepare_for("stops") do |stops|
+    stops
       .each { |item|
         # check data (if its scheme is changed)
         if item.stop_name !~ / Caltrain/
