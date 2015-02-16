@@ -82,8 +82,8 @@ task :prepare_data do
   #     CT-14OCT-Caltrain-Sunday-02,20150704,1
   # To:
   #   calendar:
-  #     service_id => [[fields]]
-  #     CT-14OCT-XXX => [[0,0,0,0,0,0,1,20150118,20240929]]
+  #     service_id => [fields]
+  #     CT-14OCT-XXX => [0,0,0,0,0,0,1,20150118,20240929]
   #   calendar_dates:
   #     service_id => [[date, exception_type]]
   #     CT-14OCT-XXX => [[20150704,1]]
@@ -93,7 +93,7 @@ task :prepare_data do
       .map { |service_id, items|
         items.map { |item|
           item.fields[1..-1]
-        }
+        }.flatten
       }
 
     dates = calendar_dates
@@ -191,7 +191,7 @@ task :prepare_data do
       .map { |name, routes|
         routes
           .map(&:route_id)
-          .reduce({}) { |h, route_id|
+          .inject({}) { |h, route_id|
             h.merge(trips[route_id])
           }
       }

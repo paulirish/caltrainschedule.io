@@ -4,59 +4,51 @@
 <dict>
 	<key>CT-14OCT-Caltrain-Saturday-02</key>
 	<array>
-		<array>
-			<integer>0</integer>
-			<integer>0</integer>
-			<integer>0</integer>
-			<integer>0</integer>
-			<integer>0</integer>
-			<integer>1</integer>
-			<integer>0</integer>
-			<integer>20150124</integer>
-			<integer>20241005</integer>
-		</array>
+		<integer>0</integer>
+		<integer>0</integer>
+		<integer>0</integer>
+		<integer>0</integer>
+		<integer>0</integer>
+		<integer>1</integer>
+		<integer>0</integer>
+		<integer>20150124</integer>
+		<integer>20241005</integer>
 	</array>
 	<key>CT-14OCT-Caltrain-Sunday-02</key>
 	<array>
-		<array>
-			<integer>0</integer>
-			<integer>0</integer>
-			<integer>0</integer>
-			<integer>0</integer>
-			<integer>0</integer>
-			<integer>0</integer>
-			<integer>1</integer>
-			<integer>20150118</integer>
-			<integer>20240929</integer>
-		</array>
+		<integer>0</integer>
+		<integer>0</integer>
+		<integer>0</integer>
+		<integer>0</integer>
+		<integer>0</integer>
+		<integer>0</integer>
+		<integer>1</integer>
+		<integer>20150118</integer>
+		<integer>20240929</integer>
 	</array>
 	<key>CT-14OCT-Combo-Weekday-01</key>
 	<array>
-		<array>
-			<integer>1</integer>
-			<integer>1</integer>
-			<integer>1</integer>
-			<integer>1</integer>
-			<integer>1</integer>
-			<integer>0</integer>
-			<integer>0</integer>
-			<integer>20150119</integer>
-			<integer>20241004</integer>
-		</array>
+		<integer>1</integer>
+		<integer>1</integer>
+		<integer>1</integer>
+		<integer>1</integer>
+		<integer>1</integer>
+		<integer>0</integer>
+		<integer>0</integer>
+		<integer>20150119</integer>
+		<integer>20241004</integer>
 	</array>
 	<key>CT-14OCT-Pres-Weekday-02</key>
 	<array>
-		<array>
-			<integer>1</integer>
-			<integer>1</integer>
-			<integer>1</integer>
-			<integer>1</integer>
-			<integer>1</integer>
-			<integer>0</integer>
-			<integer>0</integer>
-			<integer>20150216</integer>
-			<integer>20150216</integer>
-		</array>
+		<integer>1</integer>
+		<integer>1</integer>
+		<integer>1</integer>
+		<integer>1</integer>
+		<integer>1</integer>
+		<integer>0</integer>
+		<integer>0</integer>
+		<integer>20150216</integer>
+		<integer>20150216</integer>
 	</array>
 </dict>
 </plist>
