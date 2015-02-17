@@ -122,13 +122,8 @@ task :prepare_data do
       }
       .keep_if { |item| item.stop_id.is_a?(Integer) }
       .each { |item|
-        name = item.stop_name.gsub(/ Caltrain/, '')
-        # TODO: hack the data
-        name = "So. San Francisco" if name == "So. San Francisco Station" # shorten the name
-        name = "Tamien" if name == "Tamien Station" # merge station
-        name = "San Jose" if name == "San Jose Diridon"  # name reversed
-        name = "San Jose Diridon" if name == "San Jose Station" # name reversed
-        item.stop_name = name
+        # shorten the name and merge San Jose with San Jose Diridon
+        item.stop_name.gsub!(/ (Caltrain|Station)/, '').gsub!(' Diridon', '')
       }
       .group_by(&:stop_name)
       .map { |name, items| # customized Hash#map
