@@ -98,14 +98,15 @@
           // check calendar available days
           return calendar[service_id][day] === 1;
         }).filter(function(service_id) {
-          // check calendar_dates with exception_type 2 (to remove)
-          var item = calendar_dates[service_id];
-          return (!is_defined(item)) ||
-            ((item[0] === date) && (item[1] === 2));
+          // check calendar_dates with exception_type 2 (if any to remove)
+          return calendar_dates[service_id].filter(function(exception_date) {
+            return (exception_date[0] === date) && (exception_date[1] === 2);
+          }).length === 0;
         }).concat(Object.keys(calendar_dates).filter(function(service_id) {
-          // check calendar_dates with exception_type 1 (to add)
-          var item = calendar_dates[service_id];
-          return (item[0] === date) && (item[1] === 1);
+          // check calendar_dates with exception_type 1 (if any to add)
+          return calendar_dates[service_id].filter(function(exception_date) {
+            return (exception_date[0] === date) && (exception_date[1] === 1);
+          }).length !== 0;
         }));
 
         if (service_ids.length !== 1) {
