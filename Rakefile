@@ -156,8 +156,8 @@ task :prepare_data do
       }
       .keep_if { |item| /14OCT/.match(item.trip_id) } # only 14 OCT plans
       .group_by(&:trip_id)
-      .map { |trip_id, trips| # customized Hash#map
-        trips
+      .map { |trip_id, trips_values| # customized Hash#map
+        trips_values
           .sort_by(&:stop_sequence)
           .map { |trip|
             t = trip.arrival_time.split(":").map(&:to_i)
@@ -183,8 +183,8 @@ task :prepare_data do
     # { route_long_name => { service_id => ... } }
     routes = routes
       .group_by(&:route_long_name)
-      .map { |name, routes|
-        routes
+      .map { |name, routes_values|
+        routes_values
           .map(&:route_id)
           .inject({}) { |h, route_id|
             h.merge(trips[route_id])
