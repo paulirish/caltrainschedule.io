@@ -281,19 +281,25 @@ end
 
 desc "Publish"
 task :publish do
-  begin
-    `git checkout master`
-    `git push`
+  def run(cmd)
+    res = `#{cmd}`
+    warn "#{cmd} failed:\n#{res}\n" unless $?.success?
+    return $?.success?
+  end
 
-    `git checkout gh-pages`
-    `git checkout master -- .`
+  begin
+    run("git checkout master") &&
+    run("git push") &&
+
+    run("git checkout gh-pages") &&
+    run("git checkout master -- .") &&
     [:prepare_data, :enable_appcache, :update_appcache, :minify_files].each do |task|
       Rake::Task[task].invoke
     end
-    `git add .`
-    `git commit -m 'Updated at #{Time.now}.'`
-    `git push`
+    run("git add .") &&
+    run("git commit -m 'Updated at #{Time.now}.'") &&
+    run("git push") || abort
   ensure
-    `git checkout master`
+    run("git checkout master")
   end
 end
