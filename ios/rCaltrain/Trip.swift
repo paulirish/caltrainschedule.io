@@ -3,7 +3,7 @@
 //  rCaltrain
 //
 //  Created by Wanzhang Sheng on 10/23/14.
-//  Copyright (c) 2014 Ranmocy. All rights reserved.
+//  Copyright (c) 2014-2015 Ranmocy. All rights reserved.
 //
 
 import Foundation

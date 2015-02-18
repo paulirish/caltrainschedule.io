@@ -3,7 +3,7 @@
 //  rCaltrain
 //
 //  Created by Ranmocy on 10/1/14.
-//  Copyright (c) 2014 Ranmocy. All rights reserved.
+//  Copyright (c) 2014-2015 Ranmocy. All rights reserved.
 //
 
 import UIKit
