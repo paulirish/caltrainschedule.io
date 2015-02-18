@@ -13,55 +13,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-    // Trip data
-    var stationNames: [String]!
-    var nameToStation: [String: [Station]]!
-    var idToStation: [Int: Station]!
-    var services: [Service]!
-
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // load stops data
-        // {stationName: [stationId1, stationId2]}
-        stationNames = []
-        nameToStation = [:]
-        idToStation = [:]
 
+        // load stops data
         if let filePath = NSBundle.mainBundle().pathForResource("stops", ofType: "plist") {
             if let stops = NSDictionary(contentsOfFile: filePath) {
                 for (name, idsArray) in stops as [String: NSArray] {
-                    stationNames.append(name)
-
-                    var stations = [Station]()
                     for id in idsArray as [Int] {
-                        var station = Station(name: name, id: id)
-                        idToStation[id] = station
-                        stations.append(station)
+                        Station(name: name, id: id)
                     }
-                    nameToStation[name] = stations
                 }
             }
         }
 
         // sort stationNames
-        stationNames.sort(<)
+//        stationNames.sort(<)
 
 
-        // load trips data
-        // {serviceId: [[stationId, departTime/arrivalTime],...]}
-        services = []
-
-        if let filePath = NSBundle.mainBundle().pathForResource("stop_times", ofType: "plist") {
-            if let times = NSDictionary(contentsOfFile: filePath) {
-                for (serviceId, stopsArray) in times as [String: NSArray] {
-                    var stops = [Stop]()
-                    for data in stopsArray {
-                        assert(data.count == 2, "data length is \(data.count), expected 2!")
-
-                        var id = data[0] as Int;
-                        var time = NSDate(timeIntervalSince1970: NSTimeInterval(data[1] as Int))
-                        stops.append(Stop(station: idToStation[id]!, departureTime: time, arrivalTime: time))
-                    }
-                    services.append(Service(id: serviceId, stops: stops))
+        // load routes data
+        // {routeID: {serviceId: {tripId: [[stationId, departTime/arrivalTime],...]}}}
+        if let filePath = NSBundle.mainBundle().pathForResource("routes", ofType: "plist") {
+            if let routes = NSDictionary(contentsOfFile: filePath) {
+                for (routeName, servicesDict) in routes as [String: NSDictionary] {
+                    Route(name: routeName, servicesDict: servicesDict)
                 }
             }
         }

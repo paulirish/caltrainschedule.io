@@ -9,40 +9,72 @@
 import Foundation
 
 class Trip {
-    let departureStop: Stop
-    let arrivalStop: Stop
 
-    var departureTime: NSDate {
-        return departureStop.departureTime
-    }
-    var arrivalTime: NSDate {
-        return arrivalStop.arrivalTime
+    let id : String
+    var stops = [Stop]()
+
+    init(id: String) {
+        self.id = id
     }
 
-    private func dateToStr(date: NSDate) -> String {
-        let interval = Int(date.timeIntervalSince1970)
-        let hours = String(interval / 3600).rjust(2, withStr: "0")
-        let minutes = String(interval / 60 % 60).rjust(2, withStr: "0")
-        return "\(hours):\(minutes)"
+    convenience init(id: String, stopsArray: NSArray) {
+        self.init(id: id)
+
+        for data in stopsArray as [NSArray] {
+            assert(data.count == 2, "data length is \(data.count), expected 2!")
+
+            let stationId = data[0] as Int;
+            let time = NSDate(timeIntervalSince1970: NSTimeInterval(data[1] as Int))
+            
+            if let station = Station.idToStation[stationId] {
+                self.stops.append(Stop(station: station, departureTime: time, arrivalTime: time))
+            } else {
+                assert(false, "can't find station id\(stationId)")
+            }
+        }
     }
 
-    var departureStr: String {
-        return dateToStr(departureTime)
-    }
-    var arrivalStr: String {
-        return dateToStr(arrivalTime)
-    }
-    
-    var duration: NSTimeInterval {
-        return arrivalStop.arrivalTime.timeIntervalSinceDate(departureStop.departureTime)
-    }
-    var durationInMin: Int {
-        return Int(duration) / 60
+    func addStop(stop : Stop) -> Trip {
+        self.stops.append(stop)
+        return self
     }
 
-    init(departure: Stop, arrival: Stop) {
-        self.departureStop = departure
-        self.arrivalStop = arrival
+    func findFrom(from: Station, to: Station) -> (Stop, Stop)? {
+        var i: Int = 0
+        var fromStop: Stop?, toStop: Stop?
+
+        // find the departure stop
+        while (i < stops.count){
+            if (stops[i].station === from) {
+                fromStop = stops[i]
+                break
+            }
+            i++
+        }
+
+        // if missing
+        if (fromStop == nil) {
+            return nil
+        }
+
+        // from and to can't be the same
+        i++
+
+        // find the arrival stop
+        while (i < stops.count) {
+            if (stops[i].station === to) {
+                toStop = stops[i]
+                break
+            }
+            i++
+        }
+
+        // if missing
+        if (toStop == nil) {
+            return nil
+        }
+        
+        return (fromStop!, toStop!)
     }
 
 }
