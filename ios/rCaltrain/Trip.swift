@@ -26,10 +26,10 @@ class Trip {
             let stationId = data[0] as Int;
             let time = NSDate(timeIntervalSince1970: NSTimeInterval(data[1] as Int))
             
-            if let station = Station.idToStation[stationId] {
+            if let station = Station.getStation(byId: stationId) {
                 self.stops.append(Stop(station: station, departureTime: time, arrivalTime: time))
             } else {
-                assert(false, "can't find station id\(stationId)")
+                fatalError("can't find station id\(stationId)")
             }
         }
     }

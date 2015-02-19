@@ -12,7 +12,6 @@ class MainViewController: UIViewController {
 
     var departurePlaceholder: String = "Departure"
     var arrivalPlaceholder: String = "Arrival"
-    var appDelegate: AppDelegate!
 
     @IBOutlet var departureButton: UIButton!
     @IBOutlet var arrivalButton: UIButton!
@@ -84,8 +83,6 @@ class MainViewController: UIViewController {
 
         // setups
         resultsTableView.dataSource = resultsTableView
-        appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-
         super.viewDidLoad()
 
         // init update
@@ -96,7 +93,6 @@ class MainViewController: UIViewController {
     // Get inputs value. If some input is missing, return nil
     // Return: ([departure_stations], [arrival_stations], category, isNow)?
     func getInputs() -> ([Station], [Station], String, Bool)? {
-        let nameToStation = appDelegate.nameToStation
         var departureStations: [Station]
         var arrivalStations: [Station]
         var category: String
@@ -104,7 +100,7 @@ class MainViewController: UIViewController {
 
         // get departure stations
         if let dName = departureButton.currentTitle {
-            if let stations = nameToStation[dName] {
+            if let stations = Station.getStations(byName: dName) {
                 departureStations = stations
             } else {
                 return nil
@@ -115,7 +111,7 @@ class MainViewController: UIViewController {
 
         // get arrival stations
         if let aName = arrivalButton.currentTitle {
-            if let stations = nameToStation[aName] {
+            if let stations = Station.getStations(byName: aName) {
                 arrivalStations = stations
             } else {
                 return nil
@@ -159,29 +155,27 @@ class MainViewController: UIViewController {
     }
 
     func updateResults() {
-        let services = appDelegate.services
-
         // if inputs are ready update, otherwise ignore it
         if let (departureStations, arrivalStations, category, isNow) = getInputs() {
             // if inputs are ready
-            var trips = [Trip]()
+            var results = [Result]()
 
-            for service in services.filter({s in return s.category == category }) {
-                for dStation in departureStations {
-                    for aStation in arrivalStations {
-                        if let (from, to) = service.findFrom(dStation, to: aStation) {
-                            // check if it's a valid stop
-                            if (!isNow || from.laterThanNow) {
-                                trips.append(Trip(departure: from, arrival: to))
-                            }
-                        }
-                    }
-                }
-            }
+//            for service in services.filter({s in return s.category == category }) {
+//                for dStation in departureStations {
+//                    for aStation in arrivalStations {
+//                        if let (from, to) = service.findFrom(dStation, to: aStation) {
+//                            // check if it's a valid stop
+//                            if (!isNow || from.laterThanNow) {
+//                                trips.append(Trip(departure: from, arrival: to))
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//
+//            trips.sort { $0.departureTime < $1.departureTime }
 
-            trips.sort { $0.departureTime < $1.departureTime }
-
-            resultsTableView.trips = trips
+            resultsTableView.results = results
             resultsTableView.reloadData()
         }
     }

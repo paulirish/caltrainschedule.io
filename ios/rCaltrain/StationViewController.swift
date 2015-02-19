@@ -60,7 +60,7 @@ class StationViewController: UITableViewController, UISearchBarDelegate, UISearc
 
     override func viewDidLoad() {
         let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-        stationNames = appDelegate.stationNames
+        stationNames = Station.getNames()
     }
 
     // private helper

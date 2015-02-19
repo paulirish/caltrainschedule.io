@@ -10,26 +10,35 @@ import Foundation
 
 class Station {
 
+    // Class variables/methods
     private struct StationStruct {
+        static var names = NSMutableOrderedSet()
         static var idToStation = [Int: Station]()
         static var nameToStations = [String: [Station]]()
     }
-    class var idToStation : [Int: Station] {
-        get { return StationStruct.idToStation }
-        set { StationStruct.idToStation = newValue }
+
+    class func getNames() -> [String] {
+        return StationStruct.names.array as [String]
     }
-    class var nameToStations : [String: [Station]] {
-        get { return StationStruct.nameToStations }
-        set { StationStruct.nameToStations = newValue }
+    class func getStation(byId id: Int) -> Station? {
+        return StationStruct.idToStation[id]
+    }
+    class func getStations(byName name: String) -> [Station]? {
+        return StationStruct.nameToStations[name]
     }
 
+
+    // Instance variables/methods
     let name: String
     let id: Int
 
     init(name: String, id: Int) {
         self.name = name
         self.id = id
-        Station.idToStation[id] = self
+
+        StationStruct.names.addObject(name)
+        StationStruct.idToStation[id] = self
+
         if var stations = StationStruct.nameToStations[name] {
             stations.append(self)
         } else {

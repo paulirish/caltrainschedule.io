@@ -10,15 +10,15 @@ import UIKit
 
 class ResultTableView:UITableView, UITableViewDataSource {
 
-    var trips:[Trip] = []
+    var results:[Result] = []
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return trips.count
+        return results.count
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if let resultCell = tableView.dequeueReusableCellWithIdentifier("resultCell") as? ResultTableViewCell {
-            resultCell.updateData(trips[indexPath.row])
+            resultCell.updateData(results[indexPath.row])
             return resultCell
         } else {
             fatalError("No resultCell in ResultTableView!")

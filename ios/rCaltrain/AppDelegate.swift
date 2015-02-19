@@ -26,10 +26,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
 
-        // sort stationNames
-//        stationNames.sort(<)
-
-
         // load routes data
         // {routeID: {serviceId: {tripId: [[stationId, departTime/arrivalTime],...]}}}
         if let filePath = NSBundle.mainBundle().pathForResource("routes", ofType: "plist") {
