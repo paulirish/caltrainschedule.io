@@ -36,6 +36,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
 
+        // load calendar data
+        // {serviceID: [monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date]}
+        if let filePath = NSBundle.mainBundle().pathForResource("calendar", ofType: "plist") {
+            if let calendar = NSDictionary(contentsOfFile: filePath) {
+                for (serviceId, item) in calendar as [String: NSArray] {
+                    Service.getService(byId: serviceId)!.calendar = Calendar(item: item)
+                }
+            }
+        }
+
+        // load calendar_dates data
+        // {serviceID: [exception_date,type]}
+        if let filePath = NSBundle.mainBundle().pathForResource("calendar_dates", ofType: "plist") {
+            if let calendar_dates = NSDictionary(contentsOfFile: filePath) {
+                for (serviceId, items) in calendar_dates as [String: NSArray] {
+                    for item in items as [NSArray] {
+                        let c = CalendarDates(dateInt: item[0] as Int, toAdd: item[1] as Int == 1)
+                        Service.getService(byId: serviceId)!.calendar_dates = c
+                    }
+                }
+            }
+        }
+
         return true
     }
 

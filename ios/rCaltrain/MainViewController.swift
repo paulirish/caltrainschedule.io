@@ -157,7 +157,6 @@ class MainViewController: UIViewController {
     func updateResults() {
         // if inputs are ready update, otherwise ignore it
         if let (departureStations, arrivalStations, category, isNow) = getInputs() {
-            // if inputs are ready
             var results = [Result]()
 
 //            for service in services.filter({s in return s.category == category }) {

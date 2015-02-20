@@ -11,6 +11,7 @@
 		C117224E1A92B4A300D99992 /* calendar_dates.plist in Resources */ = {isa = PBXBuildFile; fileRef = C117224A1A92B4A300D99992 /* calendar_dates.plist */; };
 		C117224F1A92B4A300D99992 /* routes.plist in Resources */ = {isa = PBXBuildFile; fileRef = C117224B1A92B4A300D99992 /* routes.plist */; };
 		C11722501A92B4A300D99992 /* stops.plist in Resources */ = {isa = PBXBuildFile; fileRef = C117224C1A92B4A300D99992 /* stops.plist */; };
+		C118C2291A97131300807AD7 /* Calendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C118C2281A97131300807AD7 /* Calendar.swift */; };
 		C128FC4C1A130DBD006A6324 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C128FC4B1A130DBD006A6324 /* Launch Screen.xib */; };
 		C12C4BB019FC66D300B8E36C /* StationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12C4BAF19FC66D300B8E36C /* StationViewController.swift */; };
 		C133540F19DB566C00F49789 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C133540E19DB566C00F49789 /* AppDelegate.swift */; };
@@ -30,6 +31,7 @@
 		C1A195051A947392002FB0B7 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A195041A947392002FB0B7 /* Route.swift */; };
 		C1C4ABD11A9415B6001E3DE0 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C4ABD01A9415B6001E3DE0 /* Result.swift */; };
 		C1E0510819E21082006AC9DB /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E0510719E21082006AC9DB /* MainViewController.swift */; };
+		C1F5B1591A97A80A004D362E /* CalendarDates.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F5B1581A97A80A004D362E /* CalendarDates.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +49,7 @@
 		C117224A1A92B4A300D99992 /* calendar_dates.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = calendar_dates.plist; sourceTree = "<group>"; };
 		C117224B1A92B4A300D99992 /* routes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = routes.plist; sourceTree = "<group>"; };
 		C117224C1A92B4A300D99992 /* stops.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = stops.plist; sourceTree = "<group>"; };
+		C118C2281A97131300807AD7 /* Calendar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Calendar.swift; sourceTree = "<group>"; };
 		C128FC4B1A130DBD006A6324 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
 		C12C4BAF19FC66D300B8E36C /* StationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationViewController.swift; sourceTree = "<group>"; };
 		C133540919DB566C00F49789 /* rCaltrain.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = rCaltrain.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -71,6 +74,7 @@
 		C1A195041A947392002FB0B7 /* Route.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		C1C4ABD01A9415B6001E3DE0 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		C1E0510719E21082006AC9DB /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		C1F5B1581A97A80A004D362E /* CalendarDates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarDates.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,6 +176,8 @@
 				C19F9B3519FA115300B5B6B2 /* Trip.swift */,
 				C1C4ABD01A9415B6001E3DE0 /* Result.swift */,
 				C1A195041A947392002FB0B7 /* Route.swift */,
+				C118C2281A97131300807AD7 /* Calendar.swift */,
+				C1F5B1581A97A80A004D362E /* CalendarDates.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -305,8 +311,10 @@
 				C19F9B3619FA115300B5B6B2 /* Trip.swift in Sources */,
 				C12C4BB019FC66D300B8E36C /* StationViewController.swift in Sources */,
 				C144A1E119FC606700FA8EC0 /* Service.swift in Sources */,
+				C118C2291A97131300807AD7 /* Calendar.swift in Sources */,
 				C1A195051A947392002FB0B7 /* Route.swift in Sources */,
 				C133543719DE18D900F49789 /* WhenViewController.swift in Sources */,
+				C1F5B1591A97A80A004D362E /* CalendarDates.swift in Sources */,
 				C1C4ABD11A9415B6001E3DE0 /* Result.swift in Sources */,
 				C15EFA8D19F8DA2500DCF751 /* ResultTableView.swift in Sources */,
 				C144A1DF19FC5FE600FA8EC0 /* Station.swift in Sources */,

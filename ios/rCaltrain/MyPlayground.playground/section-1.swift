@@ -8,5 +8,7 @@ var calendar = NSCalendar.currentCalendar()
 var c = calendar.components(.HourCalendarUnit | .MinuteCalendarUnit | .SecondCalendarUnit, fromDate: d)
 
 var com = NSDateComponents()
-com.second = 3600
+com.year = 2015
+com.month = 12
+com.day = 2
 calendar.dateFromComponents(com)
