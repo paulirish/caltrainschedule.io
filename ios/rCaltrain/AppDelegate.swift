@@ -3,7 +3,7 @@
 //  rCaltrain
 //
 //  Created by Ranmocy on 9/30/14.
-//  Copyright (c) 2014 Ranmocy. All rights reserved.
+//  Copyright (c) 2014-2015 Ranmocy. All rights reserved.
 //
 
 import UIKit
@@ -13,56 +13,47 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-    // Trip data
-    var stationNames: [String]!
-    var nameToStation: [String: [Station]]!
-    var idToStation: [Int: Station]!
-    var services: [Service]!
-
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+
         // load stops data
-        // {stationName: [stationId1, stationId2]}
-        stationNames = []
-        nameToStation = [:]
-        idToStation = [:]
-
-        if let filePath = NSBundle.mainBundle().pathForResource("stops", ofType: "plist") {
-            if let stops = NSDictionary(contentsOfFile: filePath) {
-                for (name, idsArray) in stops as [String: NSArray] {
-                    stationNames.append(name)
-
-                    var stations = [Station]()
-                    for id in idsArray as [Int] {
-                        var station = Station(name: name, id: id)
-                        idToStation[id] = station
-                        stations.append(station)
-                    }
-                    nameToStation[name] = stations
-                }
+        // {stationName: [stationid]}
+        for (name, idsArray) in readPlistAsDict("stops") as [String: NSArray] {
+            for id in idsArray as [Int] {
+                Station(name: name, id: id)
             }
         }
 
-        // sort stationNames
-        stationNames.sort(<)
+        // load routes data
+        // {routeID: {serviceId: {tripId: [[stationId, departTime/arrivalTime],...]}}}
+        for (routeName, servicesDict) in readPlistAsDict("routes") as [String: NSDictionary] {
+            Route(name: routeName, servicesDict: servicesDict)
+        }
 
-
-        // load trips data
-        // {serviceId: [[stationId, departTime/arrivalTime],...]}
-        services = []
-
-        if let filePath = NSBundle.mainBundle().pathForResource("stop_times", ofType: "plist") {
-            if let times = NSDictionary(contentsOfFile: filePath) {
-                for (serviceId, stopsArray) in times as [String: NSArray] {
-                    var stops = [Stop]()
-                    for data in stopsArray {
-                        assert(data.count == 2, "data length is \(data.count), expected 2!")
-
-                        var id = data[0] as Int;
-                        var time = NSDate(timeIntervalSince1970: NSTimeInterval(data[1] as Int))
-                        stops.append(Stop(station: idToStation[id]!, departureTime: time, arrivalTime: time))
-                    }
-                    services.append(Service(id: serviceId, stops: stops))
+        // load calendar data
+        // {serviceID: [monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date]}
+        for (serviceId, item) in readPlistAsDict("calendar") as [String: NSArray] {
+            if let services = Service.getServices(byId: serviceId) {
+                let calendar = Calendar(item: item)
+                for service in services {
+                    service.calendar = calendar
                 }
+            } else {
+                fatalError("Can't find service \(serviceId) when load calendar.plist.")
+            }
+        }
+
+        // load calendar_dates data
+        // {serviceID: [exception_date,type]}
+        for (serviceId, items) in readPlistAsDict("calendar_dates") as [String: NSArray] {
+            if let services = Service.getServices(byId: serviceId) {
+                for item in items as [NSArray] {
+                    let dates = CalendarDates(dateInt: item[0] as Int, toAdd: item[1] as Int == 1)
+                    for service in services {
+                        service.calendar_dates.append(dates)
+                    }
+                }
+            } else {
+                fatalError("Can't find service \(serviceId) when load calendar_dates.plist")
             }
         }
 
@@ -91,6 +82,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
+    private func readPlistAsDict(name: String) -> NSDictionary {
+        if let filePath = NSBundle.mainBundle().pathForResource(name, ofType: "plist") {
+            if let dict = NSDictionary(contentsOfFile: filePath) {
+                return dict
+            } else {
+                fatalError("Can't read plist file \(name)!")
+            }
+        } else {
+            fatalError("Can't find plist file \(name)!")
+        }
+    }
 
 }
 

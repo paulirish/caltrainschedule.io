@@ -3,7 +3,7 @@
 //  rCaltrain
 //
 //  Created by Ranmocy on 10/2/14.
-//  Copyright (c) 2014 Ranmocy. All rights reserved.
+//  Copyright (c) 2014-2015 Ranmocy. All rights reserved.
 //
 
 import UIKit
@@ -60,7 +60,7 @@ class StationViewController: UITableViewController, UISearchBarDelegate, UISearc
 
     override func viewDidLoad() {
         let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-        stationNames = appDelegate.stationNames
+        stationNames = Station.getNames()
     }
 
     // private helper

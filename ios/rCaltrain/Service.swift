@@ -3,60 +3,80 @@
 //  rCaltrain
 //
 //  Created by Wanzhang Sheng on 10/25/14.
-//  Copyright (c) 2014 Ranmocy. All rights reserved.
+//  Copyright (c) 2014-2015 Ranmocy. All rights reserved.
 //
 
 import Foundation
 
 class Service {
 
-    let category: String
-    let stops: [Stop]
-
-    init(id: String, stops: [Stop]) {
-        let parts = id.splits({$0 == "-"}, allowEmptySlices: false)
-        assert(parts.count == 3, "invalid service id, since no '-' in it.")
-
-        self.category = parts[0]
-        self.stops = stops
+    // Class variables/methods
+    private struct ServiceStruct {
+        static var services = [Service]()
+        static var idToServices = [String: [Service]]()
     }
 
-    func findFrom(from: Station, to: Station) -> (Stop, Stop)? {
-        var i: Int = 0
-        var fromStop: Stop?, toStop: Stop?
+    class func getAllServices() -> [Service] {
+        return ServiceStruct.services
+    }
 
-        // find the departure stop
-        while (i < stops.count){
-            if (stops[i].station === from) {
-                fromStop = stops[i]
-                break
+    class func getServices(byId id: String) -> [Service]? {
+        return ServiceStruct.idToServices[id]
+    }
+
+    // Instance variables/methods
+    let id : String
+    var trips = [String: Trip]()
+    var calendar : Calendar!
+    var calendar_dates = [CalendarDates]()
+
+    init (id: String) {
+        self.id = id
+        ServiceStruct.services.append(self)
+
+        if (ServiceStruct.idToServices[id] != nil) {
+            ServiceStruct.idToServices[id]!.append(self)
+        } else {
+            ServiceStruct.idToServices[id] = [self]
+        }
+    }
+
+    convenience init (id: String, tripsDict : NSDictionary) {
+        self.init(id: id)
+        
+        for (tripId, stopsArray) in tripsDict as [String: NSArray] {
+            self.addTrip(Trip(id: tripId, stopsArray: stopsArray))
+        }
+    }
+
+    func addTrip(trip: Trip) -> Service {
+        self.trips[trip.id] = trip
+        return self
+    }
+
+    func isValid(atDate date: NSDate) -> Bool {
+        // (inCalendar && not inDates2) || inDates1
+
+        let weekday = Calendar.currentCalendar.components(.WeekdayCalendarUnit, fromDate: date).weekday
+        let inCalendar : Bool = (date.compare(calendar.start_date) == .OrderedDescending) && (date.compare(calendar.end_date) == .OrderedAscending) && calendar.isValid(weekday: weekday)
+
+        var exceptional_add = false
+        var exceptional_remove = false
+        for eDate in calendar_dates {
+            if (date.compare(eDate.exception_date) == NSComparisonResult.OrderedSame) {
+                if (eDate.toAdd) {
+                    exceptional_add = true
+                } else {
+                    exceptional_remove = true
+                }
             }
-            i++
         }
 
-        // if missing
-        if (fromStop == nil) {
-            return nil
-        }
+        return (inCalendar && !exceptional_remove) || exceptional_add
+    }
 
-        // from and to can't be the same
-        i++
-
-        // find the arrival stop
-        while (i < stops.count) {
-            if (stops[i].station === to) {
-                toStop = stops[i]
-                break
-            }
-            i++
-        }
-
-        // if missing
-        if (toStop == nil) {
-            return nil
-        }
-
-        return (fromStop!, toStop!)
+    func isValidToday() -> Bool {
+        return isValid(atDate: NSDate())
     }
 
 }

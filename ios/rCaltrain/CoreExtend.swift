@@ -3,7 +3,7 @@
 //  rCaltrain
 //
 //  Created by Wanzhang Sheng on 10/26/14.
-//  Copyright (c) 2014 Ranmocy. All rights reserved.
+//  Copyright (c) 2014-2015 Ranmocy. All rights reserved.
 //
 
 import Foundation
@@ -102,6 +102,22 @@ extension NSDate {
     convenience init(secondsSinceMidnight seconds: Int) {
         self.init(timeIntervalSince1970: NSTimeInterval(seconds))
     }
+
+    // date format is "yyyymmdd"
+    class func parseDate(asYYYYMMDDInt dateInt: Int) -> NSDate {
+        var calendar = NSCalendar.currentCalendar()
+        var com = NSDateComponents()
+        com.year = dateInt / 10000
+        com.month = (dateInt / 100) % 100
+        com.day = dateInt % 100
+
+        if let date = calendar.dateFromComponents(com) {
+            return date
+        } else {
+            fatalError("Can't parse date: \(dateInt)!")
+        }
+    }
+
 }
 
 extension NSDateFormatter {
