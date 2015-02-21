@@ -158,21 +158,31 @@ class MainViewController: UIViewController {
         // if inputs are ready update, otherwise ignore it
         if let (departureStations, arrivalStations, category, isNow) = getInputs() {
             var results = [Result]()
+            var services = Service.getAllServices().filter { s in return s.isValidToday() }
 
-//            for service in services.filter({s in return s.category == category }) {
-//                for dStation in departureStations {
-//                    for aStation in arrivalStations {
-//                        if let (from, to) = service.findFrom(dStation, to: aStation) {
-//                            // check if it's a valid stop
-//                            if (!isNow || from.laterThanNow) {
-//                                trips.append(Trip(departure: from, arrival: to))
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//
-//            trips.sort { $0.departureTime < $1.departureTime }
+            println("AllServices: ", Service.getAllServices().count)
+            println("Services: ", services.count)
+            for service in services {
+                print(service.id, "\t")
+                println(service.trips.values.array[0].id)
+            }
+
+            for service in services {
+                for (trip_id, trip) in service.trips {
+                    for dStation in departureStations {
+                        for aStation in arrivalStations {
+                            if let (from, to) = trip.findFrom(dStation, to: aStation) {
+                                // check if it's a valid stop
+                                if (!isNow || from.laterThanNow) {
+                                    results.append(Result(departure: from, arrival: to))
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            results.sort { $0.departureTime < $1.departureTime }
 
             resultsTableView.results = results
             resultsTableView.reloadData()

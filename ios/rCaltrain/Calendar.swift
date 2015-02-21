@@ -10,21 +10,30 @@ import Foundation
 
 class Calendar {
 
-    let monday, tuesday, wednesday, thursday, friday, saturday, sunday : Bool
+    class var currentCalendar : NSCalendar {
+        get { return NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)! }
+    }
+
+    private let weekdays : [Bool]
     let start_date, end_date : NSDate!
 
     init(item: NSArray) {
-        assert(item.count == 9, "Expected item has 7 elements")
+        assert(item.count == 9, "Expected item has 9 elements")
 
-        monday     = item[0] as Int == 1
-        tuesday    = item[1] as Int == 1
-        wednesday  = item[2] as Int == 1
-        thursday   = item[3] as Int == 1
-        friday     = item[4] as Int == 1
-        saturday   = item[5] as Int == 1
-        sunday     = item[6] as Int == 1
+        // Make sunday as the first day, since we use Gregorian calendar
+        var days = [item[6] as Int == 1]
+        for index in 0...5 {
+            days.append(item[index] as Int == 1)
+        }
+        weekdays = days
+
         start_date = NSDate.parseDate(asYYYYMMDDInt: item[7] as Int)
         end_date   = NSDate.parseDate(asYYYYMMDDInt: item[8] as Int)
+    }
+
+    // day is in 1...7
+    func isValid(weekday day : Int) -> Bool {
+        return self.weekdays[day - 1]
     }
 
 }

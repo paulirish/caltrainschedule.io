@@ -12,23 +12,33 @@ class Service {
 
     // Class variables/methods
     private struct ServiceStruct {
-        static var idToService = [String: Service]()
+        static var services = [Service]()
+        static var idToServices = [String: [Service]]()
     }
 
-    class func getService(byId id: String) -> Service? {
-        return ServiceStruct.idToService[id]
+    class func getAllServices() -> [Service] {
+        return ServiceStruct.services
     }
 
+    class func getServices(byId id: String) -> [Service]? {
+        return ServiceStruct.idToServices[id]
+    }
 
     // Instance variables/methods
     let id : String
     var trips = [String: Trip]()
     var calendar : Calendar!
-    var calendar_dates : CalendarDates!
+    var calendar_dates = [CalendarDates]()
 
     init (id: String) {
         self.id = id
-        ServiceStruct.idToService[id] = self
+        ServiceStruct.services.append(self)
+
+        if (ServiceStruct.idToServices[id] != nil) {
+            ServiceStruct.idToServices[id]!.append(self)
+        } else {
+            ServiceStruct.idToServices[id] = [self]
+        }
     }
 
     convenience init (id: String, tripsDict : NSDictionary) {
@@ -42,6 +52,31 @@ class Service {
     func addTrip(trip: Trip) -> Service {
         self.trips[trip.id] = trip
         return self
+    }
+
+    func isValid(atDate date: NSDate) -> Bool {
+        // (inCalendar && not inDates2) || inDates1
+
+        let weekday = Calendar.currentCalendar.components(.WeekdayCalendarUnit, fromDate: date).weekday
+        let inCalendar : Bool = (date.compare(calendar.start_date) == .OrderedDescending) && (date.compare(calendar.end_date) == .OrderedAscending) && calendar.isValid(weekday: weekday)
+
+        var exceptional_add = false
+        var exceptional_remove = false
+        for eDate in calendar_dates {
+            if (date.compare(eDate.exception_date) == NSComparisonResult.OrderedSame) {
+                if (eDate.toAdd) {
+                    exceptional_add = true
+                } else {
+                    exceptional_remove = true
+                }
+            }
+        }
+
+        return (inCalendar && !exceptional_remove) || exceptional_add
+    }
+
+    func isValidToday() -> Bool {
+        return isValid(atDate: NSDate())
     }
 
 }

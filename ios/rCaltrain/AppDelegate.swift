@@ -16,46 +16,44 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
         // load stops data
-        if let filePath = NSBundle.mainBundle().pathForResource("stops", ofType: "plist") {
-            if let stops = NSDictionary(contentsOfFile: filePath) {
-                for (name, idsArray) in stops as [String: NSArray] {
-                    for id in idsArray as [Int] {
-                        Station(name: name, id: id)
-                    }
-                }
+        // {stationName: [stationid]}
+        for (name, idsArray) in readPlistAsDict("stops") as [String: NSArray] {
+            for id in idsArray as [Int] {
+                Station(name: name, id: id)
             }
         }
 
         // load routes data
         // {routeID: {serviceId: {tripId: [[stationId, departTime/arrivalTime],...]}}}
-        if let filePath = NSBundle.mainBundle().pathForResource("routes", ofType: "plist") {
-            if let routes = NSDictionary(contentsOfFile: filePath) {
-                for (routeName, servicesDict) in routes as [String: NSDictionary] {
-                    Route(name: routeName, servicesDict: servicesDict)
-                }
-            }
+        for (routeName, servicesDict) in readPlistAsDict("routes") as [String: NSDictionary] {
+            Route(name: routeName, servicesDict: servicesDict)
         }
 
         // load calendar data
         // {serviceID: [monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date]}
-        if let filePath = NSBundle.mainBundle().pathForResource("calendar", ofType: "plist") {
-            if let calendar = NSDictionary(contentsOfFile: filePath) {
-                for (serviceId, item) in calendar as [String: NSArray] {
-                    Service.getService(byId: serviceId)!.calendar = Calendar(item: item)
+        for (serviceId, item) in readPlistAsDict("calendar") as [String: NSArray] {
+            if let services = Service.getServices(byId: serviceId) {
+                let calendar = Calendar(item: item)
+                for service in services {
+                    service.calendar = calendar
                 }
+            } else {
+                fatalError("Can't find service \(serviceId) when load calendar.plist.")
             }
         }
 
         // load calendar_dates data
         // {serviceID: [exception_date,type]}
-        if let filePath = NSBundle.mainBundle().pathForResource("calendar_dates", ofType: "plist") {
-            if let calendar_dates = NSDictionary(contentsOfFile: filePath) {
-                for (serviceId, items) in calendar_dates as [String: NSArray] {
-                    for item in items as [NSArray] {
-                        let c = CalendarDates(dateInt: item[0] as Int, toAdd: item[1] as Int == 1)
-                        Service.getService(byId: serviceId)!.calendar_dates = c
+        for (serviceId, items) in readPlistAsDict("calendar_dates") as [String: NSArray] {
+            if let services = Service.getServices(byId: serviceId) {
+                for item in items as [NSArray] {
+                    let dates = CalendarDates(dateInt: item[0] as Int, toAdd: item[1] as Int == 1)
+                    for service in services {
+                        service.calendar_dates.append(dates)
                     }
                 }
+            } else {
+                fatalError("Can't find service \(serviceId) when load calendar_dates.plist")
             }
         }
 
@@ -84,6 +82,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
+    private func readPlistAsDict(name: String) -> NSDictionary {
+        if let filePath = NSBundle.mainBundle().pathForResource(name, ofType: "plist") {
+            if let dict = NSDictionary(contentsOfFile: filePath) {
+                return dict
+            } else {
+                fatalError("Can't read plist file \(name)!")
+            }
+        } else {
+            fatalError("Can't find plist file \(name)!")
+        }
+    }
 
 }
 

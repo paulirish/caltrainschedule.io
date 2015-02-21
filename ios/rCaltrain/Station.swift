@@ -39,8 +39,8 @@ class Station {
         StationStruct.names.addObject(name)
         StationStruct.idToStation[id] = self
 
-        if var stations = StationStruct.nameToStations[name] {
-            stations.append(self)
+        if (StationStruct.nameToStations[name] != nil) {
+            StationStruct.nameToStations[name]!.append(self)
         } else {
             StationStruct.nameToStations[name] = [self]
         }
