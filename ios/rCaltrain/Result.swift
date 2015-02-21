@@ -22,7 +22,7 @@ class Result {
 
     private func dateToStr(date: NSDate) -> String {
         let interval = Int(date.timeIntervalSince1970)
-        let hours = String(interval / 3600).rjust(2, withStr: "0")
+        let hours = String(interval / 3600 % 24).rjust(2, withStr: "0")
         let minutes = String(interval / 60 % 60).rjust(2, withStr: "0")
         return "\(hours):\(minutes)"
     }
