@@ -160,13 +160,6 @@ class MainViewController: UIViewController {
             var results = [Result]()
             var services = Service.getAllServices().filter { s in return s.isValidToday() }
 
-            println("AllServices: ", Service.getAllServices().count)
-            println("Services: ", services.count)
-            for service in services {
-                print(service.id, "\t")
-                println(service.trips.values.array[0].id)
-            }
-
             for service in services {
                 for (trip_id, trip) in service.trips {
                     for dStation in departureStations {
