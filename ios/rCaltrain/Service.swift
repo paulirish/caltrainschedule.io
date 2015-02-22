@@ -54,16 +54,22 @@ class Service {
         return self
     }
 
-    func isValid(atDate date: NSDate) -> Bool {
-        // (inCalendar && not inDates2) || inDates1
+    func isValid(atWeekday day: Int) -> Bool {
+        let date = NSDate()
+        return (calendar.start_date <= date) && (date <= calendar.end_date) && calendar.isValid(weekday: day)
+    }
 
-        let weekday = Calendar.currentCalendar.components(.WeekdayCalendarUnit, fromDate: date).weekday
-        let inCalendar : Bool = (date.compare(calendar.start_date) == .OrderedDescending) && (date.compare(calendar.end_date) == .OrderedAscending) && calendar.isValid(weekday: weekday)
+    func isValidAtToday() -> Bool {
+        let date = NSDate()
+        let day = Calendar.currentCalendar.components(.CalendarUnitWeekday, fromDate: date).weekday
 
         var exceptional_add = false
         var exceptional_remove = false
+
+        // Only Today will consider holiday
+        // (inCalendar && not inDates2) || inDates1
         for eDate in calendar_dates {
-            if (date.compare(eDate.exception_date) == NSComparisonResult.OrderedSame) {
+            if (date.compare(eDate.exception_date) == .OrderedSame) {
                 if (eDate.toAdd) {
                     exceptional_add = true
                 } else {
@@ -72,11 +78,49 @@ class Service {
             }
         }
 
-        return (inCalendar && !exceptional_remove) || exceptional_add
+        return (isValid(atWeekday: day) && !exceptional_remove) || exceptional_add
     }
 
-    func isValidToday() -> Bool {
-        return isValid(atDate: NSDate())
+    func isValidAtWeekday() -> Bool {
+        if (!(/"Weekday"/"i" =~ self.id)) {
+            return false
+        }
+        // weekday is from 2 to 6, sunday is the first day
+        for day in 2...6 {
+            if (!isValid(atWeekday: day)) {
+                return false
+            }
+        }
+        return true
+    }
+
+    func isValidAtSaturday() -> Bool {
+        if (!(/"Saturday"/"i" =~ self.id)) {
+            return false
+        }
+        return isValid(atWeekday: 7)
+    }
+
+    func isValidAtSunday() -> Bool {
+        if (!(/"Sunday"/"i" =~ self.id)) {
+            return false
+        }
+        return isValid(atWeekday: 1)
+    }
+
+    func isValidAt(withCategory: String) -> Bool {
+        switch withCategory {
+        case "Now":
+            return isValidAtToday()
+        case "Weekday":
+            return isValidAtWeekday()
+        case "Saturday":
+            return isValidAtSaturday()
+        case "Sunday":
+            return isValidAtSunday()
+        default:
+            return false
+        }
     }
 
 }

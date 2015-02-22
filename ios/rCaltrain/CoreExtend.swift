@@ -79,8 +79,14 @@ extension String {
 func < (left: NSDate, right: NSDate) -> Bool {
     return left.timeIntervalSinceDate(right) < 0
 }
+func <= (left: NSDate, right: NSDate) -> Bool {
+    return left.timeIntervalSinceDate(right) <= 0
+}
 func > (left: NSDate, right: NSDate) -> Bool {
     return left.timeIntervalSinceDate(right) > 0
+}
+func >= (left: NSDate, right: NSDate) -> Bool {
+    return left.timeIntervalSinceDate(right) >= 0
 }
 func == (left: NSDate, right: NSDate) -> Bool {
     return left.timeIntervalSinceDate(right) == 0

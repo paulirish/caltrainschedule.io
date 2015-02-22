@@ -15,10 +15,16 @@ import UIKit
 //com.month = 12
 //com.day = 2
 //calendar.dateFromComponents(com)
+//
+//var hash = [String : [Int]]()
+//hash["1"] = [1]
+//var arr = hash["1"]!
+//arr.append(2)
+//arr
+//hash["1"]
 
-var hash = [String : [Int]]()
-hash["1"] = [1]
-var arr = hash["1"]!
-arr.append(2)
-arr
-hash["1"]
+var components = NSCalendar.currentCalendar().components(.CalendarUnitYear | .CalendarUnitWeekOfYear | .CalendarUnitWeekday, fromDate: NSDate())
+components.weekday = 1
+var date = NSCalendar.currentCalendar().dateFromComponents(components)!
+
+println((2...6))

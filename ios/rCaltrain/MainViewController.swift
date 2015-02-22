@@ -92,11 +92,10 @@ class MainViewController: UIViewController {
 
     // Get inputs value. If some input is missing, return nil
     // Return: ([departure_stations], [arrival_stations], category, isNow)?
-    func getInputs() -> ([Station], [Station], String, Bool)? {
+    func getInputs() -> ([Station], [Station], String)? {
         var departureStations: [Station]
         var arrivalStations: [Station]
         var category: String
-        var isNow: Bool = false
 
         // get departure stations
         if let dName = departureButton.currentTitle {
@@ -129,36 +128,18 @@ class MainViewController: UIViewController {
             fatalError("whenButton's title is missing!")
         }
 
-        // if it is now
-        if (category == "Now") {
-            isNow = true
-
-            if let weekDay = NSDateFormatter.weekDayOf(NSDate()) {
-                switch (weekDay) {
-                case 1:
-                    category = "Sunday"
-                case 2...6:
-                    category = "Weekday"
-                case 7:
-                    category = "Saturday"
-                default:
-                    fatalError("Invalid weekDay: \(weekDay)")
-                }
-            } else {
-                fatalError("Unexpected: no weekDay for today(\(NSDate()))?")
-            }
-        }
-
         savePreference(departureButton.currentTitle!, to: arrivalButton.currentTitle!, when: whenButton.selectedSegmentIndex)
 
-        return (departureStations, arrivalStations, category, isNow)
+        return (departureStations, arrivalStations, category)
     }
 
     func updateResults() {
         // if inputs are ready update, otherwise ignore it
-        if let (departureStations, arrivalStations, category, isNow) = getInputs() {
+        if let (departureStations, arrivalStations, category) = getInputs() {
             var results = [Result]()
-            var services = Service.getAllServices().filter { s in return s.isValidToday() }
+            var services = Service.getAllServices().filter { s in
+                return s.isValidAt(category)
+            }
 
             for service in services {
                 for (trip_id, trip) in service.trips {
@@ -166,7 +147,7 @@ class MainViewController: UIViewController {
                         for aStation in arrivalStations {
                             if let (from, to) = trip.findFrom(dStation, to: aStation) {
                                 // check if it's a valid stop
-                                if (!isNow || from.laterThanNow) {
+                                if (category != "Now" || from.laterThanNow) {
                                     results.append(Result(departure: from, arrival: to))
                                 }
                             }
