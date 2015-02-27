@@ -20,7 +20,9 @@ class Trip {
     convenience init(id: String, stopsArray: NSArray) {
         self.init(id: id)
 
-        for data in stopsArray as [NSArray] {
+        // FIXME: can't use `for data in stopsArray as [NSArray]`
+        // which will crash when compile as release version
+        for data in stopsArray {
             assert(data.count == 2, "data length is \(data.count), expected 2!")
 
             let stationId = data[0] as Int;
