@@ -50,15 +50,7 @@ func =~ (regex: NSRegularExpression?, str: String) -> Bool {
 extension String {
     var length: Int {
         get {
-            return countElements(self)
-        }
-    }
-
-    func splits<R : BooleanType>(isSeparator: (Character) -> R, maxSplit: Int = -1, allowEmptySlices: Bool = true) -> [String.SubSlice] {
-        if (maxSplit < 0) {
-            return split(self, isSeparator, allowEmptySlices: allowEmptySlices)
-        } else {
-            return split(self, isSeparator, maxSplit: maxSplit, allowEmptySlices: allowEmptySlices)
+            return count(self)
         }
     }
 

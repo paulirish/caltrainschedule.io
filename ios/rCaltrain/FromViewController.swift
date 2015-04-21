@@ -20,14 +20,21 @@ class FromViewController: StationViewController {
             case "selectFromLocation":
                 let destViewController = segue.destinationViewController as! MainViewController
                 var name: String
+                var table: [String]
 
-                if let row = self.searchDisplayController!.searchResultsTableView.indexPathForSelectedRow()?.row {
-                    name = filteredNames[row]
-                } else if let row = self.tableView.indexPathForSelectedRow()?.row {
-                    name = stationNames[row]
+                if (self.resultSearchController.active) {
+                    table = filteredNames
+                } else {
+                    table = stationNames
+                }
+
+                if let row = self.tableView.indexPathForSelectedRow()?.row {
+                    name = table[row]
                 } else {
                     fatalError("unexpected: no row is selected in FromTableView")
                 }
+
+                self.resultSearchController.active = false
 
                 destViewController.departureButton.setTitle(name, forState: .Normal)
             default:

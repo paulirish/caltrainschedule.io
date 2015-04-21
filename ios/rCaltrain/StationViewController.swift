@@ -8,30 +8,21 @@
 
 import UIKit
 
-class StationViewController: UITableViewController, UISearchBarDelegate, UISearchDisplayDelegate {
+class StationViewController: UITableViewController, UISearchResultsUpdating {
 
     var stationNames = [String]()
     var filteredNames = [String]()
 
     // search functionality
     @IBOutlet var searchBar: UISearchBar!
-
-    func searchDisplayController(controller: UISearchDisplayController!, shouldReloadTableForSearchString searchString: String!) -> Bool {
-        self.filterStations(searchString)
-        return true
-    }
-
-    func searchDisplayController(controller: UISearchDisplayController!, shouldReloadTableForSearchScope searchOption: Int) -> Bool {
-        self.filterStations(self.searchDisplayController!.searchBar.text)
-        return true
-    }
+    var resultSearchController = UISearchController()
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if tableView == self.searchDisplayController!.searchResultsTableView {
+        if self.resultSearchController.active {
             return filteredNames.count
         } else {
             return stationNames.count
@@ -43,14 +34,14 @@ class StationViewController: UITableViewController, UISearchBarDelegate, UISearc
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if let cell = self.tableView.dequeueReusableCellWithIdentifier(self.reusableCellName()) as! UITableViewCell? {
+        if let cell = tableView.dequeueReusableCellWithIdentifier(self.reusableCellName(), forIndexPath: indexPath) as? UITableViewCell {
             var stations: [String]
-            if tableView == self.searchDisplayController!.searchResultsTableView {
+            if self.resultSearchController.active {
                 stations = filteredNames
             } else {
                 stations = stationNames
             }
-            cell.textLabel!.text = stations[indexPath.row]
+            cell.textLabel?.text = stations[indexPath.row]
 
             return cell
         } else {
@@ -58,9 +49,28 @@ class StationViewController: UITableViewController, UISearchBarDelegate, UISearc
         }
     }
 
+    func updateSearchResultsForSearchController(searchController: UISearchController) {
+        filterStations(searchController.searchBar.text)
+        self.tableView.reloadData()
+    }
+
     override func viewDidLoad() {
+        super.viewDidLoad()
+
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         stationNames = Station.getNames()
+
+        self.resultSearchController = ({
+            let controller = UISearchController(searchResultsController: nil)
+            controller.searchResultsUpdater = self
+            controller.hidesNavigationBarDuringPresentation = true
+            controller.dimsBackgroundDuringPresentation = false
+            controller.searchBar.sizeToFit()
+
+            self.tableView.tableHeaderView = controller.searchBar
+
+            return controller
+        })()
     }
 
     // private helper
