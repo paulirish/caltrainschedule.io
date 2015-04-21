@@ -17,6 +17,8 @@ class StationViewController: UITableViewController, UISearchResultsUpdating {
     @IBOutlet var searchBar: UISearchBar!
     var resultSearchController = UISearchController()
 
+
+    // Table View
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
@@ -49,10 +51,50 @@ class StationViewController: UITableViewController, UISearchResultsUpdating {
         }
     }
 
+
+    // Search View
     func updateSearchResultsForSearchController(searchController: UISearchController) {
         filterStations(searchController.searchBar.text)
         self.tableView.reloadData()
     }
+
+    func selectionIdentifier() -> String {
+        fatalError("selectionIdentifier should be specified by subclass!")
+    }
+
+    func selectionCallback(controller: MainViewController, selectionText: String) {
+    }
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if let id = segue.identifier {
+            switch (id) {
+            case selectionIdentifier():
+                let destViewController = segue.destinationViewController as! MainViewController
+                var name: String
+                var table: [String]
+
+                if (self.resultSearchController.active) {
+                    table = filteredNames
+                } else {
+                    table = stationNames
+                }
+
+                if let row = self.tableView.indexPathForSelectedRow()?.row {
+                    name = table[row]
+                } else {
+                    fatalError("unexpected: no row is selected in \(selectionIdentifier())")
+                }
+
+                self.resultSearchController.active = false
+
+                selectionCallback(destViewController, selectionText: name)
+            default:
+                println(segue.identifier)
+                return
+            }
+        }
+    }
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
