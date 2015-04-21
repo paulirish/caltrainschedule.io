@@ -44,7 +44,7 @@ class Service {
     convenience init (id: String, tripsDict : NSDictionary) {
         self.init(id: id)
         
-        for (tripId, stopsArray) in tripsDict as [String: NSArray] {
+        for (tripId, stopsArray) in tripsDict as! [String: NSArray] {
             self.addTrip(Trip(id: tripId, stopsArray: stopsArray))
         }
     }

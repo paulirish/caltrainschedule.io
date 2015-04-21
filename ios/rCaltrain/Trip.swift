@@ -25,8 +25,8 @@ class Trip {
         for data in stopsArray {
             assert(data.count == 2, "data length is \(data.count), expected 2!")
 
-            let stationId = data[0] as Int;
-            let time = NSDate(timeIntervalSince1970: NSTimeInterval(data[1] as Int))
+            let stationId = data[0] as! Int;
+            let time = NSDate(timeIntervalSince1970: NSTimeInterval(data[1] as! Int))
             
             if let station = Station.getStation(byId: stationId) {
                 self.stops.append(Stop(station: station, departureTime: time, arrivalTime: time))

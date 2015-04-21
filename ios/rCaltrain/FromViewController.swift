@@ -18,7 +18,7 @@ class FromViewController: StationViewController {
         if let id = segue.identifier {
             switch (id) {
             case "selectFromLocation":
-                let destViewController = segue.destinationViewController as MainViewController
+                let destViewController = segue.destinationViewController as! MainViewController
                 var name: String
 
                 if let row = self.searchDisplayController!.searchResultsTableView.indexPathForSelectedRow()?.row {

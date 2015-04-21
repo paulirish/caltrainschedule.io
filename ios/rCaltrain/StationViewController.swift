@@ -43,7 +43,7 @@ class StationViewController: UITableViewController, UISearchBarDelegate, UISearc
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if let cell = self.tableView.dequeueReusableCellWithIdentifier(self.reusableCellName()) as UITableViewCell? {
+        if let cell = self.tableView.dequeueReusableCellWithIdentifier(self.reusableCellName()) as! UITableViewCell? {
             var stations: [String]
             if tableView == self.searchDisplayController!.searchResultsTableView {
                 stations = filteredNames
@@ -59,7 +59,7 @@ class StationViewController: UITableViewController, UISearchBarDelegate, UISearc
     }
 
     override func viewDidLoad() {
-        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         stationNames = Station.getNames()
     }
 

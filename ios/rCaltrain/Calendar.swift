@@ -21,14 +21,14 @@ class Calendar {
         assert(item.count == 9, "Expected item has 9 elements")
 
         // Make sunday as the first day, since we use Gregorian calendar
-        var days = [item[6] as Int == 1]
+        var days = [item[6] as! Int == 1]
         for index in 0...5 {
-            days.append(item[index] as Int == 1)
+            days.append(item[index] as! Int == 1)
         }
         weekdays = days
 
-        start_date = NSDate.parseDate(asYYYYMMDDInt: item[7] as Int)
-        end_date   = NSDate.parseDate(asYYYYMMDDInt: item[8] as Int)
+        start_date = NSDate.parseDate(asYYYYMMDDInt: item[7] as! Int)
+        end_date   = NSDate.parseDate(asYYYYMMDDInt: item[8] as! Int)
     }
 
     // day is in 1...7

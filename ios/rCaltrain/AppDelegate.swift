@@ -17,21 +17,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // load stops data
         // {stationName: [stationid]}
-        for (name, idsArray) in readPlistAsDict("stops") as [String: NSArray] {
-            for id in idsArray as [Int] {
+        for (name, idsArray) in readPlistAsDict("stops") as! [String: NSArray] {
+            for id in idsArray as! [Int] {
                 Station(name: name, id: id)
             }
         }
 
         // load routes data
         // {routeID: {serviceId: {tripId: [[stationId, departTime/arrivalTime],...]}}}
-        for (routeName, servicesDict) in readPlistAsDict("routes") as [String: NSDictionary] {
+        for (routeName, servicesDict) in readPlistAsDict("routes") as! [String: NSDictionary] {
             Route(name: routeName, servicesDict: servicesDict)
         }
 
         // load calendar data
         // {serviceID: [monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date]}
-        for (serviceId, item) in readPlistAsDict("calendar") as [String: NSArray] {
+        for (serviceId, item) in readPlistAsDict("calendar") as! [String: NSArray] {
             if let services = Service.getServices(byId: serviceId) {
                 let calendar = Calendar(item: item)
                 for service in services {
@@ -44,10 +44,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // load calendar_dates data
         // {serviceID: [exception_date,type]}
-        for (serviceId, items) in readPlistAsDict("calendar_dates") as [String: NSArray] {
+        for (serviceId, items) in readPlistAsDict("calendar_dates") as! [String: NSArray] {
             if let services = Service.getServices(byId: serviceId) {
-                for item in items as [NSArray] {
-                    let dates = CalendarDates(dateInt: item[0] as Int, toAdd: item[1] as Int == 1)
+                for item in items as! [NSArray] {
+                    let dates = CalendarDates(dateInt: item[0] as! Int, toAdd: item[1] as! Int == 1)
                     for service in services {
                         service.calendar_dates.append(dates)
                     }

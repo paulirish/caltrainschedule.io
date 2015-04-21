@@ -36,7 +36,7 @@ class WhenViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let possibleCell = tableView.dequeueReusableCellWithIdentifier(self.reusableCellName()) as UITableViewCell?
+        let possibleCell = tableView.dequeueReusableCellWithIdentifier(self.reusableCellName()) as! UITableViewCell?
         assert(possibleCell != nil, "reusableCell is missing!")
 
         let cell = possibleCell!

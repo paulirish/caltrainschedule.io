@@ -29,7 +29,7 @@ class Route {
     convenience init (name : String, servicesDict : NSDictionary ) {
         self.init(name: name)
 
-        for (serviceId, tripsDict) in servicesDict as [String: NSDictionary] {
+        for (serviceId, tripsDict) in servicesDict as! [String: NSDictionary] {
             self.addService(Service(id: serviceId, tripsDict: tripsDict))
         }
     }
