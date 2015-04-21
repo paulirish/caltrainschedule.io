@@ -1,5 +1,4 @@
 service_id,monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date
-CT-14OCT-Caltrain-Sunday-02,0,0,0,0,0,0,1,20150118,20240929
-CT-14OCT-Combo-Weekday-01,1,1,1,1,1,0,0,20150119,20241004
-CT-14OCT-Caltrain-Saturday-02,0,0,0,0,0,1,0,20150124,20241005
-CT-14OCT-Pres-Weekday-02,1,1,1,1,1,0,0,20150216,20150216
+CT-14OCT-Caltrain-Sunday-02,0,0,0,0,0,0,1,20150419,20240929
+CT-14OCT-Combo-Weekday-01,1,1,1,1,1,0,0,20150420,20241004
+CT-14OCT-Caltrain-Saturday-02,0,0,0,0,0,1,0,20150425,20241005
