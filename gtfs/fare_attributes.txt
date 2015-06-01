@@ -5,3 +5,4 @@ fare_id,price,currency_type,payment_method,transfers,transfer_duration
 "OW_4_20141005",9.25,"USD",1,0,0
 "OW_5_20141005",11.25,"USD",1,0,0
 "OW_6_20141005",13.25,"USD",1,0,0
+"Free",0,"USD",1,0,0
