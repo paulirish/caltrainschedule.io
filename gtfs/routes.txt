@@ -3,3 +3,4 @@ Bu-121,,"Bullet",,2,,E31837
 Li-121,,"Limited",,2,,FEF0B5
 Lo-121,,"Local",,2,,
 TaSj-121,,"Tamien / San Jose Diridon Caltrain Shuttle",,3,,
+SX-134,SX,"Caltrain Bus Bridge",,3,,
