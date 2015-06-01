@@ -182,6 +182,7 @@ task :prepare_data do
 
     # { route_long_name => { service_id => ... } }
     routes = routes
+      .select { |route| route.route_type == 2 } # 2 for Rail, 3 for bus
       .group_by(&:route_long_name)
       .map { |name, routes_values|
         routes_values
