@@ -5,34 +5,14 @@
 	<key>CT-14OCT-Caltrain-Saturday-02</key>
 	<array>
 		<array>
-			<integer>20150606</integer>
-			<integer>2</integer>
-		</array>
-		<array>
 			<integer>20150704</integer>
 			<integer>2</integer>
-		</array>
-		<array>
-			<integer>20151127</integer>
-			<integer>1</integer>
 		</array>
 	</array>
 	<key>CT-14OCT-Caltrain-Sunday-02</key>
 	<array>
 		<array>
-			<integer>20150607</integer>
-			<integer>2</integer>
-		</array>
-		<array>
-			<integer>20150525</integer>
-			<integer>1</integer>
-		</array>
-		<array>
 			<integer>20150704</integer>
-			<integer>1</integer>
-		</array>
-		<array>
-			<integer>20150907</integer>
 			<integer>1</integer>
 		</array>
 		<array>
@@ -51,19 +31,7 @@
 	<key>CT-14OCT-Combo-Weekday-01</key>
 	<array>
 		<array>
-			<integer>20150525</integer>
-			<integer>2</integer>
-		</array>
-		<array>
-			<integer>20150907</integer>
-			<integer>2</integer>
-		</array>
-		<array>
 			<integer>20151126</integer>
-			<integer>2</integer>
-		</array>
-		<array>
-			<integer>20151127</integer>
 			<integer>2</integer>
 		</array>
 		<array>

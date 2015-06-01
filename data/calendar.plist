@@ -11,20 +11,8 @@
 		<integer>0</integer>
 		<integer>1</integer>
 		<integer>0</integer>
-		<integer>20150502</integer>
+		<integer>20150425</integer>
 		<integer>20241005</integer>
-	</array>
-	<key>CT-14OCT-Caltrain-Saturday-04</key>
-	<array>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>1</integer>
-		<integer>0</integer>
-		<integer>20150606</integer>
-		<integer>20150606</integer>
 	</array>
 	<key>CT-14OCT-Caltrain-Sunday-02</key>
 	<array>
@@ -35,20 +23,8 @@
 		<integer>0</integer>
 		<integer>0</integer>
 		<integer>1</integer>
-		<integer>20150426</integer>
+		<integer>20150419</integer>
 		<integer>20240929</integer>
-	</array>
-	<key>CT-14OCT-Caltrain-Sunday-04</key>
-	<array>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>1</integer>
-		<integer>20150607</integer>
-		<integer>20150607</integer>
 	</array>
 	<key>CT-14OCT-Combo-Weekday-01</key>
 	<array>
@@ -59,32 +35,8 @@
 		<integer>1</integer>
 		<integer>0</integer>
 		<integer>0</integer>
-		<integer>20150427</integer>
+		<integer>20150420</integer>
 		<integer>20241004</integer>
-	</array>
-	<key>ME01-Calshut-Saturday-50</key>
-	<array>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>1</integer>
-		<integer>0</integer>
-		<integer>20150606</integer>
-		<integer>20150606</integer>
-	</array>
-	<key>ME01-Calshut-Sunday-50</key>
-	<array>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>1</integer>
-		<integer>20150607</integer>
-		<integer>20150607</integer>
 	</array>
 </dict>
 </plist>
