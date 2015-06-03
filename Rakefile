@@ -56,21 +56,38 @@ task :prepare_data do
     end
   end
 
+  def read_CSV(name)
+    CSV.read("gtfs/#{name}.txt", headers: true, header_converters: :symbol, converters: :all)
+  end
+
   # Read from CSV, prepare it with `block`, write what returns to JSON and PLIST files
   # If multiply names, expected to return a hash as NAME => CONTENT
   def prepare_for(*names, &block)
     raise "block is needed for prepare_for!" unless block_given?
     raise "filename is needed!" if names.size < 1
 
-    csvs = names.map { |name|
-      CSV.read("gtfs/#{name}.txt", headers: true, header_converters: :symbol, converters: :all)
-    }
+    csvs = names.map { |name| read_CSV(name) }
     hashes = yield(*csvs)
     hashes = { names[0] => hashes } if names.size == 1 # if only one name, make result as a hash
     hashes.each { |name, hash|
       File.write("data/#{name}.json", hash.to_json)
       File.write("data/#{name}.plist", Plist::Emit.dump(hash))
     }
+  end
+
+
+  # Find only valid services by route type defined in routes
+  valid_service_ids = []
+  prepare_for("routes", "trips") do |routes, trips|
+    valid_route_ids = routes
+      .select { |route| route.route_type == 2 } # 2 for Rail, 3 for bus
+      .map(&:route_id)
+
+    valid_service_ids = trips
+      .select { |trip| valid_route_ids.include? trip.route_id }
+      .map(&:service_id)
+
+    {}
   end
 
   # From:
@@ -89,6 +106,7 @@ task :prepare_data do
   #     CT-14OCT-XXX => [[20150704,1]]
   prepare_for("calendar", "calendar_dates") do |calendar, calendar_dates|
     calendar = calendar
+      .select { |service| valid_service_ids.include? service.service_id}
       .group_by(&:service_id)
       .map { |service_id, items|
         items.map { |item|

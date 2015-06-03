@@ -62,29 +62,5 @@
 		<integer>20150427</integer>
 		<integer>20241004</integer>
 	</array>
-	<key>ME01-Calshut-Saturday-50</key>
-	<array>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>1</integer>
-		<integer>0</integer>
-		<integer>20150606</integer>
-		<integer>20150606</integer>
-	</array>
-	<key>ME01-Calshut-Sunday-50</key>
-	<array>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>1</integer>
-		<integer>20150607</integer>
-		<integer>20150607</integer>
-	</array>
 </dict>
 </plist>
