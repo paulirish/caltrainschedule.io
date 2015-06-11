@@ -36,25 +36,22 @@ class StationViewController: UITableViewController, UISearchResultsUpdating {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if let cell = tableView.dequeueReusableCellWithIdentifier(self.reusableCellName(), forIndexPath: indexPath) as? UITableViewCell {
-            var stations: [String]
-            if self.resultSearchController.active {
-                stations = filteredNames
-            } else {
-                stations = stationNames
-            }
-            cell.textLabel?.text = stations[indexPath.row]
-
-            return cell
+        let cell = tableView.dequeueReusableCellWithIdentifier(self.reusableCellName(), forIndexPath: indexPath) as UITableViewCell
+        var stations: [String]
+        if self.resultSearchController.active {
+            stations = filteredNames
         } else {
-            fatalError("reusableCell: (\(self.reusableCellName())) is missing!")
+            stations = stationNames
         }
+        cell.textLabel?.text = stations[indexPath.row]
+
+        return cell
     }
 
 
     // Search View
     func updateSearchResultsForSearchController(searchController: UISearchController) {
-        filterStations(searchController.searchBar.text)
+        filterStations(searchController.searchBar.text!)
         self.tableView.reloadData()
     }
 
@@ -79,7 +76,7 @@ class StationViewController: UITableViewController, UISearchResultsUpdating {
                     table = stationNames
                 }
 
-                if let row = self.tableView.indexPathForSelectedRow()?.row {
+                if let row = self.tableView.indexPathForSelectedRow?.row {
                     name = table[row]
                 } else {
                     fatalError("unexpected: no row is selected in \(selectionIdentifier())")
@@ -89,7 +86,7 @@ class StationViewController: UITableViewController, UISearchResultsUpdating {
 
                 selectionCallback(destViewController, selectionText: name)
             default:
-                println(segue.identifier)
+                print(segue.identifier)
                 return
             }
         }
@@ -99,7 +96,6 @@ class StationViewController: UITableViewController, UISearchResultsUpdating {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         stationNames = Station.getNames()
 
         self.resultSearchController = ({

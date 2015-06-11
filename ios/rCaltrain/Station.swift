@@ -18,7 +18,7 @@ class Station {
     }
 
     class func getNames() -> [String] {
-        return (StationStruct.names.array as! [String]).sorted(<)
+        return (StationStruct.names.array as! [String]).sort(<)
     }
     class func getStation(byId id: Int) -> Station? {
         return StationStruct.idToStation[id]

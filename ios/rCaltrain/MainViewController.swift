@@ -20,7 +20,7 @@ class MainViewController: UIViewController {
     @IBOutlet var resultsTableView: ResultTableView!
 
     @IBAction func unwindFromModalViewController(segue: UIStoryboardSegue) {
-        if let id = segue.identifier {
+        if let _ = segue.identifier {
             updateResults()
         } else {
             fatalError("Unexpected segue without identifier!")
@@ -137,12 +137,12 @@ class MainViewController: UIViewController {
         // if inputs are ready update, otherwise ignore it
         if let (departureStations, arrivalStations, category) = getInputs() {
             var results = [Result]()
-            var services = Service.getAllServices().filter { s in
+            let services = Service.getAllServices().filter { s in
                 return s.isValidAt(category)
             }
 
             for service in services {
-                for (trip_id, trip) in service.trips {
+                for (_, trip) in service.trips {
                     for dStation in departureStations {
                         for aStation in arrivalStations {
                             if let (from, to) = trip.findFrom(dStation, to: aStation) {
@@ -156,7 +156,7 @@ class MainViewController: UIViewController {
                 }
             }
 
-            results.sort { $0.departureTime < $1.departureTime }
+            results.sortInPlace { $0.departureTime < $1.departureTime }
 
             resultsTableView.results = results
             resultsTableView.reloadData()

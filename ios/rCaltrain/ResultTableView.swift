@@ -24,4 +24,5 @@ class ResultTableView:UITableView, UITableViewDataSource {
             fatalError("No resultCell in ResultTableView!")
         }
     }
+
 }

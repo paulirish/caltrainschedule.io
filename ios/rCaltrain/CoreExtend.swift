@@ -11,12 +11,12 @@ import Foundation
 // Regexp
 prefix operator / { }
 prefix func /(pattern:String) -> NSRegularExpression {
-    return NSRegularExpression(pattern: pattern, options: nil, error: nil)!
+    return try! NSRegularExpression(pattern: pattern, options: [])
 }
 infix operator / {}
 func / (regexp: NSRegularExpression, optionStr: String) -> NSRegularExpression {
     var options: UInt = 0
-    for char in Array(optionStr) {
+    for char in Array(optionStr.characters) {
         switch char {
         case "g":
             options += NSRegularExpressionOptions.AnchorsMatchLines.rawValue
@@ -33,14 +33,14 @@ func / (regexp: NSRegularExpression, optionStr: String) -> NSRegularExpression {
         case "U":
             options += NSRegularExpressionOptions.UseUnicodeWordBoundaries.rawValue
         default:
-            println("Unknown regexp options: \(char)")
+            print("Unknown regexp options: \(char)")
         }
     }
-    return NSRegularExpression(pattern: regexp.pattern, options: NSRegularExpressionOptions(options), error: nil)!
+    return try! NSRegularExpression(pattern: regexp.pattern, options: NSRegularExpressionOptions(rawValue: options))
 }
 infix operator =~ { }
 func =~ (string: String, regex: NSRegularExpression!) -> Bool {
-    let matches = regex.numberOfMatchesInString(string, options: nil, range: NSMakeRange(0, string.length))
+    let matches = regex.numberOfMatchesInString(string, options: [], range: NSMakeRange(0, string.length))
     return matches > 0
 }
 func =~ (regex: NSRegularExpression?, str: String) -> Bool {
@@ -50,11 +50,11 @@ func =~ (regex: NSRegularExpression?, str: String) -> Bool {
 extension String {
     var length: Int {
         get {
-            return count(self)
+            return self.characters.count
         }
     }
 
-    func repeat(times: Int) -> String {
+    func `repeat`(times: Int) -> String {
         var str = ""
         for (var i = 0; i < times; i++) {
             str += self
@@ -63,7 +63,7 @@ extension String {
     }
 
     func rjust(length: Int, withStr: String = " ") -> String {
-        return withStr.repeat(length - self.length) + self
+        return withStr.`repeat`(length - self.length) + self
     }
 }
 
@@ -92,7 +92,7 @@ extension NSDate {
     }
     class var nowTime: NSDate {
         let calendar = NSDate.currentCalendar
-        let components = calendar.components(.CalendarUnitHour | .CalendarUnitMinute | .CalendarUnitSecond, fromDate:  NSDate())
+        let components = calendar.components([.Hour, .Minute, .Second], fromDate:  NSDate())
         let seconds = components.hour * 60 * 60 + components.minute * 60 + components.second
         return NSDate(secondsSinceMidnight: seconds)
     }
@@ -103,8 +103,8 @@ extension NSDate {
 
     // date format is "yyyymmdd"
     class func parseDate(asYYYYMMDDInt dateInt: Int) -> NSDate {
-        var calendar = NSCalendar.currentCalendar()
-        var com = NSDateComponents()
+        let calendar = NSCalendar.currentCalendar()
+        let com = NSDateComponents()
         com.year = dateInt / 10000
         com.month = (dateInt / 100) % 100
         com.day = dateInt % 100
@@ -125,6 +125,6 @@ extension NSDateFormatter {
     }
 
     class func weekDayOf(Date: NSDate) -> Int? {
-        return NSDateFormatter(dateFormat: "e").stringFromDate(Date).toInt()
+        return Int(NSDateFormatter(dateFormat: "e").stringFromDate(Date))
     }
 }

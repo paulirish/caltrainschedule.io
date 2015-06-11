@@ -36,7 +36,7 @@ class WhenViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let possibleCell = tableView.dequeueReusableCellWithIdentifier(self.reusableCellName()) as! UITableViewCell?
+        let possibleCell = tableView.dequeueReusableCellWithIdentifier(self.reusableCellName()) as UITableViewCell?
         assert(possibleCell != nil, "reusableCell is missing!")
 
         let cell = possibleCell!
@@ -51,10 +51,10 @@ class WhenViewController: UITableViewController {
         if let id = segue.identifier {
             switch (id) {
             case "selectWhenService":
-                if let row = self.tableView.indexPathForSelectedRow()?.row {
+                if let _ = self.tableView.indexPathForSelectedRow?.row {
 //                    let name: String = self.services[row].rawValue
 //                    let destViewController = segue.destinationViewController as MainViewController
-                    println("change whenButton")
+                    print("change whenButton")
                 } else {
                     fatalError("unexpected: no row is selected")
                 }

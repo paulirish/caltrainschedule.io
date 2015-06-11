@@ -61,7 +61,7 @@ class Service {
 
     func isValidAtToday() -> Bool {
         let date = NSDate()
-        let day = Calendar.currentCalendar.components(.CalendarUnitWeekday, fromDate: date).weekday
+        let day = Calendar.currentCalendar.components(.Weekday, fromDate: date).weekday
 
         var exceptional_add = false
         var exceptional_remove = false

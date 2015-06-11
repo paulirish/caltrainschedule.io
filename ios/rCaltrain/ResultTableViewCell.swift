@@ -20,4 +20,5 @@ class ResultTableViewCell: UITableViewCell {
         durationLabel.text = "\(result.durationInMin)min"
     }
 
+    
 }
