@@ -1,6 +1,6 @@
-route_id,route_short_name,route_long_name,route_desc,route_type,route_url,route_color
-Bu-121,,"Bullet",,2,,E31837
-Li-121,,"Limited",,2,,FEF0B5
-Lo-121,,"Local",,2,,
-TaSj-121,,"Tamien / San Jose Diridon Caltrain Shuttle",,3,,
-SX-134,SX,"Caltrain Bus Bridge",,3,,
+route_long_name,route_type,route_text_color,route_color,agency_id,route_id,route_url,route_short_name
+SHUTTLE,3,,,CT,SHUTTLE,,
+LIMITED,2,,,CT,LIMITED,,
+,3,,,CT,SX,,SX
+,2,,,CT,LOCAL,,LOCAL
+BABY BULLET,2,,,CT,BABY BULLET,,
