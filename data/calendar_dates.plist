@@ -2,77 +2,18 @@
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CT-14OCT-Caltrain-Saturday-02</key>
+	<key>4929_merged_8997337</key>
 	<array>
 		<array>
-			<integer>20150606</integer>
+			<integer>20160530</integer>
 			<integer>2</integer>
-		</array>
-		<array>
-			<integer>20150704</integer>
-			<integer>2</integer>
-		</array>
-		<array>
-			<integer>20151127</integer>
-			<integer>1</integer>
 		</array>
 	</array>
-	<key>CT-14OCT-Caltrain-Sunday-02</key>
+	<key>4951_merged_8997338</key>
 	<array>
 		<array>
-			<integer>20150607</integer>
-			<integer>2</integer>
-		</array>
-		<array>
-			<integer>20150525</integer>
+			<integer>20160530</integer>
 			<integer>1</integer>
-		</array>
-		<array>
-			<integer>20150704</integer>
-			<integer>1</integer>
-		</array>
-		<array>
-			<integer>20150907</integer>
-			<integer>1</integer>
-		</array>
-		<array>
-			<integer>20151126</integer>
-			<integer>1</integer>
-		</array>
-		<array>
-			<integer>20151225</integer>
-			<integer>1</integer>
-		</array>
-		<array>
-			<integer>20160101</integer>
-			<integer>1</integer>
-		</array>
-	</array>
-	<key>CT-14OCT-Combo-Weekday-01</key>
-	<array>
-		<array>
-			<integer>20150525</integer>
-			<integer>2</integer>
-		</array>
-		<array>
-			<integer>20150907</integer>
-			<integer>2</integer>
-		</array>
-		<array>
-			<integer>20151126</integer>
-			<integer>2</integer>
-		</array>
-		<array>
-			<integer>20151127</integer>
-			<integer>2</integer>
-		</array>
-		<array>
-			<integer>20151225</integer>
-			<integer>2</integer>
-		</array>
-		<array>
-			<integer>20160101</integer>
-			<integer>2</integer>
 		</array>
 	</array>
 </dict>

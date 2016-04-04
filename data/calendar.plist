@@ -2,65 +2,77 @@
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CT-14OCT-Caltrain-Saturday-02</key>
+	<key>4929_merged_8997334</key>
 	<array>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>0</integer>
+		<integer>1</integer>
+		<integer>1</integer>
+		<integer>1</integer>
+		<integer>1</integer>
 		<integer>1</integer>
 		<integer>0</integer>
-		<integer>20150502</integer>
-		<integer>20241005</integer>
+		<integer>0</integer>
+		<integer>20121001</integer>
+		<integer>20160403</integer>
 	</array>
-	<key>CT-14OCT-Caltrain-Saturday-04</key>
+	<key>4929_merged_8997337</key>
 	<array>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>0</integer>
+		<integer>1</integer>
+		<integer>1</integer>
+		<integer>1</integer>
+		<integer>1</integer>
 		<integer>1</integer>
 		<integer>0</integer>
-		<integer>20150606</integer>
-		<integer>20150606</integer>
+		<integer>0</integer>
+		<integer>20160404</integer>
+		<integer>20190401</integer>
 	</array>
-	<key>CT-14OCT-Caltrain-Sunday-02</key>
+	<key>4930_merged_8997333</key>
 	<array>
 		<integer>0</integer>
 		<integer>0</integer>
 		<integer>0</integer>
 		<integer>0</integer>
 		<integer>0</integer>
-		<integer>0</integer>
 		<integer>1</integer>
-		<integer>20150426</integer>
-		<integer>20240929</integer>
+		<integer>0</integer>
+		<integer>20121001</integer>
+		<integer>20160403</integer>
 	</array>
-	<key>CT-14OCT-Caltrain-Sunday-04</key>
+	<key>4930_merged_8997336</key>
 	<array>
 		<integer>0</integer>
 		<integer>0</integer>
 		<integer>0</integer>
 		<integer>0</integer>
 		<integer>0</integer>
-		<integer>0</integer>
 		<integer>1</integer>
-		<integer>20150607</integer>
-		<integer>20150607</integer>
+		<integer>0</integer>
+		<integer>20160404</integer>
+		<integer>20190401</integer>
 	</array>
-	<key>CT-14OCT-Combo-Weekday-01</key>
+	<key>4951_merged_8997335</key>
 	<array>
-		<integer>1</integer>
-		<integer>1</integer>
-		<integer>1</integer>
-		<integer>1</integer>
-		<integer>1</integer>
 		<integer>0</integer>
 		<integer>0</integer>
-		<integer>20150427</integer>
-		<integer>20241004</integer>
+		<integer>0</integer>
+		<integer>0</integer>
+		<integer>0</integer>
+		<integer>1</integer>
+		<integer>1</integer>
+		<integer>20121001</integer>
+		<integer>20160403</integer>
+	</array>
+	<key>4951_merged_8997338</key>
+	<array>
+		<integer>0</integer>
+		<integer>0</integer>
+		<integer>0</integer>
+		<integer>0</integer>
+		<integer>0</integer>
+		<integer>1</integer>
+		<integer>1</integer>
+		<integer>20160404</integer>
+		<integer>20190401</integer>
 	</array>
 </dict>
 </plist>
