@@ -80,63 +80,73 @@
     return $('.when-button.selected').val() === "now";
   }
 
-  function get_service_id (calendar, calendar_dates) {
-    switch($('.when-button.selected').val()) {
-      case 'now': {
-        var date = now_date();
-        var day = (new Date().getDay() + 6) % 7; // getDay starts from Sunday
+  function get_service_ids (calendar, calendar_dates) {
+    var date = now_date();
 
-        // calendar:
-        //   service_id => [monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date]
-        // calendar_dates:
-        //   service_id => [date,exception_type]
-        var service_ids = Object.keys(calendar).filter(function(service_id) {
-          // check calendar start/end dates
-          var item = calendar[service_id];
-          return (item[7] <= date) && (date <= item[8]);
-        }).filter(function(service_id) {
-          // check calendar available days
-          return calendar[service_id][day] === 1;
-        }).filter(function(service_id) {
-          // check calendar_dates with exception_type 2 (if any to remove)
-          return calendar_dates[service_id].filter(function(exception_date) {
+    var schedule = $('.when-button.selected').val();
+    var day =
+      schedule === 'now' ? (new Date().getDay() + 6) % 7 : // getDay is "0 for Sunday", map to "0 for Monday"
+      schedule === 'weekday' ? 0 : // Monday to Friday should share the same shedule, checked during prepare_data
+      schedule === 'saturday' ? 5 :
+      schedule === 'sunday' ? 6 : -1;
+    if (day === -1) {
+      return [];
+    }
+
+    // calendar:
+    //   service_id => [monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date]
+    // calendar_dates:
+    //   service_id => [date,exception_type]
+    var service_ids = Object.keys(calendar).filter(function(service_id) {
+      // check calendar start/end dates
+      var item = calendar[service_id];
+      return (item[7] <= date) && (date <= item[8]);
+    }).filter(function(service_id) {
+      // check calendar available days
+      return calendar[service_id][day] === 1;
+    });
+
+    // In now schedule, we consider exceptional days like holidays defined in calendar_dates file
+    if (schedule === 'now') {
+      service_ids = service_ids.filter(function(service_id) {
+        // check calendar_dates with exception_type 2 (if any to remove)
+        return !(service_id in calendar_dates) ||
+          calendar_dates[service_id].filter(function(exception_date) {
             return (exception_date[0] === date) && (exception_date[1] === 2);
           }).length === 0;
-        }).concat(Object.keys(calendar_dates).filter(function(service_id) {
-          // check calendar_dates with exception_type 1 (if any to add)
-          return calendar_dates[service_id].filter(function(exception_date) {
-            return (exception_date[0] === date) && (exception_date[1] === 1);
-          }).length !== 0;
-        }));
-
-        if (service_ids.length !== 1) {
-          console.log("Can't get service for now.", service_ids);
-        }
-        return service_ids[0];
-      }
-      // Hard-coded service_id selection
-      case 'weekday': return 'CT-14OCT-Combo-Weekday-01';
-      case 'saturday': return 'CT-14OCT-Caltrain-Saturday-02';
-      case 'sunday': return 'CT-14OCT-Caltrain-Sunday-02';
-      default: return '';
+      }).concat(Object.keys(calendar_dates).filter(function(service_id) {
+        // check calendar_dates with exception_type 1 (if any to add)
+        return calendar_dates[service_id].filter(function(exception_date) {
+          return (exception_date[0] === date) && (exception_date[1] === 1);
+        }).length !== 0;
+      }));
     }
+
+    if (service_ids.length === 0) {
+      console.log("Can't get service for now.");
+    }
+    return service_ids;
   }
 
   function get_available_services (routes, calendar, calendar_dates) {
     var availables = {};
-    var service_id = get_service_id(calendar, calendar_dates);
-    if (!is_defined(service_id)) { return {}; }
 
-    Object.keys(routes)
-      .forEach(function(route_name) {
-        var services = routes[route_name];
+    get_service_ids(calendar, calendar_dates).forEach(function(service_id) {
+      Object.keys(routes).forEach(function(route_id) {
+        var services = routes[route_id];
         var trips = services[service_id];
 
-        if (!is_defined(availables[route_name])) {
-          availables[route_name] = {};
+        if (!is_defined(trips)) {
+          // this route does not have this service
+          return;
         }
-        Object.extend(availables[route_name], trips);
+
+        if (!is_defined(availables[route_id])) {
+          availables[route_id] = {};
+        }
+        Object.extend(availables[route_id], trips);
       });
+    });
 
     return availables;
   }
