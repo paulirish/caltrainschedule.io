@@ -58,6 +58,11 @@ task :prepare_data do
 
   def read_CSV(name)
     CSV.read("gtfs/#{name}.txt", headers: true, header_converters: :symbol, converters: :all)
+      .each { |item|
+        item.service_id = item.service_id.to_s unless item[:service_id].nil?
+        item.route_id = item.route_id.to_s unless item[:route_id].nil?
+        item.trip_id = item.trip_id.to_s unless item[:trip_id].nil?
+      }
   end
 
   # Read from CSV, prepare it with `block`, write what returns to JSON and PLIST files
@@ -92,29 +97,55 @@ task :prepare_data do
 
   # From:
   #   calendar:
-  #     service_id,monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date
-  #     CT-14OCT-Caltrain-Sunday-02,0,0,0,0,0,0,1,20150118,20240929
+  #     service_id,start_date,end_date,monday,tuesday,wednesday,thursday,friday,saturday,sunday
+  #     4951_merged_8997335,20121001,20160403,0,0,0,0,0,1,1
+  #     9134,20160215,20160215,1,0,0,0,0,0,0
   #   calendar_dates:
   #     service_id,date,exception_type
-  #     CT-14OCT-Caltrain-Sunday-02,20150704,1
+  #     4951_merged_8997335,20160215,1
   # To:
   #   calendar:
   #     service_id => [fields]
-  #     CT-14OCT-XXX => [0,0,0,0,0,0,1,20150118,20240929]
+  #     4951_merged_8997335 => [0,0,0,0,0,0,1,20121001,20160403]
   #   calendar_dates:
   #     service_id => [[date, exception_type]]
-  #     CT-14OCT-XXX => [[20150704,1]]
+  #     4951_merged_8997335 => [[20150704,1]]
   prepare_for("calendar", "calendar_dates") do |calendar, calendar_dates|
+    now_date = Time.now.strftime("%Y%m%d").to_i
+
     calendar = calendar
-      .select { |service| valid_service_ids.include? service.service_id}
+      .select { |service| valid_service_ids.include? service.service_id }
+      .select { |service|
+        warn "Drop outdated service #{service.service_id} ends at #{service.end_date}." if service.end_date < now_date
+        service.end_date >= now_date
+      }
+      .each { |service|
+        # Weekday should be available all together or none of them. If not, check data.
+        unless [0, 5].include? service.fields[3..7].inject(0, :+)
+          require 'pry'; binding.pry
+        end
+      }
       .group_by(&:service_id)
       .map { |service_id, items|
-        items.map { |item|
-          item.fields[1..-1]
-        }.flatten
+        if items.size != 1
+          require 'pry'; binding.pry
+        end
+        # TODO: change this array to object {date: [start_date, end_date], day: [monday,...,sunday]}
+        items[0].fields[3..-1] + items[0].fields[1..2]
       }
 
+    # update valid_service_ids to remove out-dated services
+    valid_service_ids = calendar.keys
+
     dates = calendar_dates
+      .select { |service|
+        warn "Drop outdated service_date #{service.service_id} at #{service.date}." unless valid_service_ids.include? service.service_id
+        valid_service_ids.include? service.service_id
+      }
+      .select { |service|
+        warn "Drop outdated service_date #{service.service_id} at #{service.date}." if service.date < now_date
+        service.date >= now_date
+      }
       .group_by(&:service_id)
       .map { |service_id, items|
         items.map { |item| item.fields[1..-1] }
@@ -125,8 +156,8 @@ task :prepare_data do
 
   # Remove header and unify station_id by name
   # From:
-  #   stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,location_type,parent_station,platform_code
-  #   70011,70011,"San Francisco Caltrain",,  37.776390,-122.394992,1,,0,ctsf,NB
+  #   stop_lat,zone_id,stop_lon,stop_id,stop_name,location_type
+  #   37.520713,3330,-122.275574,70122,CALTRAIN - BELMONT STATION,0
   # To:
   #   stop_name => [stop_id1, stop_id2]
   #   "San Francisco" => [70011, 70012]
@@ -134,14 +165,19 @@ task :prepare_data do
     stops
       .each { |item|
         # check data (if its scheme is changed)
-        if item.stop_name !~ / Caltrain/
+        if item.stop_name !~ /^(CALTRAIN|SHUTTLE BUS)\ \-\ /
           require 'pry'; binding.pry
         end
       }
-      .keep_if { |item| item.stop_id.is_a?(Integer) }
+      .select { |item|
+        /^CALTRAIN - /.match item.stop_name
+      }
+      .sort_by(&:stop_lat).reverse
       .each { |item|
-        # shorten the name and merge San Jose with San Jose Diridon
-        item.stop_name.gsub!(/ (Caltrain|Station)/, '').gsub!(' Diridon', '')
+        # shorten the name
+        item.stop_name.gsub!(/(CALTRAIN - | STATION)/, '')
+        # rename Diridon to San Jose Diridon
+        item.stop_name.gsub!('DIRIDON', 'SAN JOSE DIRIDON')
       }
       .group_by(&:stop_name)
       .map { |name, items| # customized Hash#map
@@ -151,14 +187,18 @@ task :prepare_data do
 
   # From:
   #   routes:
-  #     route_id,route_short_name,route_long_name,route_desc,route_type,route_url,route_color
-  #     Bu-121,,"Bullet",,2,,E31837
+  #     route_long_name,route_type,route_text_color,route_color,agency_id,route_id,route_url,route_short_name
+  #     LIMITED,2,,,CT,LIMITED,,
+  #     ,2,,,CT,LOCAL,,LOCAL
+  #     BABY BULLET,2,,,CT,BABY BULLET,,
   #   trips:
-  #     route_id,service_id,trip_id,trip_headsign,trip_short_name,direction_id,block_id,shape_id
-  #     Lo-121,CT-14OCT-Caltrain-Saturday-02,6507770-CT-14OCT-Caltrain-Saturday-02,"San Jose Caltrain Station",422,1,,"cal_sf_sj"
+  #     route_id,direction_id,trip_headsign,shape_id,service_id,trip_id,original_trip_id
+  #     SHUTTLE,1,TAMIEN STATION,,4951_merged_8997335,RTD6320577_merged_8997341,RTD6320577
   #   stop_times:
-  #     trip_id,arrival_time,departure_time,stop_id,stop_sequence,pickup_type,drop_off_type
-  #     6507770-CT-14OCT-Caltrain-Saturday-02,08:15:00,08:15:00,70012,1,0,0
+  #     trip_id,arrival_time,departure_time,stop_id,stop_sequence
+  #     RTD6320577_merged_8997341,18:00:00,18:00:00,777402,1
+  #     RTD6320577_merged_8997341,18:10:00,18:10:00,777403,2
+  #     279_merged_8997520,17:33:00,17:33:00,70271,1
   # To:
   #   trips:
   #     { route_long_name => { service_id => { trip_id => [[stop_id, arrival_time/departure_time(in seconds)]] } } }
@@ -172,7 +212,6 @@ task :prepare_data do
           require 'pry'; binding.pry
         end
       }
-      .keep_if { |item| /14OCT/.match(item.trip_id) } # only 14 OCT plans
       .group_by(&:trip_id)
       .map { |trip_id, trips_values| # customized Hash#map
         trips_values
@@ -198,10 +237,10 @@ task :prepare_data do
           }
       }
 
-    # { route_long_name => { service_id => ... } }
+    # { route_id => { service_id => ... } }
     routes = routes
       .select { |route| route.route_type == 2 } # 2 for Rail, 3 for bus
-      .group_by(&:route_long_name)
+      .group_by(&:route_id)
       .map { |name, routes_values|
         routes_values
           .map(&:route_id)
@@ -307,9 +346,14 @@ task :publish do
   end
 
   begin
+    # ensure working dir is clean
+    run('[ -n "$(git status --porcelain)" ] && exit 1 || exit 0') &&
+
+    # push master branch
     run("git checkout master") &&
     run("git push") &&
 
+    # push gh-pages branch
     run("git checkout gh-pages") &&
     run("git checkout master -- .") &&
     [:prepare_data, :enable_appcache, :update_appcache, :minify_files].each do |task|
