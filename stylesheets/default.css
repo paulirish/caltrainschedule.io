@@ -9,7 +9,7 @@ body {
 
 /* rComplete */
 .complete-hint, .complete-input, .complete-dropdown {
-    font-size: 16px;
+    font-size: 15px;
 }
 .complete-hint, .complete-input {
     border: none;
