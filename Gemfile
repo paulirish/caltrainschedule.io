@@ -1,0 +1,2 @@
+gem 'plist'
+gem 'pry'
