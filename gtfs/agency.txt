@@ -1,2 +1,2 @@
-agency_phone,agency_url,agency_id,agency_name,agency_timezone,agency_lang
-8006604287,http://www.caltrain.com,CT,Caltrain,America/Los_Angeles,en
+agency_id,agency_name,agency_url,agency_timezone,agency_lang,agency_phone
+CT,Caltrain,http://www.caltrain.com,America/Los_Angeles,en,8006604287
