@@ -16,7 +16,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
         // load stops data
-        // {stationName: [stationid]}
+        //  stop_name => [stop_id1, stop_id2]
+        //  "22ND ST" => [70021, 70022]
         for (name, idsArray) in readPlistAsDict("stops") as! [String: NSArray] {
             for id in idsArray as! [Int] {
                 Station(name: name, id: id)
@@ -24,16 +25,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         // load routes data
-        // {routeID: {serviceId: {tripId: [[stationId, departTime/arrivalTime],...]}}}
+        // { route_id => { service_id => { trip_id => [[stop_id, arrival_time/departure_time(in seconds)]] } } }
+        // { "Bullet" => { "CT-14OCT-XXX" => { "650770-CT-14OCT-XXX" => [[70012, 29700], ...] } } }
         for (routeName, servicesDict) in readPlistAsDict("routes") as! [String: NSDictionary] {
             Route(name: routeName, servicesDict: servicesDict)
         }
 
         // load calendar data
-        // {serviceID: [monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date]}
-        for (serviceId, item) in readPlistAsDict("calendar") as! [String: NSArray] {
+        // service_id => {weekday: bool, saturday: bool, sunday: bool, start_date: date, end_date: date}
+        // 4930 => {weekday: false, saturday: true, sunday: false, start_date: 20160404, end_date: 20190406}
+        for (serviceId, dict) in readPlistAsDict("calendar") as! [String: NSDictionary] {
             if let services = Service.getServices(byId: serviceId) {
-                let calendar = Calendar(item: item)
+                let calendar = Calendar(dict: dict)
                 for service in services {
                     service.calendar = calendar
                 }

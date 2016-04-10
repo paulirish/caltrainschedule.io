@@ -82,9 +82,6 @@ class Service {
     }
 
     func isValidAtWeekday() -> Bool {
-        if (!(/"Weekday"/"i" =~ self.id)) {
-            return false
-        }
         // weekday is from 2 to 6, sunday is the first day
         for day in 2...6 {
             if (!isValid(atWeekday: day)) {
@@ -95,16 +92,10 @@ class Service {
     }
 
     func isValidAtSaturday() -> Bool {
-        if (!(/"Saturday"/"i" =~ self.id)) {
-            return false
-        }
         return isValid(atWeekday: 7)
     }
 
     func isValidAtSunday() -> Bool {
-        if (!(/"Sunday"/"i" =~ self.id)) {
-            return false
-        }
         return isValid(atWeekday: 1)
     }
 
