@@ -1,1 +1,1 @@
-{"4929":[1,1,1,1,1,0,0,20160404,20190406],"4930":[0,0,0,0,0,1,0,20160404,20190406],"4951":[0,0,0,0,0,1,1,20160404,20190406]}
+{"4929":{"weekday":true,"saturday":false,"sunday":false,"start_date":20160404,"end_date":20190406},"4930":{"weekday":false,"saturday":true,"sunday":false,"start_date":20160404,"end_date":20190406},"4951":{"weekday":false,"saturday":true,"sunday":true,"start_date":20160404,"end_date":20190406}}

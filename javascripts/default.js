@@ -83,14 +83,16 @@
   function get_service_ids (calendar, calendar_dates) {
     var date = now_date();
 
-    var schedule = $('.when-button.selected').val();
-    var day =
-      schedule === 'now' ? (new Date().getDay() + 6) % 7 : // getDay is "0 for Sunday", map to "0 for Monday"
-      schedule === 'weekday' ? 0 : // Monday to Friday should share the same shedule, checked during prepare_data
-      schedule === 'saturday' ? 5 :
-      schedule === 'sunday' ? 6 : -1;
-    if (day === -1) {
-      return [];
+    var selected_schedule = $('.when-button.selected').val();
+    var target_schedule = selected_schedule;
+    if (target_schedule === 'now') {
+      // getDay is "0 for Sunday", map to "0 for Monday"
+      switch ((new Date().getDay() + 6) % 7) {
+        case 5: target_schedule = 'saturday'; break;
+        case 6: target_schedule = 'sunday'; break;
+        case 0: case 1: case 2: case 3: case 4: target_schedule = 'weekday'; break;
+        default: console.error('Unknown current day', (new Date().getDay() + 6) % 7); return [];
+      }
     }
 
     // calendar:
@@ -100,14 +102,14 @@
     var service_ids = Object.keys(calendar).filter(function(service_id) {
       // check calendar start/end dates
       var item = calendar[service_id];
-      return (item[7] <= date) && (date <= item[8]);
+      return (item.start_date <= date) && (date <= item.end_date);
     }).filter(function(service_id) {
       // check calendar available days
-      return calendar[service_id][day] === 1;
+      return calendar[service_id][target_schedule];
     });
 
     // In now schedule, we consider exceptional days like holidays defined in calendar_dates file
-    if (schedule === 'now') {
+    if (selected_schedule === 'now') {
       service_ids = service_ids.filter(function(service_id) {
         // check calendar_dates with exception_type 2 (if any to remove)
         return !(service_id in calendar_dates) ||

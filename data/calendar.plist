@@ -3,40 +3,43 @@
 <plist version="1.0">
 <dict>
 	<key>4929</key>
-	<array>
-		<integer>1</integer>
-		<integer>1</integer>
-		<integer>1</integer>
-		<integer>1</integer>
-		<integer>1</integer>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>20160404</integer>
+	<dict>
+		<key>end_date</key>
 		<integer>20190406</integer>
-	</array>
+		<key>saturday</key>
+		<false/>
+		<key>start_date</key>
+		<integer>20160404</integer>
+		<key>sunday</key>
+		<false/>
+		<key>weekday</key>
+		<true/>
+	</dict>
 	<key>4930</key>
-	<array>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>1</integer>
-		<integer>0</integer>
-		<integer>20160404</integer>
+	<dict>
+		<key>end_date</key>
 		<integer>20190406</integer>
-	</array>
+		<key>saturday</key>
+		<true/>
+		<key>start_date</key>
+		<integer>20160404</integer>
+		<key>sunday</key>
+		<false/>
+		<key>weekday</key>
+		<false/>
+	</dict>
 	<key>4951</key>
-	<array>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>1</integer>
-		<integer>1</integer>
-		<integer>20160404</integer>
+	<dict>
+		<key>end_date</key>
 		<integer>20190406</integer>
-	</array>
+		<key>saturday</key>
+		<true/>
+		<key>start_date</key>
+		<integer>20160404</integer>
+		<key>sunday</key>
+		<true/>
+		<key>weekday</key>
+		<false/>
+	</dict>
 </dict>
 </plist>

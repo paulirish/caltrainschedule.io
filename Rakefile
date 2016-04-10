@@ -154,8 +154,14 @@ task :prepare_data do
           require 'pry'; binding.pry
         end
         item = items[0]
-        # TODO: change this array to object {date: [start_date, end_date], weekday: true, saturday: false, sunday: false}
-        [:monday, :tuesday, :wednesday, :thursday, :friday, :saturday, :sunday, :start_date, :end_date].map { |day| item[day] }
+        weekday_sum = [:monday, :tuesday, :wednesday, :thursday, :friday].inject(0) { |sum, day| sum + item[day]}
+        {
+          weekday: weekday_sum == 5,
+          saturday: item.saturday == 1,
+          sunday: item.sunday == 1,
+          start_date: item.start_date,
+          end_date: item.end_date,
+        }
       }
 
     # update valid_service_ids to remove out-dated services
