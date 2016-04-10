@@ -36,7 +36,6 @@
 	<array>
 		<integer>70081</integer>
 		<integer>70082</integer>
-		<integer>770081</integer>
 	</array>
 	<key>CALIFORNIA AVE</key>
 	<array>
@@ -62,7 +61,6 @@
 	<array>
 		<integer>70101</integer>
 		<integer>70102</integer>
-		<integer>770101</integer>
 	</array>
 	<key>HILLSDALE</key>
 	<array>
@@ -143,7 +141,6 @@
 	<array>
 		<integer>70091</integer>
 		<integer>70092</integer>
-		<integer>770091</integer>
 	</array>
 	<key>SANTA CLARA</key>
 	<array>

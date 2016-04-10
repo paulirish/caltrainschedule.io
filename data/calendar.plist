@@ -2,19 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>4929_merged_8997334</key>
-	<array>
-		<integer>1</integer>
-		<integer>1</integer>
-		<integer>1</integer>
-		<integer>1</integer>
-		<integer>1</integer>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>20121001</integer>
-		<integer>20160403</integer>
-	</array>
-	<key>4929_merged_8997337</key>
+	<key>4929</key>
 	<array>
 		<integer>1</integer>
 		<integer>1</integer>
@@ -24,21 +12,9 @@
 		<integer>0</integer>
 		<integer>0</integer>
 		<integer>20160404</integer>
-		<integer>20190401</integer>
+		<integer>20190406</integer>
 	</array>
-	<key>4930_merged_8997333</key>
-	<array>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>1</integer>
-		<integer>0</integer>
-		<integer>20121001</integer>
-		<integer>20160403</integer>
-	</array>
-	<key>4930_merged_8997336</key>
+	<key>4930</key>
 	<array>
 		<integer>0</integer>
 		<integer>0</integer>
@@ -48,21 +24,9 @@
 		<integer>1</integer>
 		<integer>0</integer>
 		<integer>20160404</integer>
-		<integer>20190401</integer>
+		<integer>20190406</integer>
 	</array>
-	<key>4951_merged_8997335</key>
-	<array>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>0</integer>
-		<integer>1</integer>
-		<integer>1</integer>
-		<integer>20121001</integer>
-		<integer>20160403</integer>
-	</array>
-	<key>4951_merged_8997338</key>
+	<key>4951</key>
 	<array>
 		<integer>0</integer>
 		<integer>0</integer>
@@ -72,7 +36,7 @@
 		<integer>1</integer>
 		<integer>1</integer>
 		<integer>20160404</integer>
-		<integer>20190401</integer>
+		<integer>20190406</integer>
 	</array>
 </dict>
 </plist>
