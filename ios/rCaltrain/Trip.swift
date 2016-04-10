@@ -51,7 +51,7 @@ class Trip {
                 fromStop = stops[i]
                 break
             }
-            i++
+            i += 1
         }
 
         // if missing
@@ -60,7 +60,7 @@ class Trip {
         }
 
         // from and to can't be the same
-        i++
+        i += 1
 
         // find the arrival stop
         while (i < stops.count) {
@@ -68,7 +68,7 @@ class Trip {
                 toStop = stops[i]
                 break
             }
-            i++
+            i += 1
         }
 
         // if missing

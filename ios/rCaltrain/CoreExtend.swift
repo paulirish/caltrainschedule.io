@@ -56,7 +56,7 @@ extension String {
 
     func `repeat`(times: Int) -> String {
         var str = ""
-        for (var i = 0; i < times; i++) {
+        for _ in 1...times {
             str += self
         }
         return str
