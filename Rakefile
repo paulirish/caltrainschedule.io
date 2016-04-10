@@ -127,8 +127,8 @@ task :prepare_data do
   #     4951,20160530,1
   # To:
   #   calendar:
-  #     service_id => [fields]
-  #     4930 => [0,0,0,0,0,1,0,20160404,20190406]
+  #     service_id => {weekday: bool, saturday: bool, sunday: bool, start_date: date, end_date: date}
+  #     4930 => {weekday: false, saturday: true, sunday: false, start_date: 20160404, end_date: 20190406}
   #   calendar_dates:
   #     service_id => [[date, exception_type]]
   #     4929 => [[20160530,2]]
@@ -233,7 +233,7 @@ task :prepare_data do
   #     RTD6320540,07:33:00,07:33:00,777403,1
   #     RTD6320540,07:45:00,07:45:00,777402,2
   # To:
-  #   trips:
+  #   routes:
   #     { route_id => { service_id => { trip_id => [[stop_id, arrival_time/departure_time(in seconds)]] } } }
   #     { "Bullet" => { "CT-14OCT-XXX" => { "650770-CT-14OCT-XXX" => [[70012, 29700], ...] } } }
   prepare_for("routes", "trips", "stop_times") do |routes, trips, stop_times|
