@@ -95,24 +95,20 @@ task :prepare_data do
 
   # From:
   #   routes:
-  #     route_id,agency_id,route_short_name,route_long_name,route_type,route_color,route_text_color
-  #     SHUTTLE,CT,,SHUTTLE,3,,
-  #     LOCAL,CT,LOCAL,,2,,
-  #     LIMITED,CT,,LIMITED,2,,
-  #     BABY BULLET,CT,,BABY BULLET,2,,
+  #     route_id,route_short_name,route_long_name,route_type,route_color
+  #     TaSj-16APR, ,Tamien / San Jose Diridon Caltrain Shuttle,3,41AD49
+  #     Lo-16APR, ,Local,2,FFFFFF
+  #     Li-16APR, ,Limited,2,FEF0B5
+  #     Bu-16APR, ,Baby Bullet,2,E31837
   #   trips:
-  #     route_id,service_id,trip_id,trip_headsign,direction_id,block_id,shape_id,trip_short_name
-  #     SHUTTLE,4951,RTD6320540,DIRIDON STATION,0,,,
+  #     route_id,service_id,trip_id,trip_headsign,trip_short_name,direction_id,shape_id,wheelchair_accessible,bikes_allowed
+  #     TaSj-16APR,CT-16APR-Caltrain-Saturday-02,23a,DIRIDON STATION,23,0,cal_tam_sj,,
   #
   # Find only valid services by route type defined in routes
   valid_service_ids = []
   prepare_for("routes", "trips") do |routes, trips|
     valid_route_ids = routes
       .each { |route|
-        # route_id should be non-empty, and be the same with short_name or long_name. If not, check data.
-        if route.route_id.empty? or ![route.route_short_name, route.route_long_name].include? route.route_id
-          require 'pry'; binding.pry
-        end
         unless [2, 3].include? route.route_type
           require 'pry'; binding.pry
         end
@@ -130,20 +126,20 @@ task :prepare_data do
   # From:
   #   calendar:
   #     service_id,monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date
-  #     4929,1,1,1,1,1,0,0,20160404,20190406
-  #     4930,0,0,0,0,0,1,0,20160404,20190406
-  #     4951,0,0,0,0,0,1,1,20160404,20190406
+  #     CT-16APR-Caltrain-Weekday-01,1,1,1,1,1,0,0,20160404,20190331
+  #     CT-16APR-Caltrain-Saturday-02,0,0,0,0,0,1,0,20140329,20190331
+  #     CT-16APR-Caltrain-Sunday-02,0,0,0,0,0,0,1,20140323,20190331
   #   calendar_dates:
   #     service_id,date,exception_type
-  #     4929,20160530,2
-  #     4951,20160530,1
+  #     CT-16APR-Caltrain-Weekday-01,20160530,2
+  #     CT-16APR-Caltrain-Sunday-02,20160530,1
   # To:
   #   calendar:
   #     service_id => {weekday: bool, saturday: bool, sunday: bool, start_date: date, end_date: date}
-  #     4930 => {weekday: false, saturday: true, sunday: false, start_date: 20160404, end_date: 20190406}
+  #     CT-16APR-Caltrain-Weekday-01 => {weekday: false, saturday: true, sunday: false, start_date: 20160404, end_date: 20190331}
   #   calendar_dates:
   #     service_id => [[date, exception_type]]
-  #     4929 => [[20160530,2]]
+  #     CT-16APR-Caltrain-Weekday-01 => [[20160530,2]]
   prepare_for("calendar", "calendar_dates") do |calendar, calendar_dates|
     now_date = Time.now.strftime("%Y%m%d").to_i
 
@@ -198,30 +194,25 @@ task :prepare_data do
 
   # Remove header and unify station_id by name
   # From:
-  #   stop_id,stop_name,stop_lat,stop_lon,zone_id
-  #   70021,CALTRAIN - 22ND ST STATION,37.757692,-122.392318,3329
-  #   70022,CALTRAIN - 22ND ST STATION,37.757692,-122.392318,3329
+  #   stop_id,stop_code,stop_name,stop_lat,stop_lon,zone_id,stop_url,location_type,parent_station,platform_code,wheelchair_boarding
+  #   70011,70011,San Francisco Caltrain,37.77639,-122.394992,1,http://www.caltrain.com/stations/sanfranciscostation.html,0,ctsf,NB,1
+  #   70012,70012,San Francisco Caltrain,37.776348,-122.394935,1,http://www.caltrain.com/stations/sanfranciscostation.html,0,ctsf,SB,1
   # To:
   #   stop_name => [stop_id1, stop_id2]
-  #   "22ND ST" => [70021, 70022]
+  #   "San Francisco" => [70021, 70022]
   prepare_for("stops") do |stops|
     stops
       .each { |item|
         # check data (if its scheme is changed)
-        if item.stop_name !~ /^(CALTRAIN|SHUTTLE BUS)\ \-\ /
+        if item.stop_name !~ / Caltrain/
           require 'pry'; binding.pry
         end
       }
-      .select { |item|
-        # we only care about caltrain not shuttle bus
-        /^CALTRAIN - /.match item.stop_name
-      }
+      .select { |item| item.stop_id.is_a?(Integer) }
       .sort_by(&:stop_lat).reverse # sort stations from north to south
       .each { |item|
-        # shorten the name
-        item.stop_name.gsub!(/(CALTRAIN - | STATION)/, '')
-        # rename Diridon to San Jose Diridon
-        item.stop_name.gsub!('DIRIDON', 'SAN JOSE DIRIDON')
+        # shorten the name and merge San Jose with San Jose Diridon
+        item.stop_name.gsub!(/ (Caltrain|Station)/, '').gsub!(/^San Jose$/, 'San Jose Diridon')
       }
       .group_by(&:stop_name)
       .map { |name, items| # customized Hash#map
