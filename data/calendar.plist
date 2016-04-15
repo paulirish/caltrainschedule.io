@@ -1,45 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>4929</key>
+	<key>CT-16APR-Caltrain-Saturday-02</key>
 	<dict>
 		<key>end_date</key>
-		<integer>20190406</integer>
-		<key>saturday</key>
-		<false/>
-		<key>start_date</key>
-		<integer>20160404</integer>
-		<key>sunday</key>
-		<false/>
-		<key>weekday</key>
-		<true/>
-	</dict>
-	<key>4930</key>
-	<dict>
-		<key>end_date</key>
-		<integer>20190406</integer>
+		<integer>20190331</integer>
 		<key>saturday</key>
 		<true/>
 		<key>start_date</key>
-		<integer>20160404</integer>
+		<integer>20140329</integer>
 		<key>sunday</key>
 		<false/>
 		<key>weekday</key>
 		<false/>
 	</dict>
-	<key>4951</key>
+	<key>CT-16APR-Caltrain-Sunday-02</key>
 	<dict>
 		<key>end_date</key>
-		<integer>20190406</integer>
+		<integer>20190331</integer>
 		<key>saturday</key>
-		<true/>
+		<false/>
 		<key>start_date</key>
-		<integer>20160404</integer>
+		<integer>20140323</integer>
 		<key>sunday</key>
 		<true/>
 		<key>weekday</key>
 		<false/>
+	</dict>
+	<key>CT-16APR-Caltrain-Weekday-01</key>
+	<dict>
+		<key>end_date</key>
+		<integer>20190331</integer>
+		<key>saturday</key>
+		<false/>
+		<key>start_date</key>
+		<integer>20160404</integer>
+		<key>sunday</key>
+		<false/>
+		<key>weekday</key>
+		<true/>
 	</dict>
 </dict>
 </plist>
