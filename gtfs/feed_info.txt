@@ -1,2 +1,0 @@
-feed_publisher_name,feed_publisher_url,feed_lang
-511 SF Bay,http://511.org/developer-resources_transit-data-feed.asp,en
