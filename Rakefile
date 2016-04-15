@@ -19,12 +19,24 @@ task :download_data do
   require 'tempfile'
   require 'fileutils'
 
-  url = 'http://www.caltrain.com/Assets/GTFS/caltrain/GTFS-Caltrain-Devs.zip'
-  Tempfile.open('index.html') do |f|
-    temp_file = f.path
-    system("curl #{url} -o #{temp_file} && unzip -o #{temp_file} -d ./gtfs/ && rm #{temp_file}")
-    f.unlink
-  end
+  Dir.mktmpdir('gtfs_') { |tmp_dir|
+    url = 'http://www.caltrain.com/Assets/GTFS/caltrain/Caltrain-GTFS.zip'
+    Tempfile.open('data.zip') do |temp_file|
+      system("curl #{url} -o #{temp_file.path} && unzip -o #{temp_file.path} -d #{tmp_dir}")
+      temp_file.unlink
+    end
+
+    data_dir = File.join(tmp_dir, '2016APR_GTFS')
+    unless File.exist? data_dir
+      # Data structure changed, check data.
+      require 'pry'; binding.pry
+    end
+
+    target_dir = './gtfs/'
+    FileUtils.remove_dir(target_dir)
+    FileUtils.mv(data_dir, target_dir)
+  }
+
 
   [:prepare_data, :update_appcache].each do |task|
     Rake::Task[task].invoke
