@@ -377,27 +377,29 @@ desc "Publish"
 task :publish do
   def run(cmd)
     res = `#{cmd}`
-    warn "#{cmd} failed:\n#{res}\n" unless $?.success?
-    return $?.success?
+    unless $?.success?
+      warn "#{cmd} failed:\n#{res}\n"
+      abort
+    end
   end
 
   begin
     # ensure working dir is clean
-    run('[ -n "$(git status --porcelain)" ] && exit 1 || exit 0') &&
+    run('[ -n "$(git status --porcelain)" ] && exit 1 || exit 0')
 
     # push master branch
-    run("git checkout master") &&
-    run("git push") &&
+    run("git checkout master")
+    run("git push origin master:master")
 
     # push gh-pages branch
-    run("git checkout gh-pages") &&
-    run("git checkout master -- .") &&
+    run("git checkout gh-pages")
+    run("git checkout master -- .")
     [:prepare_data, :enable_appcache, :update_appcache, :minify_files].each do |task|
       Rake::Task[task].invoke
     end
-    run("git add .") &&
-    run("git commit -m 'Updated at #{Time.now}.'") &&
-    run("git push") || abort
+    run("git add .")
+    run("git commit -m 'Updated at #{Time.now}.'")
+    run("git push origin gh-pages:gh-pages")
   ensure
     run("git checkout master")
   end
