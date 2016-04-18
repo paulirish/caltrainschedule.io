@@ -389,10 +389,12 @@ task :publish do
 
     # push master branch
     run("git checkout master")
+    run("git pull origin")
     run("git push origin master:master")
 
     # push gh-pages branch
     run("git checkout gh-pages")
+    run("git pull origin")
     run("git checkout master -- .")
     [:prepare_data, :enable_appcache, :update_appcache, :minify_files].each do |task|
       Rake::Task[task].invoke
