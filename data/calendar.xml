@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<calendar>
+  <CT-16APR-Caltrain-Weekday-01>
+    <weekday type="boolean">true</weekday>
+    <saturday type="boolean">false</saturday>
+    <sunday type="boolean">false</sunday>
+    <start-date type="integer">20160404</start-date>
+    <end-date type="integer">20190331</end-date>
+  </CT-16APR-Caltrain-Weekday-01>
+  <CT-16APR-Caltrain-Saturday-02>
+    <weekday type="boolean">false</weekday>
+    <saturday type="boolean">true</saturday>
+    <sunday type="boolean">false</sunday>
+    <start-date type="integer">20140329</start-date>
+    <end-date type="integer">20190331</end-date>
+  </CT-16APR-Caltrain-Saturday-02>
+  <CT-16APR-Caltrain-Sunday-02>
+    <weekday type="boolean">false</weekday>
+    <saturday type="boolean">false</saturday>
+    <sunday type="boolean">true</sunday>
+    <start-date type="integer">20140323</start-date>
+    <end-date type="integer">20190331</end-date>
+  </CT-16APR-Caltrain-Sunday-02>
+</calendar>

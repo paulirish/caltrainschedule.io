@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<stops>
+  <San-Francisco type="array">
+    <San-Francisco type="integer">70011</San-Francisco>
+    <San-Francisco type="integer">70012</San-Francisco>
+  </San-Francisco>
+  <22nd-St type="array">
+    <22nd-St type="integer">70021</22nd-St>
+    <22nd-St type="integer">70022</22nd-St>
+  </22nd-St>
+  <Bayshore type="array">
+    <Bayshore type="integer">70031</Bayshore>
+    <Bayshore type="integer">70032</Bayshore>
+  </Bayshore>
+  <So.-San-Francisco type="array">
+    <So.-San-Francisco type="integer">70041</So.-San-Francisco>
+    <So.-San-Francisco type="integer">70042</So.-San-Francisco>
+  </So.-San-Francisco>
+  <San-Bruno type="array">
+    <San-Bruno type="integer">70051</San-Bruno>
+    <San-Bruno type="integer">70052</San-Bruno>
+  </San-Bruno>
+  <Millbrae type="array">
+    <Millbrae type="integer">70061</Millbrae>
+    <Millbrae type="integer">70062</Millbrae>
+  </Millbrae>
+  <Broadway type="array">
+    <Broadway type="integer">70071</Broadway>
+    <Broadway type="integer">70072</Broadway>
+  </Broadway>
+  <Burlingame type="array">
+    <Burlingame type="integer">70081</Burlingame>
+    <Burlingame type="integer">70082</Burlingame>
+  </Burlingame>
+  <San-Mateo type="array">
+    <San-Mateo type="integer">70091</San-Mateo>
+    <San-Mateo type="integer">70092</San-Mateo>
+  </San-Mateo>
+  <Hayward-Park type="array">
+    <Hayward-Park type="integer">70101</Hayward-Park>
+    <Hayward-Park type="integer">70102</Hayward-Park>
+  </Hayward-Park>
+  <Hillsdale type="array">
+    <Hillsdale type="integer">70111</Hillsdale>
+    <Hillsdale type="integer">70112</Hillsdale>
+  </Hillsdale>
+  <Belmont type="array">
+    <Belmont type="integer">70121</Belmont>
+    <Belmont type="integer">70122</Belmont>
+  </Belmont>
+  <San-Carlos type="array">
+    <San-Carlo type="integer">70131</San-Carlo>
+    <San-Carlo type="integer">70132</San-Carlo>
+  </San-Carlos>
+  <Redwood-City type="array">
+    <Redwood-City type="integer">70141</Redwood-City>
+    <Redwood-City type="integer">70142</Redwood-City>
+  </Redwood-City>
+  <Atherton type="array">
+    <Atherton type="integer">70151</Atherton>
+    <Atherton type="integer">70152</Atherton>
+  </Atherton>
+  <Menlo-Park type="array">
+    <Menlo-Park type="integer">70161</Menlo-Park>
+    <Menlo-Park type="integer">70162</Menlo-Park>
+  </Menlo-Park>
+  <Palo-Alto type="array">
+    <Palo-Alto type="integer">70171</Palo-Alto>
+    <Palo-Alto type="integer">70172</Palo-Alto>
+  </Palo-Alto>
+  <California-Ave type="array">
+    <California-Ave type="integer">70191</California-Ave>
+    <California-Ave type="integer">70192</California-Ave>
+  </California-Ave>
+  <San-Antonio type="array">
+    <San-Antonio type="integer">70201</San-Antonio>
+    <San-Antonio type="integer">70202</San-Antonio>
+  </San-Antonio>
+  <Mt-View type="array">
+    <Mt-View type="integer">70211</Mt-View>
+    <Mt-View type="integer">70212</Mt-View>
+  </Mt-View>
+  <Sunnyvale type="array">
+    <Sunnyvale type="integer">70221</Sunnyvale>
+    <Sunnyvale type="integer">70222</Sunnyvale>
+  </Sunnyvale>
+  <Lawrence type="array">
+    <Lawrence type="integer">70231</Lawrence>
+    <Lawrence type="integer">70232</Lawrence>
+  </Lawrence>
+  <Santa-Clara type="array">
+    <Santa-Clara type="integer">70241</Santa-Clara>
+    <Santa-Clara type="integer">70242</Santa-Clara>
+  </Santa-Clara>
+  <College-Park type="array">
+    <College-Park type="integer">70251</College-Park>
+    <College-Park type="integer">70252</College-Park>
+  </College-Park>
+  <San-Jose-Diridon type="array">
+    <San-Jose-Diridon type="integer">70261</San-Jose-Diridon>
+    <San-Jose-Diridon type="integer">70262</San-Jose-Diridon>
+    <San-Jose-Diridon type="integer">777402</San-Jose-Diridon>
+  </San-Jose-Diridon>
+  <Tamien type="array">
+    <Tamien type="integer">70271</Tamien>
+    <Tamien type="integer">70272</Tamien>
+    <Tamien type="integer">777403</Tamien>
+  </Tamien>
+  <Capitol type="array">
+    <Capitol type="integer">70281</Capitol>
+    <Capitol type="integer">70282</Capitol>
+  </Capitol>
+  <Blossom-Hill type="array">
+    <Blossom-Hill type="integer">70291</Blossom-Hill>
+    <Blossom-Hill type="integer">70292</Blossom-Hill>
+  </Blossom-Hill>
+  <Morgan-Hill type="array">
+    <Morgan-Hill type="integer">70301</Morgan-Hill>
+    <Morgan-Hill type="integer">70302</Morgan-Hill>
+  </Morgan-Hill>
+  <San-Martin type="array">
+    <San-Martin type="integer">70311</San-Martin>
+    <San-Martin type="integer">70312</San-Martin>
+  </San-Martin>
+  <Gilroy type="array">
+    <Gilroy type="integer">70321</Gilroy>
+    <Gilroy type="integer">70322</Gilroy>
+  </Gilroy>
+</stops>
