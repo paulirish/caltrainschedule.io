@@ -1,39 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<calendar-dates>
-  <CT-16APR-Caltrain-Weekday-01 type="array">
-    <CT-16APR-Caltrain-Weekday-01 type="array">
-      <CT-16APR-Caltrain-Weekday-01 type="integer">20160530</CT-16APR-Caltrain-Weekday-01>
-      <CT-16APR-Caltrain-Weekday-01 type="integer">2</CT-16APR-Caltrain-Weekday-01>
-    </CT-16APR-Caltrain-Weekday-01>
-    <CT-16APR-Caltrain-Weekday-01 type="array">
-      <CT-16APR-Caltrain-Weekday-01 type="integer">20160704</CT-16APR-Caltrain-Weekday-01>
-      <CT-16APR-Caltrain-Weekday-01 type="integer">2</CT-16APR-Caltrain-Weekday-01>
-    </CT-16APR-Caltrain-Weekday-01>
-    <CT-16APR-Caltrain-Weekday-01 type="array">
-      <CT-16APR-Caltrain-Weekday-01 type="integer">20160905</CT-16APR-Caltrain-Weekday-01>
-      <CT-16APR-Caltrain-Weekday-01 type="integer">2</CT-16APR-Caltrain-Weekday-01>
-    </CT-16APR-Caltrain-Weekday-01>
-    <CT-16APR-Caltrain-Weekday-01 type="array">
-      <CT-16APR-Caltrain-Weekday-01 type="integer">20161124</CT-16APR-Caltrain-Weekday-01>
-      <CT-16APR-Caltrain-Weekday-01 type="integer">2</CT-16APR-Caltrain-Weekday-01>
-    </CT-16APR-Caltrain-Weekday-01>
-  </CT-16APR-Caltrain-Weekday-01>
-  <CT-16APR-Caltrain-Sunday-02 type="array">
-    <CT-16APR-Caltrain-Sunday-02 type="array">
-      <CT-16APR-Caltrain-Sunday-02 type="integer">20160530</CT-16APR-Caltrain-Sunday-02>
-      <CT-16APR-Caltrain-Sunday-02 type="integer">1</CT-16APR-Caltrain-Sunday-02>
-    </CT-16APR-Caltrain-Sunday-02>
-    <CT-16APR-Caltrain-Sunday-02 type="array">
-      <CT-16APR-Caltrain-Sunday-02 type="integer">20160704</CT-16APR-Caltrain-Sunday-02>
-      <CT-16APR-Caltrain-Sunday-02 type="integer">1</CT-16APR-Caltrain-Sunday-02>
-    </CT-16APR-Caltrain-Sunday-02>
-    <CT-16APR-Caltrain-Sunday-02 type="array">
-      <CT-16APR-Caltrain-Sunday-02 type="integer">20160905</CT-16APR-Caltrain-Sunday-02>
-      <CT-16APR-Caltrain-Sunday-02 type="integer">1</CT-16APR-Caltrain-Sunday-02>
-    </CT-16APR-Caltrain-Sunday-02>
-    <CT-16APR-Caltrain-Sunday-02 type="array">
-      <CT-16APR-Caltrain-Sunday-02 type="integer">20161124</CT-16APR-Caltrain-Sunday-02>
-      <CT-16APR-Caltrain-Sunday-02 type="integer">1</CT-16APR-Caltrain-Sunday-02>
-    </CT-16APR-Caltrain-Sunday-02>
-  </CT-16APR-Caltrain-Sunday-02>
+<calendar-dates type="array">
+  <calendar-date>
+    <key>CT-16APR-Caltrain-Weekday-01</key>
+    <value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;arrays type="array"&gt;
+  &lt;array type="array"&gt;
+    &lt;array type="integer"&gt;20160530&lt;/array&gt;
+    &lt;array type="integer"&gt;2&lt;/array&gt;
+  &lt;/array&gt;
+  &lt;array type="array"&gt;
+    &lt;array type="integer"&gt;20160704&lt;/array&gt;
+    &lt;array type="integer"&gt;2&lt;/array&gt;
+  &lt;/array&gt;
+  &lt;array type="array"&gt;
+    &lt;array type="integer"&gt;20160905&lt;/array&gt;
+    &lt;array type="integer"&gt;2&lt;/array&gt;
+  &lt;/array&gt;
+  &lt;array type="array"&gt;
+    &lt;array type="integer"&gt;20161124&lt;/array&gt;
+    &lt;array type="integer"&gt;2&lt;/array&gt;
+  &lt;/array&gt;
+&lt;/arrays&gt;
+</value>
+  </calendar-date>
+  <calendar-date>
+    <key>CT-16APR-Caltrain-Sunday-02</key>
+    <value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;arrays type="array"&gt;
+  &lt;array type="array"&gt;
+    &lt;array type="integer"&gt;20160530&lt;/array&gt;
+    &lt;array type="integer"&gt;1&lt;/array&gt;
+  &lt;/array&gt;
+  &lt;array type="array"&gt;
+    &lt;array type="integer"&gt;20160704&lt;/array&gt;
+    &lt;array type="integer"&gt;1&lt;/array&gt;
+  &lt;/array&gt;
+  &lt;array type="array"&gt;
+    &lt;array type="integer"&gt;20160905&lt;/array&gt;
+    &lt;array type="integer"&gt;1&lt;/array&gt;
+  &lt;/array&gt;
+  &lt;array type="array"&gt;
+    &lt;array type="integer"&gt;20161124&lt;/array&gt;
+    &lt;array type="integer"&gt;1&lt;/array&gt;
+  &lt;/array&gt;
+&lt;/arrays&gt;
+</value>
+  </calendar-date>
 </calendar-dates>

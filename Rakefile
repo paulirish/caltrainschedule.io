@@ -47,6 +47,7 @@ task :prepare_data do
   require "csv"
   require "json"
   require "plist"
+  require "active_support/core_ext/array"
   require "active_support/core_ext/hash"
 
   # Extend CSV
@@ -77,6 +78,18 @@ task :prepare_data do
       }
   end
 
+  # Transform hash into XML compatible array
+  def to_xml_compatible_hash(hash)
+    hash.inject([]) { |arr, (k, v)|
+      if v.is_a? Hash
+        v = to_xml_compatible_hash(v)
+      elsif v.is_a? Array
+        v = v.to_xml
+      end
+      arr.push({key: k, value: v})
+    }
+  end
+
   # Read from CSV, prepare it with `block`, write what returns to JSON and PLIST files
   # If multiply names, expected to return a hash as NAME => CONTENT
   def prepare_for(*names, &block)
@@ -85,11 +98,11 @@ task :prepare_data do
 
     csvs = names.map { |name| read_CSV(name) }
     hashes = yield(*csvs)
-    hashes = { names[0] => hashes } if names.size == 1 # if only one name, make result as a hash
+    raise "prepare_for result has to be a Hash!" unless hashes.is_a? Hash
     hashes.each { |name, hash|
       File.write("data/#{name}.json", hash.to_json)
       File.write("data/#{name}.plist", Plist::Emit.dump(hash))
-      File.write("data/#{name}.xml", hash.to_xml(root: name))
+      File.write("data/#{name}.xml", to_xml_compatible_hash(hash).to_xml(root: name))
     }
   end
 
@@ -202,7 +215,7 @@ task :prepare_data do
   #   stop_name => [stop_id1, stop_id2]
   #   "San Francisco" => [70021, 70022]
   prepare_for("stops") do |stops|
-    stops
+    stops = stops
       .each { |item|
         # check data (if its scheme is changed)
         if item.stop_name !~ / Caltrain/
@@ -219,6 +232,8 @@ task :prepare_data do
       .map { |name, items| # customized Hash#map
         items.map(&:stop_id).sort
       }
+
+    {stops: stops}
   end
 
   # From:
