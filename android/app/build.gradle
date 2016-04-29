@@ -4,6 +4,10 @@ android {
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
 
+    repositories {
+        maven { url 'http://repo1.maven.org/maven2' }
+    }
+
     defaultConfig {
         applicationId "me.ranmocy.rcaltrain"
         minSdkVersion 15
@@ -22,6 +26,6 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.2.1'
-    compile 'com.android.support:design:23.2.1'
+    compile 'com.android.support:appcompat-v7:23.3.0'
+    compile 'com.android.support:design:23.3.0'
 }
