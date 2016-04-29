@@ -1,46 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    android:padding="20sp"
     tools:context="me.ranmocy.rcaltrain.HomeActivity">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/app_bar"
+    <!-- Title -->
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/app_bar_height"
-        android:fitsSystemWindows="true"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_height="?attr/actionBarSize"
+        app:layout_collapseMode="pin"
+        app:popupTheme="@style/AppTheme.PopupOverlay">
 
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/toolbar_layout"
+        <TextView
+            style="@style/Base.TextAppearance.AppCompat.Title"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/app_name" />
+    </android.support.v7.widget.Toolbar>
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                app:popupTheme="@style/AppTheme.PopupOverlay" />
-
-        </android.support.design.widget.CollapsingToolbarLayout>
-    </android.support.design.widget.AppBarLayout>
-
-    <include layout="@layout/content_home" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
+    <!-- From/To -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/ic_dialog_email"
-        app:layout_anchor="@id/app_bar"
-        app:layout_anchorGravity="bottom|end" />
+        android:orientation="horizontal">
 
-</android.support.design.widget.CoordinatorLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <!-- From -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/ScheduleLabel"
+                    android:text="@string/label_from" />
+
+                <EditText
+                    android:id="@+id/input_from"
+                    style="@style/ScheduleInput" />
+            </LinearLayout>
+
+            <!-- To -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/ScheduleLabel"
+                    android:text="@string/label_to" />
+
+                <EditText
+                    android:id="@+id/input_to"
+                    style="@style/ScheduleInput" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/switch_btn"
+            android:layout_width="48sp"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:text="S" />
+    </LinearLayout>
+
+    <!-- Schedule -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/label_height"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+        <Button
+            android:id="@+id/btn_now"
+            style="@style/ScheduleButton"
+            android:text="@string/label_now" />
+
+        <Button
+            android:id="@+id/btn_week"
+            style="@style/ScheduleButton"
+            android:text="@string/label_weekday" />
+
+        <Button
+            android:id="@+id/btn_sat"
+            style="@style/ScheduleButton"
+            android:text="@string/label_saturday" />
+
+        <Button
+            android:id="@+id/btn_sun"
+            style="@style/ScheduleButton"
+            android:text="@string/label_sunday" />
+    </LinearLayout>
+
+    <!-- Results -->
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </ListView>
+</LinearLayout>

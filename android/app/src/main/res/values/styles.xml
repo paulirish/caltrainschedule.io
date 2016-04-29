@@ -13,8 +13,30 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="ScheduleLabel" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:layout_width">40sp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">right|center_vertical</item>
+        <item name="android:textSize">@dimen/label_size</item>
+    </style>
+
+    <style name="ScheduleInput" parent="Base.Widget.AppCompat.EditText">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginLeft">5sp</item>
+        <item name="android:layout_marginRight">5sp</item>
+    </style>
+
+    <style name="ScheduleButton" parent="Base.TextAppearance.AppCompat.Widget.Button">
+        <item name="android:textSize">@dimen/label_size</item>
+        <item name="android:layout_height">@dimen/label_height</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_margin">0sp</item>
+        <item name="android:padding">0sp</item>
+        <item name="android:minHeight">0sp</item>
+        <item name="android:minWidth">0sp</item>
+    </style>
 </resources>
