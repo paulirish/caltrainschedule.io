@@ -1,4 +1,7 @@
 source 'https://rubygems.org'
 
-gem 'plist'
+gem 'rake'
 gem 'pry'
+gem 'plist'
+gem 'activesupport'
+gem 'builder'

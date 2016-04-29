@@ -37,7 +37,6 @@ task :download_data do
     FileUtils.mv(data_dir, target_dir)
   }
 
-
   [:prepare_data, :update_appcache].each do |task|
     Rake::Task[task].invoke
   end
@@ -48,6 +47,7 @@ task :prepare_data do
   require "csv"
   require "json"
   require "plist"
+  require "active_support/core_ext/hash"
 
   # Extend CSV
   class CSV
@@ -89,6 +89,7 @@ task :prepare_data do
     hashes.each { |name, hash|
       File.write("data/#{name}.json", hash.to_json)
       File.write("data/#{name}.plist", Plist::Emit.dump(hash))
+      File.write("data/#{name}.xml", hash.to_xml(root: name))
     }
   end
 
