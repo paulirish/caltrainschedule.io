@@ -47,8 +47,6 @@ task :prepare_data do
   require "csv"
   require "json"
   require "plist"
-  require "active_support/core_ext/array"
-  require "active_support/core_ext/hash"
 
   # Extend CSV
   class CSV
@@ -78,16 +76,28 @@ task :prepare_data do
       }
   end
 
-  # Transform hash into XML compatible array
-  def to_xml_compatible_hash(hash)
-    hash.inject([]) { |arr, (k, v)|
-      if v.is_a? Hash
-        v = to_xml_compatible_hash(v)
-      elsif v.is_a? Array
-        v = v.to_xml
-      end
-      arr.push({key: k, value: v})
+  def elem_to_xml(elem)
+    case elem
+    when Hash
+      hash_to_xml(elem)
+    when Array
+      arr_to_xml(elem)
+    else
+      elem.to_s
+    end
+  end
+  def arr_to_xml(arr)
+    xml = arr.inject("") { |s, elem|
+      s + elem_to_xml(elem)
     }
+    "<array>\n#{xml}\n</array>"
+  end
+  # Transform hash into XML compatible array
+  def hash_to_xml(hash)
+    xml = hash.inject("") { |s, (k, v)|
+      s + "<map>\n<key>#{k}</key><value>#{elem_to_xml(v)}</value>\n</map>"
+    }
+    "<map>\n#{xml}\n</map>"
   end
 
   # Read from CSV, prepare it with `block`, write what returns to JSON and PLIST files
@@ -102,7 +112,7 @@ task :prepare_data do
     hashes.each { |name, hash|
       File.write("data/#{name}.json", hash.to_json)
       File.write("data/#{name}.plist", Plist::Emit.dump(hash))
-      File.write("data/#{name}.xml", to_xml_compatible_hash(hash).to_xml(root: name))
+      File.write("data/#{name}.xml", %Q{<?xml version="1.0" encoding="UTF-8"?>\n#{hash_to_xml(hash)}\n})
     }
   end
 
