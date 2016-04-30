@@ -1,78 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<calendar type="array">
-  <calendar>
-    <key>CT-16APR-Caltrain-Weekday-01</key>
-    <value type="array">
-      <value>
-        <key type="symbol">weekday</key>
-        <value type="boolean">true</value>
-      </value>
-      <value>
-        <key type="symbol">saturday</key>
-        <value type="boolean">false</value>
-      </value>
-      <value>
-        <key type="symbol">sunday</key>
-        <value type="boolean">false</value>
-      </value>
-      <value>
-        <key type="symbol">start_date</key>
-        <value type="integer">20160404</value>
-      </value>
-      <value>
-        <key type="symbol">end_date</key>
-        <value type="integer">20190331</value>
-      </value>
-    </value>
-  </calendar>
-  <calendar>
-    <key>CT-16APR-Caltrain-Saturday-02</key>
-    <value type="array">
-      <value>
-        <key type="symbol">weekday</key>
-        <value type="boolean">false</value>
-      </value>
-      <value>
-        <key type="symbol">saturday</key>
-        <value type="boolean">true</value>
-      </value>
-      <value>
-        <key type="symbol">sunday</key>
-        <value type="boolean">false</value>
-      </value>
-      <value>
-        <key type="symbol">start_date</key>
-        <value type="integer">20140329</value>
-      </value>
-      <value>
-        <key type="symbol">end_date</key>
-        <value type="integer">20190331</value>
-      </value>
-    </value>
-  </calendar>
-  <calendar>
-    <key>CT-16APR-Caltrain-Sunday-02</key>
-    <value type="array">
-      <value>
-        <key type="symbol">weekday</key>
-        <value type="boolean">false</value>
-      </value>
-      <value>
-        <key type="symbol">saturday</key>
-        <value type="boolean">false</value>
-      </value>
-      <value>
-        <key type="symbol">sunday</key>
-        <value type="boolean">true</value>
-      </value>
-      <value>
-        <key type="symbol">start_date</key>
-        <value type="integer">20140323</value>
-      </value>
-      <value>
-        <key type="symbol">end_date</key>
-        <value type="integer">20190331</value>
-      </value>
-    </value>
-  </calendar>
-</calendar>
+<map>
+<map>
+<key>CT-16APR-Caltrain-Weekday-01</key><value><map>
+<map>
+<key>weekday</key><value>true</value>
+</map><map>
+<key>saturday</key><value>false</value>
+</map><map>
+<key>sunday</key><value>false</value>
+</map><map>
+<key>start_date</key><value>20160404</value>
+</map><map>
+<key>end_date</key><value>20190331</value>
+</map>
+</map></value>
+</map><map>
+<key>CT-16APR-Caltrain-Saturday-02</key><value><map>
+<map>
+<key>weekday</key><value>false</value>
+</map><map>
+<key>saturday</key><value>true</value>
+</map><map>
+<key>sunday</key><value>false</value>
+</map><map>
+<key>start_date</key><value>20140329</value>
+</map><map>
+<key>end_date</key><value>20190331</value>
+</map>
+</map></value>
+</map><map>
+<key>CT-16APR-Caltrain-Sunday-02</key><value><map>
+<map>
+<key>weekday</key><value>false</value>
+</map><map>
+<key>saturday</key><value>false</value>
+</map><map>
+<key>sunday</key><value>true</value>
+</map><map>
+<key>start_date</key><value>20140323</value>
+</map><map>
+<key>end_date</key><value>20190331</value>
+</map>
+</map></value>
+</map>
+</map>

@@ -1,49 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<calendar-dates type="array">
-  <calendar-date>
-    <key>CT-16APR-Caltrain-Weekday-01</key>
-    <value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;arrays type="array"&gt;
-  &lt;array type="array"&gt;
-    &lt;array type="integer"&gt;20160530&lt;/array&gt;
-    &lt;array type="integer"&gt;2&lt;/array&gt;
-  &lt;/array&gt;
-  &lt;array type="array"&gt;
-    &lt;array type="integer"&gt;20160704&lt;/array&gt;
-    &lt;array type="integer"&gt;2&lt;/array&gt;
-  &lt;/array&gt;
-  &lt;array type="array"&gt;
-    &lt;array type="integer"&gt;20160905&lt;/array&gt;
-    &lt;array type="integer"&gt;2&lt;/array&gt;
-  &lt;/array&gt;
-  &lt;array type="array"&gt;
-    &lt;array type="integer"&gt;20161124&lt;/array&gt;
-    &lt;array type="integer"&gt;2&lt;/array&gt;
-  &lt;/array&gt;
-&lt;/arrays&gt;
-</value>
-  </calendar-date>
-  <calendar-date>
-    <key>CT-16APR-Caltrain-Sunday-02</key>
-    <value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;arrays type="array"&gt;
-  &lt;array type="array"&gt;
-    &lt;array type="integer"&gt;20160530&lt;/array&gt;
-    &lt;array type="integer"&gt;1&lt;/array&gt;
-  &lt;/array&gt;
-  &lt;array type="array"&gt;
-    &lt;array type="integer"&gt;20160704&lt;/array&gt;
-    &lt;array type="integer"&gt;1&lt;/array&gt;
-  &lt;/array&gt;
-  &lt;array type="array"&gt;
-    &lt;array type="integer"&gt;20160905&lt;/array&gt;
-    &lt;array type="integer"&gt;1&lt;/array&gt;
-  &lt;/array&gt;
-  &lt;array type="array"&gt;
-    &lt;array type="integer"&gt;20161124&lt;/array&gt;
-    &lt;array type="integer"&gt;1&lt;/array&gt;
-  &lt;/array&gt;
-&lt;/arrays&gt;
-</value>
-  </calendar-date>
-</calendar-dates>
+<map>
+<map>
+<key>CT-16APR-Caltrain-Weekday-01</key><value><array>
+<array>
+201605302
+</array><array>
+201607042
+</array><array>
+201609052
+</array><array>
+201611242
+</array>
+</array></value>
+</map><map>
+<key>CT-16APR-Caltrain-Sunday-02</key><value><array>
+<array>
+201605301
+</array><array>
+201607041
+</array><array>
+201609051
+</array><array>
+201611241
+</array>
+</array></value>
+</map>
+</map>

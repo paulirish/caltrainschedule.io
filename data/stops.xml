@@ -1,284 +1,128 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<stops type="array">
-  <stop>
-    <key>San Francisco</key>
-    <value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;fixnums type="array"&gt;
-  &lt;fixnum type="integer"&gt;70011&lt;/fixnum&gt;
-  &lt;fixnum type="integer"&gt;70012&lt;/fixnum&gt;
-&lt;/fixnums&gt;
-</value>
-  </stop>
-  <stop>
-    <key>22nd St</key>
-    <value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;fixnums type="array"&gt;
-  &lt;fixnum type="integer"&gt;70021&lt;/fixnum&gt;
-  &lt;fixnum type="integer"&gt;70022&lt;/fixnum&gt;
-&lt;/fixnums&gt;
-</value>
-  </stop>
-  <stop>
-    <key>Bayshore</key>
-    <value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;fixnums type="array"&gt;
-  &lt;fixnum type="integer"&gt;70031&lt;/fixnum&gt;
-  &lt;fixnum type="integer"&gt;70032&lt;/fixnum&gt;
-&lt;/fixnums&gt;
-</value>
-  </stop>
-  <stop>
-    <key>So. San Francisco</key>
-    <value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;fixnums type="array"&gt;
-  &lt;fixnum type="integer"&gt;70041&lt;/fixnum&gt;
-  &lt;fixnum type="integer"&gt;70042&lt;/fixnum&gt;
-&lt;/fixnums&gt;
-</value>
-  </stop>
-  <stop>
-    <key>San Bruno</key>
-    <value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;fixnums type="array"&gt;
-  &lt;fixnum type="integer"&gt;70051&lt;/fixnum&gt;
-  &lt;fixnum type="integer"&gt;70052&lt;/fixnum&gt;
-&lt;/fixnums&gt;
-</value>
-  </stop>
-  <stop>
-    <key>Millbrae</key>
-    <value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;fixnums type="array"&gt;
-  &lt;fixnum type="integer"&gt;70061&lt;/fixnum&gt;
-  &lt;fixnum type="integer"&gt;70062&lt;/fixnum&gt;
-&lt;/fixnums&gt;
-</value>
-  </stop>
-  <stop>
-    <key>Broadway</key>
-    <value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;fixnums type="array"&gt;
-  &lt;fixnum type="integer"&gt;70071&lt;/fixnum&gt;
-  &lt;fixnum type="integer"&gt;70072&lt;/fixnum&gt;
-&lt;/fixnums&gt;
-</value>
-  </stop>
-  <stop>
-    <key>Burlingame</key>
-    <value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;fixnums type="array"&gt;
-  &lt;fixnum type="integer"&gt;70081&lt;/fixnum&gt;
-  &lt;fixnum type="integer"&gt;70082&lt;/fixnum&gt;
-&lt;/fixnums&gt;
-</value>
-  </stop>
-  <stop>
-    <key>San Mateo</key>
-    <value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;fixnums type="array"&gt;
-  &lt;fixnum type="integer"&gt;70091&lt;/fixnum&gt;
-  &lt;fixnum type="integer"&gt;70092&lt;/fixnum&gt;
-&lt;/fixnums&gt;
-</value>
-  </stop>
-  <stop>
-    <key>Hayward Park</key>
-    <value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;fixnums type="array"&gt;
-  &lt;fixnum type="integer"&gt;70101&lt;/fixnum&gt;
-  &lt;fixnum type="integer"&gt;70102&lt;/fixnum&gt;
-&lt;/fixnums&gt;
-</value>
-  </stop>
-  <stop>
-    <key>Hillsdale</key>
-    <value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;fixnums type="array"&gt;
-  &lt;fixnum type="integer"&gt;70111&lt;/fixnum&gt;
-  &lt;fixnum type="integer"&gt;70112&lt;/fixnum&gt;
-&lt;/fixnums&gt;
-</value>
-  </stop>
-  <stop>
-    <key>Belmont</key>
-    <value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;fixnums type="array"&gt;
-  &lt;fixnum type="integer"&gt;70121&lt;/fixnum&gt;
-  &lt;fixnum type="integer"&gt;70122&lt;/fixnum&gt;
-&lt;/fixnums&gt;
-</value>
-  </stop>
-  <stop>
-    <key>San Carlos</key>
-    <value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;fixnums type="array"&gt;
-  &lt;fixnum type="integer"&gt;70131&lt;/fixnum&gt;
-  &lt;fixnum type="integer"&gt;70132&lt;/fixnum&gt;
-&lt;/fixnums&gt;
-</value>
-  </stop>
-  <stop>
-    <key>Redwood City</key>
-    <value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;fixnums type="array"&gt;
-  &lt;fixnum type="integer"&gt;70141&lt;/fixnum&gt;
-  &lt;fixnum type="integer"&gt;70142&lt;/fixnum&gt;
-&lt;/fixnums&gt;
-</value>
-  </stop>
-  <stop>
-    <key>Atherton</key>
-    <value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;fixnums type="array"&gt;
-  &lt;fixnum type="integer"&gt;70151&lt;/fixnum&gt;
-  &lt;fixnum type="integer"&gt;70152&lt;/fixnum&gt;
-&lt;/fixnums&gt;
-</value>
-  </stop>
-  <stop>
-    <key>Menlo Park</key>
-    <value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;fixnums type="array"&gt;
-  &lt;fixnum type="integer"&gt;70161&lt;/fixnum&gt;
-  &lt;fixnum type="integer"&gt;70162&lt;/fixnum&gt;
-&lt;/fixnums&gt;
-</value>
-  </stop>
-  <stop>
-    <key>Palo Alto</key>
-    <value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;fixnums type="array"&gt;
-  &lt;fixnum type="integer"&gt;70171&lt;/fixnum&gt;
-  &lt;fixnum type="integer"&gt;70172&lt;/fixnum&gt;
-&lt;/fixnums&gt;
-</value>
-  </stop>
-  <stop>
-    <key>California Ave</key>
-    <value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;fixnums type="array"&gt;
-  &lt;fixnum type="integer"&gt;70191&lt;/fixnum&gt;
-  &lt;fixnum type="integer"&gt;70192&lt;/fixnum&gt;
-&lt;/fixnums&gt;
-</value>
-  </stop>
-  <stop>
-    <key>San Antonio</key>
-    <value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;fixnums type="array"&gt;
-  &lt;fixnum type="integer"&gt;70201&lt;/fixnum&gt;
-  &lt;fixnum type="integer"&gt;70202&lt;/fixnum&gt;
-&lt;/fixnums&gt;
-</value>
-  </stop>
-  <stop>
-    <key>Mt View</key>
-    <value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;fixnums type="array"&gt;
-  &lt;fixnum type="integer"&gt;70211&lt;/fixnum&gt;
-  &lt;fixnum type="integer"&gt;70212&lt;/fixnum&gt;
-&lt;/fixnums&gt;
-</value>
-  </stop>
-  <stop>
-    <key>Sunnyvale</key>
-    <value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;fixnums type="array"&gt;
-  &lt;fixnum type="integer"&gt;70221&lt;/fixnum&gt;
-  &lt;fixnum type="integer"&gt;70222&lt;/fixnum&gt;
-&lt;/fixnums&gt;
-</value>
-  </stop>
-  <stop>
-    <key>Lawrence</key>
-    <value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;fixnums type="array"&gt;
-  &lt;fixnum type="integer"&gt;70231&lt;/fixnum&gt;
-  &lt;fixnum type="integer"&gt;70232&lt;/fixnum&gt;
-&lt;/fixnums&gt;
-</value>
-  </stop>
-  <stop>
-    <key>Santa Clara</key>
-    <value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;fixnums type="array"&gt;
-  &lt;fixnum type="integer"&gt;70241&lt;/fixnum&gt;
-  &lt;fixnum type="integer"&gt;70242&lt;/fixnum&gt;
-&lt;/fixnums&gt;
-</value>
-  </stop>
-  <stop>
-    <key>College Park</key>
-    <value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;fixnums type="array"&gt;
-  &lt;fixnum type="integer"&gt;70251&lt;/fixnum&gt;
-  &lt;fixnum type="integer"&gt;70252&lt;/fixnum&gt;
-&lt;/fixnums&gt;
-</value>
-  </stop>
-  <stop>
-    <key>San Jose Diridon</key>
-    <value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;fixnums type="array"&gt;
-  &lt;fixnum type="integer"&gt;70261&lt;/fixnum&gt;
-  &lt;fixnum type="integer"&gt;70262&lt;/fixnum&gt;
-  &lt;fixnum type="integer"&gt;777402&lt;/fixnum&gt;
-&lt;/fixnums&gt;
-</value>
-  </stop>
-  <stop>
-    <key>Tamien</key>
-    <value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;fixnums type="array"&gt;
-  &lt;fixnum type="integer"&gt;70271&lt;/fixnum&gt;
-  &lt;fixnum type="integer"&gt;70272&lt;/fixnum&gt;
-  &lt;fixnum type="integer"&gt;777403&lt;/fixnum&gt;
-&lt;/fixnums&gt;
-</value>
-  </stop>
-  <stop>
-    <key>Capitol</key>
-    <value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;fixnums type="array"&gt;
-  &lt;fixnum type="integer"&gt;70281&lt;/fixnum&gt;
-  &lt;fixnum type="integer"&gt;70282&lt;/fixnum&gt;
-&lt;/fixnums&gt;
-</value>
-  </stop>
-  <stop>
-    <key>Blossom Hill</key>
-    <value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;fixnums type="array"&gt;
-  &lt;fixnum type="integer"&gt;70291&lt;/fixnum&gt;
-  &lt;fixnum type="integer"&gt;70292&lt;/fixnum&gt;
-&lt;/fixnums&gt;
-</value>
-  </stop>
-  <stop>
-    <key>Morgan Hill</key>
-    <value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;fixnums type="array"&gt;
-  &lt;fixnum type="integer"&gt;70301&lt;/fixnum&gt;
-  &lt;fixnum type="integer"&gt;70302&lt;/fixnum&gt;
-&lt;/fixnums&gt;
-</value>
-  </stop>
-  <stop>
-    <key>San Martin</key>
-    <value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;fixnums type="array"&gt;
-  &lt;fixnum type="integer"&gt;70311&lt;/fixnum&gt;
-  &lt;fixnum type="integer"&gt;70312&lt;/fixnum&gt;
-&lt;/fixnums&gt;
-</value>
-  </stop>
-  <stop>
-    <key>Gilroy</key>
-    <value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;fixnums type="array"&gt;
-  &lt;fixnum type="integer"&gt;70321&lt;/fixnum&gt;
-  &lt;fixnum type="integer"&gt;70322&lt;/fixnum&gt;
-&lt;/fixnums&gt;
-</value>
-  </stop>
-</stops>
+<map>
+<map>
+<key>San Francisco</key><value><array>
+7001170012
+</array></value>
+</map><map>
+<key>22nd St</key><value><array>
+7002170022
+</array></value>
+</map><map>
+<key>Bayshore</key><value><array>
+7003170032
+</array></value>
+</map><map>
+<key>So. San Francisco</key><value><array>
+7004170042
+</array></value>
+</map><map>
+<key>San Bruno</key><value><array>
+7005170052
+</array></value>
+</map><map>
+<key>Millbrae</key><value><array>
+7006170062
+</array></value>
+</map><map>
+<key>Broadway</key><value><array>
+7007170072
+</array></value>
+</map><map>
+<key>Burlingame</key><value><array>
+7008170082
+</array></value>
+</map><map>
+<key>San Mateo</key><value><array>
+7009170092
+</array></value>
+</map><map>
+<key>Hayward Park</key><value><array>
+7010170102
+</array></value>
+</map><map>
+<key>Hillsdale</key><value><array>
+7011170112
+</array></value>
+</map><map>
+<key>Belmont</key><value><array>
+7012170122
+</array></value>
+</map><map>
+<key>San Carlos</key><value><array>
+7013170132
+</array></value>
+</map><map>
+<key>Redwood City</key><value><array>
+7014170142
+</array></value>
+</map><map>
+<key>Atherton</key><value><array>
+7015170152
+</array></value>
+</map><map>
+<key>Menlo Park</key><value><array>
+7016170162
+</array></value>
+</map><map>
+<key>Palo Alto</key><value><array>
+7017170172
+</array></value>
+</map><map>
+<key>California Ave</key><value><array>
+7019170192
+</array></value>
+</map><map>
+<key>San Antonio</key><value><array>
+7020170202
+</array></value>
+</map><map>
+<key>Mt View</key><value><array>
+7021170212
+</array></value>
+</map><map>
+<key>Sunnyvale</key><value><array>
+7022170222
+</array></value>
+</map><map>
+<key>Lawrence</key><value><array>
+7023170232
+</array></value>
+</map><map>
+<key>Santa Clara</key><value><array>
+7024170242
+</array></value>
+</map><map>
+<key>College Park</key><value><array>
+7025170252
+</array></value>
+</map><map>
+<key>San Jose Diridon</key><value><array>
+7026170262777402
+</array></value>
+</map><map>
+<key>Tamien</key><value><array>
+7027170272777403
+</array></value>
+</map><map>
+<key>Capitol</key><value><array>
+7028170282
+</array></value>
+</map><map>
+<key>Blossom Hill</key><value><array>
+7029170292
+</array></value>
+</map><map>
+<key>Morgan Hill</key><value><array>
+7030170302
+</array></value>
+</map><map>
+<key>San Martin</key><value><array>
+7031170312
+</array></value>
+</map><map>
+<key>Gilroy</key><value><array>
+7032170322
+</array></value>
+</map>
+</map>
