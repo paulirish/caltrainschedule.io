@@ -88,14 +88,14 @@ task :prepare_data do
   end
   def arr_to_xml(arr)
     xml = arr.inject("") { |s, elem|
-      s + elem_to_xml(elem)
+      s + %Q{<elem>#{elem_to_xml(elem)}</elem>}
     }
     "<array>\n#{xml}\n</array>"
   end
   # Transform hash into XML compatible array
   def hash_to_xml(hash)
     xml = hash.inject("") { |s, (k, v)|
-      s + "<map>\n<key>#{k}</key><value>#{elem_to_xml(v)}</value>\n</map>"
+      s + "<key>#{k}</key>\n<value>\n#{elem_to_xml(v)}\n</value>"
     }
     "<map>\n#{xml}\n</map>"
   end
