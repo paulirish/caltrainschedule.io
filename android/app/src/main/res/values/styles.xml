@@ -29,7 +29,7 @@
         <item name="android:layout_marginRight">5sp</item>
     </style>
 
-    <style name="ScheduleButton" parent="Base.TextAppearance.AppCompat.Widget.Button">
+    <style name="ScheduleButton" parent="Widget.AppCompat.CompoundButton.RadioButton">
         <item name="android:textSize">@dimen/label_size</item>
         <item name="android:layout_height">@dimen/label_height</item>
         <item name="android:layout_width">wrap_content</item>
@@ -38,5 +38,7 @@
         <item name="android:padding">0sp</item>
         <item name="android:minHeight">0sp</item>
         <item name="android:minWidth">0sp</item>
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center</item>
     </style>
 </resources>

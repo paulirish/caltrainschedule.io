@@ -47,7 +47,7 @@
                     android:text="@string/label_from" />
 
                 <EditText
-                    android:id="@+id/input_from"
+                    android:id="@+id/input_departure"
                     style="@style/ScheduleInput" />
             </LinearLayout>
 
@@ -61,7 +61,7 @@
                     android:text="@string/label_to" />
 
                 <EditText
-                    android:id="@+id/input_to"
+                    android:id="@+id/input_destination"
                     style="@style/ScheduleInput" />
             </LinearLayout>
         </LinearLayout>
@@ -71,39 +71,45 @@
             android:layout_width="48sp"
             android:layout_height="match_parent"
             android:layout_weight="0"
-            android:text="S" />
+            android:onClick="onClick" />
     </LinearLayout>
 
     <!-- Schedule -->
-    <LinearLayout
+    <RadioGroup
+        android:id="@+id/schedule_group"
         android:layout_width="match_parent"
         android:layout_height="@dimen/label_height"
         android:orientation="horizontal"
         android:weightSum="4">
 
-        <Button
+        <android.support.v7.widget.AppCompatRadioButton
             android:id="@+id/btn_now"
             style="@style/ScheduleButton"
+            android:onClick="onClick"
             android:text="@string/label_now" />
 
-        <Button
+        <android.support.v7.widget.AppCompatRadioButton
             android:id="@+id/btn_week"
             style="@style/ScheduleButton"
+            android:onClick="onClick"
             android:text="@string/label_weekday" />
 
-        <Button
+        <android.support.v7.widget.AppCompatRadioButton
             android:id="@+id/btn_sat"
             style="@style/ScheduleButton"
+            android:onClick="onClick"
             android:text="@string/label_saturday" />
 
-        <Button
+        <android.support.v7.widget.AppCompatRadioButton
             android:id="@+id/btn_sun"
             style="@style/ScheduleButton"
+            android:onClick="onClick"
             android:text="@string/label_sunday" />
-    </LinearLayout>
+    </RadioGroup>
 
     <!-- Results -->
     <ListView
+        android:id="@+id/results"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

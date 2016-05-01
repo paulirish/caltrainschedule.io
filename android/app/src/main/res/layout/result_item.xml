@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="36sp"
+    android:layout_margin="12sp"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:paddingLeft="40sp"
+    android:paddingRight="40sp">
+
+    <TextView
+        android:id="@+id/departure_time"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textSize="24sp"
+        tools:text="12:00" />
+
+    <TextView
+        android:id="@+id/interval_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="58 min" />
+
+    <TextView
+        android:id="@+id/arrival_time"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textSize="24sp"
+        tools:text="13:00" />
+
+</LinearLayout>

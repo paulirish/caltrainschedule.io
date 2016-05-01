@@ -21,6 +21,14 @@ public class Station {
         return station;
     }
 
+    public static Station getStation(String name) {
+        return NAME_MAP.get(name);
+    }
+
+    public static Station getStation(int id) {
+        return ID_MAP.get(id);
+    }
+
     private final String name;
     private final List<Integer> ids;
 

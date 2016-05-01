@@ -3,6 +3,7 @@ package me.ranmocy.rcaltrain;
 import android.content.Context;
 import android.content.res.XmlResourceParser;
 import android.support.annotation.XmlRes;
+import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -10,7 +11,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import static org.xmlpull.v1.XmlPullParser.END_DOCUMENT;
@@ -20,33 +20,38 @@ import static org.xmlpull.v1.XmlPullParser.START_TAG;
 import static org.xmlpull.v1.XmlPullParser.TEXT;
 
 /**
- * Created by ranmocy on 4/30/16.
+ * Loader loads scheduling data from xml files.
  */
 public class DataLoader {
 
+    private static final String TAG = "DataLoader";
     private static final String MAP = "map";
     private static final String KEY = "key";
     private static final String VALUE = "value";
     private static final String ARRAY = "array";
     private static final String ELEM = "elem";
 
-    public static String loadData(Context context) {
-        String result = "";
+    private static boolean loaded = false;
+
+    public static void loadDataIfNot(Context context) {
+        if (loaded) {
+            Log.i(TAG, "Data have loaded, skip.");
+            return;
+        }
+
+        Log.i(TAG, "Loading data.");
         try {
-            // calendar:
-            //   service_id => {weekday: bool, saturday: bool, sunday: bool, start_date: date, end_date: date}
-            //   CT-16APR-Caltrain-Weekday-01 => {weekday: false, saturday: true, sunday: false, start_date: 20160404, end_date: 20190331}
-            // calendar_dates:
-            //   service_id => [[date, exception_type]]
-            //   CT-16APR-Caltrain-Weekday-01 => [[20160530,2]]
             new DataLoader(context, R.xml.stops).loadStops();
             new DataLoader(context, R.xml.calendar).loadCalendar();
+            new DataLoader(context, R.xml.calendar_dates).loadCalendarDates();
             new DataLoader(context, R.xml.routes).loadRoutes();
         } catch (XmlPullParserException | IOException e) {
             // TODO: show dialog
             throw new RuntimeException(e);
         }
-        return result;
+
+        Log.i(TAG, "Data loaded.");
+        loaded = true;
     }
 
     private final XmlResourceParser parser;
@@ -55,10 +60,12 @@ public class DataLoader {
         this.parser = context.getResources().getXml(resId);
     }
 
+    /**
+     * stops:
+     * stop_name => [stop_id1, stop_id2]
+     * "San Francisco" => [70021, 70022]
+     */
     private void loadStops() throws XmlPullParserException, IOException {
-        // stops:
-        //   stop_name => [stop_id1, stop_id2]
-        //   "San Francisco" => [70021, 70022]
         startDoc();
         startTag(MAP);
         while (isTag(KEY)) {
@@ -79,6 +86,11 @@ public class DataLoader {
         endDoc();
     }
 
+    /**
+     * calendar:
+     * service_id => {weekday: bool, saturday: bool, sunday: bool, start_date: date, end_date: date}
+     * CT-16APR-Caltrain-Weekday-01 => {weekday: false, saturday: true, sunday: false, start_date: 20160404, end_date: 20190331}
+     */
     private void loadCalendar() throws IOException, XmlPullParserException {
         startDoc();
         startTag(MAP);
@@ -99,37 +111,81 @@ public class DataLoader {
             Calendar endDate = getDate(VALUE);
             endTag(MAP);
             endTag(VALUE);
+
+            Service.addService(serviceId, weekday, saturday, sunday, startDate, endDate);
         }
         endTag(MAP);
         endDoc();
     }
 
-    private void loadRoutes() throws IOException, XmlPullParserException {
-        // routes:
-        //   { route_id => { service_id => { trip_id => [[stop_id, arrival_time/departure_time(in seconds)]] } } }
-        //   { "Bullet" => { "CT-14OCT-XXX" => { "650770-CT-14OCT-XXX" => [[70012, 29700], ...] } } }
+    /**
+     * calendar_dates:
+     * service_id => [[date, exception_type]]
+     * CT-16APR-Caltrain-Weekday-01 => [[20160530,2]]
+     */
+    private void loadCalendarDates() throws IOException, XmlPullParserException {
         startDoc();
         startTag(MAP);
         while (isTag(KEY)) {
-            String routeId = getKey();
+            String serviceId = getKey();
+            Service service = Service.getService(serviceId);
+
+            startTag(VALUE);
+            startTag(ARRAY);
+            while (isTag(ELEM)) {
+                startTag(ELEM);
+                startTag(ARRAY);
+                Calendar date = getDate(ELEM);
+                int type = getInt(ELEM);
+                if (type == 1) {
+                    service.addAdditionalDate(date);
+                } else if (type == 2) {
+                    service.addExceptionDate(date);
+                } else {
+                    throw new RuntimeException("Unexpected exception dates type:" + type);
+                }
+                endTag(ARRAY);
+                endTag(ELEM);
+            }
+            endTag(ARRAY);
+            endTag(VALUE);
+        }
+        endTag(MAP);
+        endDoc();
+    }
+
+    /**
+     * routes:
+     * { route_id => { service_id => { trip_id => [[stop_id, arrival_time/departure_time(in seconds)]] } } }
+     * { "Bullet" => { "CT-14OCT-XXX" => { "650770-CT-14OCT-XXX" => [[70012, 29700], ...] } } }
+     */
+    private void loadRoutes() throws IOException, XmlPullParserException {
+        startDoc();
+        startTag(MAP);
+        while (isTag(KEY)) {
+            getKey(); // routeId
 
             startTag(VALUE);
             startTag(MAP);
             while (isTag(KEY)) {
                 String serviceId = getKey();
+                Service service = Service.getService(serviceId);
 
                 startTag(VALUE);
                 startTag(MAP);
                 while (isTag(KEY)) {
                     String tripId = getKey();
+                    Trip trip = service.addTrip(tripId);
 
                     startTag(VALUE);
                     startTag(ARRAY);
                     while (isTag(ELEM)) {
                         startTag(ELEM);
                         startTag(ARRAY);
-                        int stopId = getInt(ELEM);
-                        int stopTime = getInt(ELEM);
+                        int stationId = getInt(ELEM);
+                        Station station = Station.getStation(stationId);
+                        Date stopTime = getTime(ELEM);
+                        trip.addStop(station, stopTime);
                         endTag(ARRAY);
                         endTag(ELEM);
                     }
@@ -197,6 +253,13 @@ public class DataLoader {
         int year = dateInt / 10000;
         int month = dateInt / 100 % 100;
         int day = dateInt % 100;
-        return new GregorianCalendar(year, month, day);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, day, 0, 0, 0);
+        return calendar;
+    }
+
+    private Date getTime(String tagName) throws IOException, XmlPullParserException {
+        int dayTime = Integer.parseInt(getText(tagName)); // seconds since midnight
+        return new Date(dayTime * 1000 /* ms */);
     }
 }
