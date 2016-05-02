@@ -32,7 +32,8 @@ public class DayTime implements Comparable<DayTime> {
 
     @Override
     public String toString() {
-        return String.format(Locale.getDefault(), "%02d:%02d", minutesSinceMidnight / 60, minutesSinceMidnight % 60);
+        return String.format(Locale.getDefault(), "%02d:%02d",
+                minutesSinceMidnight / 60 % 24, minutesSinceMidnight % 60 % 24);
     }
 
     /**
