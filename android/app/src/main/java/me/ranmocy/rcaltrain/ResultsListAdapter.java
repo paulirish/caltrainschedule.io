@@ -68,7 +68,7 @@ public class ResultsListAdapter extends BaseAdapter implements ListAdapter {
 
     public String getNextTime() {
         if (resultList.isEmpty()) {
-            return "";
+            return "Oops, no train for today!";
         }
         long nextTrainInMinutes = DayTime.now().toInMinutes(resultList.get(0).departureTime);
         return String.format(Locale.getDefault(), "Next train in %d min", nextTrainInMinutes);

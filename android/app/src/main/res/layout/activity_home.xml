@@ -119,7 +119,9 @@
         <TextView
             android:id="@+id/next_train"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            tools:text="Next train in 28 min" />
 
         <ListView
             android:id="@+id/results"
