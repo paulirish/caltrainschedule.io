@@ -1,16 +1,18 @@
 package me.ranmocy.rcaltrain;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- * Created by ranmocy on 4/30/16.
+ * Station model.
  */
 public class Station {
 
     private static final Map<String, Station> NAME_MAP = new HashMap<>();
     private static final Map<Integer, Station> ID_MAP = new HashMap<>();
+    private static final List<Station> ALL_STATIONS = new ArrayList<>();
 
     public static Station addStation(String name, List<Integer> ids) {
         Station station = new Station(name, ids);
@@ -18,6 +20,7 @@ public class Station {
         for (Integer id : ids) {
             ID_MAP.put(id, station);
         }
+        ALL_STATIONS.add(station);
         return station;
     }
 
@@ -27,6 +30,10 @@ public class Station {
 
     public static Station getStation(int id) {
         return ID_MAP.get(id);
+    }
+
+    public static List<Station> getAllStation() {
+        return ALL_STATIONS;
     }
 
     private final String name;

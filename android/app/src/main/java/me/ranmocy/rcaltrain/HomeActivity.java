@@ -2,11 +2,14 @@ package me.ranmocy.rcaltrain;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ListPopupWindow;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioGroup;
@@ -17,8 +20,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private static final String TAG = "HomeActivity";
 
     private Preferences preferences;
-    private EditText departureView;
-    private EditText arrivalView;
+    private AutoCompleteTextView departureView;
+    private AutoCompleteTextView arrivalView;
     private RadioGroup scheduleGroup;
     private TextView nextTrainView;
     private ResultsListAdapter resultsAdapter;
@@ -34,10 +37,14 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         DataLoader.loadDataIfNot(this);
 
         // find all views
-        departureView = (EditText) findViewById(R.id.input_departure);
-        arrivalView = (EditText) findViewById(R.id.input_arrival);
+        departureView = (AutoCompleteTextView) findViewById(R.id.input_departure);
+        arrivalView = (AutoCompleteTextView) findViewById(R.id.input_arrival);
         scheduleGroup = (RadioGroup) findViewById(R.id.schedule_group);
         nextTrainView = (TextView) findViewById(R.id.next_train);
+
+        ArrayAdapter<Station> adapter = new ArrayAdapter<>(this, R.layout.station_item, R.id.station_item, Station.getAllStation());
+        departureView.setAdapter(adapter);
+        arrivalView.setAdapter(adapter);
 
         // Setup result view
         ListView resultsView = (ListView) findViewById(R.id.results);
@@ -47,6 +54,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         // Load preferences
         preferences = new Preferences(this);
+        // TODO: check saved station name, invalid it if it's not in our list.
         departureView.setText(preferences.getLastDepartureStationName());
         arrivalView.setText(preferences.getLastDestinationStationName());
         switch (preferences.getLastScheduleType()) {

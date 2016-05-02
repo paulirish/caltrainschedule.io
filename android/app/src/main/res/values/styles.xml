@@ -26,11 +26,12 @@
         <item name="android:textSize">@dimen/label_size</item>
     </style>
 
-    <style name="ScheduleInput" parent="Base.Widget.AppCompat.EditText">
+    <style name="ScheduleInput" parent="Base.V7.Widget.AppCompat.AutoCompleteTextView">
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_marginLeft">5sp</item>
         <item name="android:layout_marginRight">5sp</item>
+        <item name="android:gravity">center</item>
     </style>
 
     <style name="ScheduleButton" parent="Widget.AppCompat.CompoundButton.RadioButton">

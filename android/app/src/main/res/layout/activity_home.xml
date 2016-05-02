@@ -54,9 +54,10 @@
                         style="@style/ScheduleLabel"
                         android:text="@string/label_from" />
 
-                    <EditText
+                    <AutoCompleteTextView
                         android:id="@+id/input_departure"
-                        style="@style/ScheduleInput" />
+                        style="@style/ScheduleInput"
+                        tools:text="San Francisco" />
                 </LinearLayout>
 
                 <!-- To -->
@@ -68,9 +69,10 @@
                         style="@style/ScheduleLabel"
                         android:text="@string/label_to" />
 
-                    <EditText
+                    <AutoCompleteTextView
                         android:id="@+id/input_arrival"
-                        style="@style/ScheduleInput" />
+                        style="@style/ScheduleInput"
+                        tools:text="Sunnyvale" />
                 </LinearLayout>
             </LinearLayout>
 
