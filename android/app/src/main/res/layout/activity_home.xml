@@ -6,112 +6,127 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    android:padding="20sp"
-    tools:context="me.ranmocy.rcaltrain.HomeActivity">
+    tools:context="me.ranmocy.rcaltrain.HomeActivity"
+    tools:theme="@style/AppTheme.NoActionBar">
 
     <!-- Title -->
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
         app:layout_collapseMode="pin"
         app:popupTheme="@style/AppTheme.PopupOverlay">
 
         <TextView
-            style="@style/Base.TextAppearance.AppCompat.Title"
+            style="@style/AppTheme.Title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/app_name" />
     </android.support.v7.widget.Toolbar>
 
-    <!-- From/To -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="24sp">
 
+        <!-- From/To -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
-            <!-- From -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-                <TextView
-                    style="@style/ScheduleLabel"
-                    android:text="@string/label_from" />
+                <!-- From -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                <EditText
-                    android:id="@+id/input_departure"
-                    style="@style/ScheduleInput" />
+                    <TextView
+                        style="@style/ScheduleLabel"
+                        android:text="@string/label_from" />
+
+                    <EditText
+                        android:id="@+id/input_departure"
+                        style="@style/ScheduleInput" />
+                </LinearLayout>
+
+                <!-- To -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/ScheduleLabel"
+                        android:text="@string/label_to" />
+
+                    <EditText
+                        android:id="@+id/input_arrival"
+                        style="@style/ScheduleInput" />
+                </LinearLayout>
             </LinearLayout>
 
-            <!-- To -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    style="@style/ScheduleLabel"
-                    android:text="@string/label_to" />
-
-                <EditText
-                    android:id="@+id/input_destination"
-                    style="@style/ScheduleInput" />
-            </LinearLayout>
+            <Button
+                android:id="@+id/switch_btn"
+                android:layout_width="48sp"
+                android:layout_height="match_parent"
+                android:layout_weight="0"
+                android:onClick="onClick" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/switch_btn"
-            android:layout_width="48sp"
+        <!-- Schedule -->
+        <RadioGroup
+            android:id="@+id/schedule_group"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/label_height"
+            android:orientation="horizontal"
+            android:weightSum="4">
+
+            <RadioButton
+                android:id="@+id/btn_now"
+                style="@style/ScheduleButton"
+                android:onClick="onClick"
+                android:text="@string/label_now" />
+
+            <RadioButton
+                android:id="@+id/btn_week"
+                style="@style/ScheduleButton"
+                android:onClick="onClick"
+                android:text="@string/label_weekday"
+                tools:checked="true" />
+
+            <RadioButton
+                android:id="@+id/btn_sat"
+                style="@style/ScheduleButton"
+                android:onClick="onClick"
+                android:text="@string/label_saturday" />
+
+            <RadioButton
+                android:id="@+id/btn_sun"
+                style="@style/ScheduleButton"
+                android:onClick="onClick"
+                android:text="@string/label_sunday" />
+        </RadioGroup>
+
+        <!-- Results -->
+        <TextView
+            android:id="@+id/next_train"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <ListView
+            android:id="@+id/results"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0"
-            android:onClick="onClick" />
+            tools:listitem="@layout/result_item" />
+
     </LinearLayout>
 
-    <!-- Schedule -->
-    <RadioGroup
-        android:id="@+id/schedule_group"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/label_height"
-        android:orientation="horizontal"
-        android:weightSum="4">
-
-        <android.support.v7.widget.AppCompatRadioButton
-            android:id="@+id/btn_now"
-            style="@style/ScheduleButton"
-            android:onClick="onClick"
-            android:text="@string/label_now" />
-
-        <android.support.v7.widget.AppCompatRadioButton
-            android:id="@+id/btn_week"
-            style="@style/ScheduleButton"
-            android:onClick="onClick"
-            android:text="@string/label_weekday" />
-
-        <android.support.v7.widget.AppCompatRadioButton
-            android:id="@+id/btn_sat"
-            style="@style/ScheduleButton"
-            android:onClick="onClick"
-            android:text="@string/label_saturday" />
-
-        <android.support.v7.widget.AppCompatRadioButton
-            android:id="@+id/btn_sun"
-            style="@style/ScheduleButton"
-            android:onClick="onClick"
-            android:text="@string/label_sunday" />
-    </RadioGroup>
-
-    <!-- Results -->
-    <ListView
-        android:id="@+id/results"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </ListView>
 </LinearLayout>

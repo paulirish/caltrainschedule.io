@@ -1,7 +1,6 @@
 package me.ranmocy.rcaltrain;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -12,14 +11,14 @@ public class Trip {
     public class Stop {
 
         private final Station station;
-        private final Date time;
+        private final DayTime time;
 
-        private Stop(Station station, Date time) {
+        private Stop(Station station, DayTime time) {
             this.station = station;
             this.time = time;
         }
 
-        public Date getTime() {
+        public DayTime getTime() {
             return time;
         }
     }
@@ -33,7 +32,7 @@ public class Trip {
         this.service = service;
     }
 
-    public void addStop(Station station, Date time) {
+    public void addStop(Station station, DayTime time) {
         stops.add(new Stop(station, time));
     }
 

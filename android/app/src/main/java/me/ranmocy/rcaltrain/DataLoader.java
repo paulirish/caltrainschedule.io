@@ -10,7 +10,6 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import static org.xmlpull.v1.XmlPullParser.END_DOCUMENT;
@@ -184,7 +183,7 @@ public class DataLoader {
                         startTag(ARRAY);
                         int stationId = getInt(ELEM);
                         Station station = Station.getStation(stationId);
-                        Date stopTime = getTime(ELEM);
+                        DayTime stopTime = getTime(ELEM);
                         trip.addStop(station, stopTime);
                         endTag(ARRAY);
                         endTag(ELEM);
@@ -251,15 +250,16 @@ public class DataLoader {
     private Calendar getDate(String tagName) throws IOException, XmlPullParserException {
         int dateInt = Integer.parseInt(getText(tagName));
         int year = dateInt / 10000;
-        int month = dateInt / 100 % 100;
+        int month = dateInt / 100 % 100 - 1; // month is 0-based
         int day = dateInt % 100;
         Calendar calendar = Calendar.getInstance();
-        calendar.set(year, month, day, 0, 0, 0);
+        calendar.clear();
+        calendar.set(year, month, day);
         return calendar;
     }
 
-    private Date getTime(String tagName) throws IOException, XmlPullParserException {
+    private DayTime getTime(String tagName) throws IOException, XmlPullParserException {
         int dayTime = Integer.parseInt(getText(tagName)); // seconds since midnight
-        return new Date(dayTime * 1000 /* ms */);
+        return new DayTime(dayTime);
     }
 }

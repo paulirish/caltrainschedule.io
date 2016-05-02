@@ -10,33 +10,61 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "HomeActivity";
 
     private Preferences preferences;
+    private EditText departureView;
+    private EditText arrivalView;
+    private RadioGroup scheduleGroup;
+    private TextView nextTrainView;
     private ResultsListAdapter resultsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         DataLoader.loadDataIfNot(this);
 
-        preferences = new Preferences(this);
-        String departureName = preferences.getLastDepartureStationName();
-        String destinationName = preferences.getLastDestinationStationName();
-        // TODO: update from/to view
+        // find all views
+        departureView = (EditText) findViewById(R.id.input_departure);
+        arrivalView = (EditText) findViewById(R.id.input_arrival);
+        scheduleGroup = (RadioGroup) findViewById(R.id.schedule_group);
+        nextTrainView = (TextView) findViewById(R.id.next_train);
 
-        resultsAdapter = new ResultsListAdapter(this);
+        // Setup result view
         ListView resultsView = (ListView) findViewById(R.id.results);
         assert resultsView != null;
+        resultsAdapter = new ResultsListAdapter(this);
         resultsView.setAdapter(resultsAdapter);
 
+        // Load preferences
+        preferences = new Preferences(this);
+        departureView.setText(preferences.getLastDepartureStationName());
+        arrivalView.setText(preferences.getLastDestinationStationName());
+        switch (preferences.getLastScheduleType()) {
+            case NOW:
+                scheduleGroup.check(R.id.btn_now);
+                break;
+            case WEEKDAY:
+                scheduleGroup.check(R.id.btn_week);
+                break;
+            case SATURDAY:
+                scheduleGroup.check(R.id.btn_sat);
+                break;
+            case SUNDAY:
+                scheduleGroup.check(R.id.btn_sun);
+                break;
+        }
+
+        // Init schedule
         reschedule();
     }
 
@@ -63,17 +91,31 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+        Log.v(TAG, "onClick:" + v);
+        switch (v.getId()) {
+            case R.id.btn_now:
+                preferences.setLastScheduleType(ScheduleType.NOW);
+                break;
+            case R.id.btn_week:
+                preferences.setLastScheduleType(ScheduleType.WEEKDAY);
+                break;
+            case R.id.btn_sat:
+                preferences.setLastScheduleType(ScheduleType.SATURDAY);
+                break;
+            case R.id.btn_sun:
+                preferences.setLastScheduleType(ScheduleType.SUNDAY);
+                break;
+            case R.id.schedule_group:
+                Log.v(TAG, "schedule_group");
+                return;
+            default:
+                return;
+        }
         reschedule();
     }
 
     private void reschedule() {
         // reschedule, update results data
-        EditText fromView = (EditText) findViewById(R.id.input_departure);
-        assert fromView != null;
-        EditText toView = (EditText) findViewById(R.id.input_destination);
-        assert toView != null;
-        RadioGroup scheduleGroup = (RadioGroup) findViewById(R.id.schedule_group);
-        assert scheduleGroup != null;
         ScheduleType scheduleType;
         switch (scheduleGroup.getCheckedRadioButtonId()) {
             case -1:
@@ -92,8 +134,14 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 scheduleType = ScheduleType.SUNDAY;
                 break;
             default:
-                throw new RuntimeException("Unexpected schedule selection");
+                throw new RuntimeException("Unexpected schedule selection:" + scheduleGroup.getCheckedRadioButtonId());
         }
-        resultsAdapter.setData(fromView.getText().toString(), toView.getText().toString(), scheduleType);
+        resultsAdapter.setData(departureView.getText().toString(), arrivalView.getText().toString(), scheduleType);
+        if (scheduleGroup.getCheckedRadioButtonId() == R.id.btn_now) {
+            nextTrainView.setText(resultsAdapter.getNextTime());
+            nextTrainView.setVisibility(View.VISIBLE);
+        } else {
+            nextTrainView.setVisibility(View.GONE);
+        }
     }
 }

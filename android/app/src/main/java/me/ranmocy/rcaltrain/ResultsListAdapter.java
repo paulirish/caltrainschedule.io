@@ -1,6 +1,8 @@
 package me.ranmocy.rcaltrain;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +11,7 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -17,6 +19,8 @@ import java.util.Locale;
  * ListAdapter that shows scheduling result.
  */
 public class ResultsListAdapter extends BaseAdapter implements ListAdapter {
+
+    private static final String TAG = "ResultsListAdapter";
 
     private final LayoutInflater layoutInflater;
     private final List<Result> resultList = new ArrayList<>();
@@ -26,13 +30,17 @@ public class ResultsListAdapter extends BaseAdapter implements ListAdapter {
     }
 
     public void setData(String fromName, String toName, ScheduleType scheduleType) {
+        Log.i(TAG, String.format("from:%s, to:%s, type:%s", fromName, toName, scheduleType));
+
+        resultList.clear();
+
+        // check service time
         List<Trip> possibleTrips = new ArrayList<>();
         for (Service service : Service.getAllValidServices(scheduleType)) {
             possibleTrips.addAll(service.getTrips());
         }
 
-        resultList.clear();
-
+        // check station
         Station departureStation = Station.getStation(fromName);
         Station arrivalStation = Station.getStation(toName);
         for (Trip trip : possibleTrips) {
@@ -42,15 +50,28 @@ public class ResultsListAdapter extends BaseAdapter implements ListAdapter {
 
             if (departureIndex >= 0 && arrivalIndex >= 0 && departureIndex < arrivalIndex) {
                 List<Trip.Stop> stopList = trip.getStopList();
-                Date departureTime = stopList.get(departureIndex).getTime();
-                Date arrivalTime = stopList.get(arrivalIndex).getTime();
+                DayTime departureTime = stopList.get(departureIndex).getTime();
+                DayTime arrivalTime = stopList.get(arrivalIndex).getTime();
+
+                // check current time
+                if (scheduleType == ScheduleType.NOW && DayTime.now().after(departureTime)) {
+                    continue;
+                }
                 resultList.add(new Result(departureTime, arrivalTime));
             }
         }
 
-        // TODO: sort results
+        Collections.sort(resultList);
 
         notifyDataSetChanged();
+    }
+
+    public String getNextTime() {
+        if (resultList.isEmpty()) {
+            return "";
+        }
+        long nextTrainInMinutes = DayTime.now().toInMinutes(resultList.get(0).departureTime);
+        return String.format(Locale.getDefault(), "Next train in %d min", nextTrainInMinutes);
     }
 
     @Override
@@ -77,7 +98,7 @@ public class ResultsListAdapter extends BaseAdapter implements ListAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.result_item, parent);
+            convertView = layoutInflater.inflate(R.layout.result_item, parent, false);
             holder = new ViewHolder();
             holder.departureView = (TextView) convertView.findViewById(R.id.departure_time);
             holder.arrivalView = (TextView) convertView.findViewById(R.id.arrival_time);
@@ -87,9 +108,9 @@ public class ResultsListAdapter extends BaseAdapter implements ListAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         Result result = getItem(position);
-        holder.departureView.setText(result.getDepartureTime());
-        holder.arrivalView.setText(result.getArrivalTime());
-        holder.intervalView.setText(result.getIntervalTime());
+        holder.departureView.setText(result.getDepartureTimeString());
+        holder.arrivalView.setText(result.getArrivalTimeString());
+        holder.intervalView.setText(result.getIntervalTimeString());
         return convertView;
     }
 
@@ -109,26 +130,32 @@ public class ResultsListAdapter extends BaseAdapter implements ListAdapter {
         TextView intervalView;
     }
 
-    private static class Result {
-        private final Date departureTime;
-        private final Date arrivalTime;
+    private static class Result implements Comparable<Result> {
+        private final DayTime departureTime;
+        private final DayTime arrivalTime;
+        private final long interval;
 
-        Result(Date departureTime, Date arrivalTime) {
+        Result(DayTime departureTime, DayTime arrivalTime) {
             this.departureTime = departureTime;
             this.arrivalTime = arrivalTime;
+            this.interval = departureTime.toInMinutes(arrivalTime);
         }
 
-        String getDepartureTime() {
+        String getDepartureTimeString() {
             return departureTime.toString();
         }
 
-        public String getArrivalTime() {
+        String getArrivalTimeString() {
             return arrivalTime.toString();
         }
 
-        public String getIntervalTime() {
-            long intervalMs = arrivalTime.getTime() - departureTime.getTime();
-            return String.format(Locale.getDefault(), "%d min", intervalMs / 1000 / 60);
+        String getIntervalTimeString() {
+            return String.format(Locale.getDefault(), "%d min", interval);
+        }
+
+        @Override
+        public int compareTo(@NonNull Result another) {
+            return this.departureTime.compareTo(another.departureTime);
         }
     }
 }

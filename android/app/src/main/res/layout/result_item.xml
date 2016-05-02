@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
+        android:textColor="@android:color/primary_text_light"
         android:textSize="24sp"
         tools:text="12:00" />
 
@@ -30,6 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
+        android:textColor="@android:color/primary_text_light"
         android:textSize="24sp"
         tools:text="13:00" />
 
