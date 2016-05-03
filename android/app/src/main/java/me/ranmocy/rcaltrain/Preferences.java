@@ -3,6 +3,8 @@ package me.ranmocy.rcaltrain;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import me.ranmocy.rcaltrain.models.ScheduleType;
+
 /**
  * Preferences manages {@link SharedPreferences}.
  */

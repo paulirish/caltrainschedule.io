@@ -1,4 +1,4 @@
-package me.ranmocy.rcaltrain;
+package me.ranmocy.rcaltrain.ui;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -14,6 +14,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+
+import me.ranmocy.rcaltrain.R;
+import me.ranmocy.rcaltrain.models.DayTime;
+import me.ranmocy.rcaltrain.models.ScheduleType;
+import me.ranmocy.rcaltrain.models.Service;
+import me.ranmocy.rcaltrain.models.Station;
+import me.ranmocy.rcaltrain.models.Trip;
 
 /**
  * ListAdapter that shows scheduling result.

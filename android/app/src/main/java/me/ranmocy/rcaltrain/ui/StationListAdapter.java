@@ -1,4 +1,4 @@
-package me.ranmocy.rcaltrain;
+package me.ranmocy.rcaltrain.ui;
 
 import android.database.DataSetObserver;
 import android.view.View;

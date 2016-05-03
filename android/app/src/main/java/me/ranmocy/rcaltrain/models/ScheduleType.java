@@ -1,4 +1,4 @@
-package me.ranmocy.rcaltrain;
+package me.ranmocy.rcaltrain.models;
 
 /**
  * Schedule type enum.

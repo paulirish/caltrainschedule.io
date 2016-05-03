@@ -2,7 +2,6 @@ package me.ranmocy.rcaltrain;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.ListPopupWindow;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -10,10 +9,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+
+import me.ranmocy.rcaltrain.models.ScheduleType;
+import me.ranmocy.rcaltrain.models.Station;
+import me.ranmocy.rcaltrain.ui.ResultsListAdapter;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 

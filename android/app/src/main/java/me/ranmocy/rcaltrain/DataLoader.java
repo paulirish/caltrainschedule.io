@@ -12,6 +12,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import me.ranmocy.rcaltrain.models.DayTime;
+import me.ranmocy.rcaltrain.models.Service;
+import me.ranmocy.rcaltrain.models.Station;
+import me.ranmocy.rcaltrain.models.Trip;
+
 import static org.xmlpull.v1.XmlPullParser.END_DOCUMENT;
 import static org.xmlpull.v1.XmlPullParser.END_TAG;
 import static org.xmlpull.v1.XmlPullParser.START_DOCUMENT;
