@@ -1,14 +1,14 @@
 package me.ranmocy.rcaltrain;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -16,14 +16,15 @@ import android.widget.TextView;
 import me.ranmocy.rcaltrain.models.ScheduleType;
 import me.ranmocy.rcaltrain.models.Station;
 import me.ranmocy.rcaltrain.ui.ResultsListAdapter;
+import me.ranmocy.rcaltrain.ui.StationListAdapter;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "HomeActivity";
 
     private Preferences preferences;
-    private AutoCompleteTextView departureView;
-    private AutoCompleteTextView arrivalView;
+    private TextView departureView;
+    private TextView arrivalView;
     private RadioGroup scheduleGroup;
     private TextView nextTrainView;
     private ResultsListAdapter resultsAdapter;
@@ -39,14 +40,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         DataLoader.loadDataIfNot(this);
 
         // find all views
-        departureView = (AutoCompleteTextView) findViewById(R.id.input_departure);
-        arrivalView = (AutoCompleteTextView) findViewById(R.id.input_arrival);
+        departureView = (TextView) findViewById(R.id.input_departure);
+        arrivalView = (TextView) findViewById(R.id.input_arrival);
         scheduleGroup = (RadioGroup) findViewById(R.id.schedule_group);
         nextTrainView = (TextView) findViewById(R.id.next_train);
-
-        ArrayAdapter<Station> adapter = new ArrayAdapter<>(this, R.layout.station_item, R.id.station_item, Station.getAllStation());
-        departureView.setAdapter(adapter);
-        arrivalView.setAdapter(adapter);
 
         // Setup result view
         ListView resultsView = (ListView) findViewById(R.id.results);
@@ -103,6 +100,20 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         Log.v(TAG, "onClick:" + v);
         switch (v.getId()) {
+            case R.id.input_departure:
+                showStationSelector(true);
+                return;
+            case R.id.input_arrival:
+                showStationSelector(false);
+                return;
+            case R.id.switch_btn:
+                CharSequence departureViewText = departureView.getText();
+                CharSequence arrivalViewText = arrivalView.getText();
+                departureView.setText(arrivalViewText);
+                arrivalView.setText(departureViewText);
+                preferences.setLastSourceStationName(departureViewText.toString());
+                preferences.setLastDestinationStationName(arrivalViewText.toString());
+                break;
             case R.id.btn_now:
                 preferences.setLastScheduleType(ScheduleType.NOW);
                 break;
@@ -122,6 +133,27 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 return;
         }
         reschedule();
+    }
+
+    private void showStationSelector(final boolean isDeparture) {
+        new AlertDialog.Builder(this)
+                .setAdapter(new StationListAdapter(this), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String stationName = Station.getAllStation().get(which).getName();
+                        if (isDeparture) {
+                            preferences.setLastSourceStationName(stationName);
+                            departureView.setText(stationName);
+                        } else {
+                            preferences.setLastDestinationStationName(stationName);
+                            arrivalView.setText(stationName);
+                        }
+                        dialog.dismiss();
+                        reschedule();
+                    }
+                })
+                .setCancelable(false)
+                .show();
     }
 
     private void reschedule() {

@@ -54,10 +54,11 @@
                         style="@style/ScheduleLabel"
                         android:text="@string/label_from" />
 
-                    <AutoCompleteTextView
+                    <TextView
                         android:id="@+id/input_departure"
                         style="@style/ScheduleInput"
-                        tools:text="San Francisco" />
+                        android:onClick="onClick"
+                        android:hint="@string/hint_select_station" />
                 </LinearLayout>
 
                 <!-- To -->
@@ -69,10 +70,11 @@
                         style="@style/ScheduleLabel"
                         android:text="@string/label_to" />
 
-                    <AutoCompleteTextView
+                    <TextView
                         android:id="@+id/input_arrival"
                         style="@style/ScheduleInput"
-                        tools:text="Sunnyvale" />
+                        android:onClick="onClick"
+                        android:hint="@string/hint_select_station" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -80,7 +82,7 @@
                 android:id="@+id/switch_btn"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="50sp"
-                android:layout_height="match_parent"
+                android:layout_height="60sp"
                 android:layout_marginTop="10sp"
                 android:layout_marginBottom="10sp"
                 android:layout_gravity="center_vertical"

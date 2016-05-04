@@ -7,7 +7,7 @@ import android.view.View;
 import me.ranmocy.rcaltrain.models.Station;
 
 /**
- * View for {@link Station} 
+ * View for selecting {@link Station}.
  */
 public class StationSelectorView extends View {
     public StationSelectorView(Context context) {

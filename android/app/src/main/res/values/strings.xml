@@ -6,9 +6,7 @@
     <string name="label_weekday">Weekday</string>
     <string name="label_saturday">Saturday</string>
     <string name="label_sunday">Sunday</string>
+    <string name="hint_select_station">Select station</string>
     <string name="copyright">®rCaltrain 2014–2016, Ranmocy.</string>
     <string name="action_settings">settings</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
