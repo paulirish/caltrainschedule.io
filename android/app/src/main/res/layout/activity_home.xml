@@ -57,8 +57,8 @@
                     <TextView
                         android:id="@+id/input_departure"
                         style="@style/ScheduleInput"
-                        android:onClick="onClick"
-                        android:hint="@string/hint_select_station" />
+                        android:hint="@string/hint_select_station"
+                        android:onClick="onClick" />
                 </LinearLayout>
 
                 <!-- To -->
@@ -73,8 +73,8 @@
                     <TextView
                         android:id="@+id/input_arrival"
                         style="@style/ScheduleInput"
-                        android:onClick="onClick"
-                        android:hint="@string/hint_select_station" />
+                        android:hint="@string/hint_select_station"
+                        android:onClick="onClick" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -82,11 +82,13 @@
                 android:id="@+id/switch_btn"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="50sp"
-                android:layout_height="60sp"
-                android:layout_marginTop="10sp"
-                android:layout_marginBottom="10sp"
+                android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
+                android:layout_marginBottom="10sp"
+                android:layout_marginTop="10sp"
+                android:contentDescription="@string/switch_stations"
                 android:onClick="onClick"
+                android:scaleType="fitXY"
                 android:src="@drawable/switcher" />
         </LinearLayout>
 

@@ -9,4 +9,5 @@
     <string name="hint_select_station">Select station</string>
     <string name="copyright">®rCaltrain 2014–2016, Ranmocy.</string>
     <string name="action_settings">settings</string>
+    <string name="switch_stations">Switch stations</string>
 </resources>

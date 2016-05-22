@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,6 +11,8 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import me.ranmocy.rcaltrain.models.ScheduleType;
 import me.ranmocy.rcaltrain.models.Station;
@@ -28,14 +29,17 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private RadioGroup scheduleGroup;
     private TextView nextTrainView;
     private ResultsListAdapter resultsAdapter;
+    private FirebaseAnalytics firebaseAnalytics;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         setContentView(R.layout.activity_home);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
 
         DataLoader.loadDataIfNot(this);
 
@@ -157,6 +161,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void reschedule() {
+        String departure = departureView.getText().toString();
+        String destination = arrivalView.getText().toString();
+
         // reschedule, update results data
         ScheduleType scheduleType;
         switch (scheduleGroup.getCheckedRadioButtonId()) {
@@ -178,7 +185,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             default:
                 throw new RuntimeException("Unexpected schedule selection:" + scheduleGroup.getCheckedRadioButtonId());
         }
-        resultsAdapter.setData(departureView.getText().toString(), arrivalView.getText().toString(), scheduleType);
+
+        firebaseAnalytics.logEvent(
+                Events.SCHEDULE_EVENT,
+                Events.getScheduleEvent(departure, destination, scheduleType.name()));
+
+        resultsAdapter.setData(departure, destination, scheduleType);
         if (scheduleGroup.getCheckedRadioButtonId() == R.id.btn_now) {
             nextTrainView.setText(resultsAdapter.getNextTime());
             nextTrainView.setVisibility(View.VISIBLE);
