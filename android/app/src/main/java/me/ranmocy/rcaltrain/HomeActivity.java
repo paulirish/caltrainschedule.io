@@ -106,9 +106,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.input_departure:
                 showStationSelector(true);
+                firebaseAnalytics.logEvent(Events.EVENT_ON_CLICK, Events.getClickDepartureEvent());
                 return;
             case R.id.input_arrival:
                 showStationSelector(false);
+                firebaseAnalytics.logEvent(Events.EVENT_ON_CLICK, Events.getClickArrivalEvent());
                 return;
             case R.id.switch_btn:
                 CharSequence departureViewText = departureView.getText();
@@ -117,18 +119,23 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 arrivalView.setText(departureViewText);
                 preferences.setLastSourceStationName(departureViewText.toString());
                 preferences.setLastDestinationStationName(arrivalViewText.toString());
+                firebaseAnalytics.logEvent(Events.EVENT_ON_CLICK, Events.getClickSwitchEvent());
                 break;
             case R.id.btn_now:
                 preferences.setLastScheduleType(ScheduleType.NOW);
+                firebaseAnalytics.logEvent(Events.EVENT_ON_CLICK, Events.getClickScheduleEvent(ScheduleType.NOW));
                 break;
             case R.id.btn_week:
                 preferences.setLastScheduleType(ScheduleType.WEEKDAY);
+                firebaseAnalytics.logEvent(Events.EVENT_ON_CLICK, Events.getClickScheduleEvent(ScheduleType.WEEKDAY));
                 break;
             case R.id.btn_sat:
                 preferences.setLastScheduleType(ScheduleType.SATURDAY);
+                firebaseAnalytics.logEvent(Events.EVENT_ON_CLICK, Events.getClickScheduleEvent(ScheduleType.SATURDAY));
                 break;
             case R.id.btn_sun:
                 preferences.setLastScheduleType(ScheduleType.SUNDAY);
+                firebaseAnalytics.logEvent(Events.EVENT_ON_CLICK, Events.getClickScheduleEvent(ScheduleType.SUNDAY));
                 break;
             case R.id.schedule_group:
                 Log.v(TAG, "schedule_group");
@@ -187,8 +194,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         firebaseAnalytics.logEvent(
-                Events.SCHEDULE_EVENT,
-                Events.getScheduleEvent(departure, destination, scheduleType.name()));
+                Events.EVENT_SCHEDULE,
+                Events.getScheduleEvent(departure, destination, scheduleType));
 
         resultsAdapter.setData(departure, destination, scheduleType);
         if (scheduleGroup.getCheckedRadioButtonId() == R.id.btn_now) {
