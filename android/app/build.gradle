@@ -1,13 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        release
+    }
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
-
     repositories {
         maven { url 'http://repo1.maven.org/maven2' }
     }
-
     defaultConfig {
         applicationId "me.ranmocy.rcaltrain"
         minSdkVersion 15
@@ -15,21 +16,23 @@ android {
         versionCode 1
         versionName "1.0"
     }
-
     buildTypes {
         debug {
             minifyEnabled false
         }
-
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
+    }
+    lintOptions {
+        abortOnError false
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.android.support:design:23.4.0'
@@ -39,3 +42,27 @@ dependencies {
 }
 
 apply plugin: 'com.google.gms.google-services'
+
+def Properties props = new Properties()
+def propFile = new File('app/signing.properties')
+
+if (propFile.canRead()) {
+    props.load(new FileInputStream(propFile))
+
+    if (props != null &&
+            props.containsKey('keyStore') &&
+            props.containsKey('keyStorePassword') &&
+            props.containsKey('keyAlias') &&
+            props.containsKey('keyAliasPassword')) {
+        android.signingConfigs.release.storeFile = file(props['keyStore'])
+        android.signingConfigs.release.storePassword = props['keyStorePassword']
+        android.signingConfigs.release.keyAlias = props['keyAlias']
+        android.signingConfigs.release.keyPassword = props['keyAliasPassword']
+    } else {
+        println 'signing.properties found but some entries are missing'
+        android.buildTypes.release.signingConfig = null
+    }
+} else {
+    println 'signing.properties not found'
+    android.buildTypes.release.signingConfig = null
+}
