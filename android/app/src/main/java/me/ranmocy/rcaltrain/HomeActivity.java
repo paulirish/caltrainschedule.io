@@ -41,8 +41,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 
-        DataLoader.loadDataIfNot(this);
-
         // find all views
         departureView = (TextView) findViewById(R.id.input_departure);
         arrivalView = (TextView) findViewById(R.id.input_arrival);
