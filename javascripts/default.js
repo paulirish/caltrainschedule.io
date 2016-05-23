@@ -316,7 +316,7 @@ if ('serviceWorker' in navigator) {
   // init after document and data are ready
   var data_names = ["calendar", "calendar_dates", "stops", "routes"];
   var checker = data_checker(data_names, function() {
-    $(initialize);
+    initialize();
   });
 
   // download data
