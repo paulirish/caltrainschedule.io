@@ -321,9 +321,7 @@ if ('serviceWorker' in navigator) {
 
   // download data
   data_names.forEach(function(name) {
-    $.getJSON("data/" + name + ".json", function(json) {
-      data[name] = json;
-      checker(name);
-    });
+    data[name] = window[name];
+    checker(name);
   });
 }());
