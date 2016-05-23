@@ -5,6 +5,7 @@ this.addEventListener('install', function(e) {
     return cache.addAll([
       '/',
       '/index.html',
+      '/sw.js',
       '/stylesheets/default.css',
       '/javascripts/default.js',
       '/javascripts/fastclick.min.js',
