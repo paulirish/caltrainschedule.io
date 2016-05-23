@@ -281,7 +281,7 @@ if ('serviceWorker' in navigator) {
   function constructSelect(opts) {
     return '<select>' + opts.reduce(function(prev, curr) {
       return prev + '<option value="' + curr + '">' + curr + '</option>';
-    }, '') + '</select>';
+    }, '<option disabled selected>Select A Stop</option>') + '</select>';
   }
 
   function initialize() {
