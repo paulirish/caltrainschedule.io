@@ -278,9 +278,6 @@ if ('serviceWorker' in navigator) {
   }
 
   function initialize () {
-    // remove 300ms delay for mobiles click
-    FastClick.attach(document.body);
-
     // init inputs elements
     from = rComplete($('#from')[0], { placeholder: "Departure" });
     to = rComplete($('#to')[0], { placeholder: "Destination" });
