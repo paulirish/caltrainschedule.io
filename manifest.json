@@ -2,9 +2,9 @@
   "name": "Caltrain Schedule",
   "short_name": "Caltrain Schedule",
   "orientation": "portrait",
-  "theme_color": "blue",
+  "theme_color": "hsl(206, 99%, 31%)",
   "background_color": "#3056ff",
-  "display": "standalone",
+  "display": "fullscreen",
   "start_url": "/",
   "icons": [
     {
