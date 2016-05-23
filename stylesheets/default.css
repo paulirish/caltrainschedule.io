@@ -1,3 +1,10 @@
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
 body {
     min-width: 320px;
     max-width: 800px;
@@ -53,6 +60,7 @@ body {
     position: relative;
     text-align: left;
     padding: 15px 0;
+    min-height: 70px;
 }
 
 /* Inputs */
@@ -62,6 +70,7 @@ body {
     height: 30px;
     line-height: 30px;
     color: #959595;
+    vertical-align: top;
 }
 .input-label {
     width: 60px;
@@ -91,7 +100,7 @@ body {
     right: 10px;
     background: url("../images/switcher.png") no-repeat center;
     background-size: 20px;
-    height: 120px;
+    height: 140px;
     width: 50px;
     border: none;
     padding: 0;
