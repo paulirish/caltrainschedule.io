@@ -17,17 +17,21 @@ if ('serviceWorker' in navigator) {
   }
 
   function saveScheduleSelection () {
-    localStorage.setItem('caltrain-schedule-from', from.getText());
-    localStorage.setItem('caltrain-schedule-to', to.getText());
+    localStorage.setItem('caltrain-schedule-from', $('#from select').val());
+    localStorage.setItem('caltrain-schedule-to', $('#to select').val());
     localStorage.setItem('caltrain-schedule-when', $('.when-button.selected').val());
+  }
+
+  function select(elm, val) {
+    elm[0].selectedIndex = elm.find('option[value="' + val + '"]').index();
   }
 
   function loadPreviousSettings () {
     if (is_defined(localStorage.getItem("caltrain-schedule-from"))) {
-      from.setText(localStorage.getItem("caltrain-schedule-from"));
+      select($('#from select'), localStorage.getItem("caltrain-schedule-from"));
     }
     if (is_defined(localStorage.getItem("caltrain-schedule-to"))) {
-      to.setText(localStorage.getItem("caltrain-schedule-to"));
+      select($('#to select'), localStorage.getItem("caltrain-schedule-to"));
     }
     if (is_defined(localStorage.getItem("caltrain-schedule-when"))) {
       $('.when-button').removeClass('selected');
@@ -230,8 +234,8 @@ if ('serviceWorker' in navigator) {
   function schedule () {
     var stops = data.stops, routes = data.routes,
         calendar = data.calendar, calendar_dates = data.calendar_dates;
-    var from_ids = stops[from.getText()],
-        to_ids = stops[to.getText()],
+    var from_ids = stops[$('#from select').val()],
+        to_ids = stops[$('#to select').val()],
         services = get_available_services(routes, calendar, calendar_dates);
 
     // if some input is invalid, just return
@@ -247,15 +251,8 @@ if ('serviceWorker' in navigator) {
   }
 
   function bind_events () {
-    [from, to].forEach(function(c) {
-      // when focus, reset input
-      c.on("focus", function() {
-        c.setText('');
-        c.input.Show();
-      });
-      // when change or complete, schedule
+    [$('#from select'), $('#to select')].forEach(function(c) {
       c.on("change", schedule);
-      c.on("complete", schedule);
     });
 
     when.each(function(index, elem) {
@@ -269,23 +266,30 @@ if ('serviceWorker' in navigator) {
     });
 
     $("#reverse").on("click", function() {
-      var t = from.getText();
-      from.setText(to.getText());
-      to.setText(t);
+      var from = $('#from select').val();
+      var to = $('#to select').val();
+
+      select($('#from select'), to);
+      select($('#to select'), from);
+
       schedule();
     });
   }
 
+  function constructSelect(opts) {
+    return '<select>' + opts.reduce(function(prev, curr) {
+      return prev + '<option value="' + curr + '">' + curr + '</option>';
+    }, '') + '</select>';
+  }
+
   function initialize () {
     // init inputs elements
-    from = rComplete($('#from')[0], { placeholder: "Departure" });
-    to = rComplete($('#to')[0], { placeholder: "Destination" });
     when = $('.when-button');
 
     // generate select options
     var names = Object.keys(data.stops);
-    from.setOptions(names);
-    to.setOptions(names);
+    $('#from').append(constructSelect(names));
+    $('#to').append(constructSelect(names));
 
     // init
     loadPreviousSettings();
