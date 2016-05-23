@@ -7,39 +7,55 @@ if ('serviceWorker' in navigator) {
   });
 }
 
-/* global $ */
+// bling.js
+var $ = window.$ = document.querySelector.bind(document);
+var $$ = window.$$ = document.querySelectorAll.bind(document);
+Node.prototype.on = window.on = function(name, fn) {
+  this.addEventListener(name, fn);
+}
+NodeList.prototype.__proto__ = Array.prototype;
+NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn) {
+  this.forEach(function(elem) {
+    elem.on(name, fn);
+  });
+});
+
 
 (function() {
   'use strict';
 
-  var when, data = {};
+  var whenButtons;
+  var data = {};
 
   function is_defined(obj) {
     return typeof (obj) !== 'undefined';
   }
 
   function saveScheduleSelection() {
-    localStorage.setItem('caltrain-schedule-from', $('#from select').val());
-    localStorage.setItem('caltrain-schedule-to', $('#to select').val());
-    localStorage.setItem('caltrain-schedule-when', $('.when-button.selected').val());
+    localStorage.setItem('caltrain-schedule-from', $('#from select').value);
+    localStorage.setItem('caltrain-schedule-to', $('#to select').value);
+    if (get_selected_schedule())
+      localStorage.setItem('caltrain-schedule-when', get_selected_schedule());
   }
 
   function select(elm, val) {
-    elm[0].selectedIndex = elm.find('option[value="' + val + '"]').index();
+    elm.value = elm.querySelector('option[value="' + val + '"]').value;
   }
 
   function loadPreviousSettings() {
-    if (localStorage.getItem('caltrain-schedule-from')) {
+    if (localStorage.getItem('caltrain-schedule-from'))
       select($('#from select'), localStorage.getItem('caltrain-schedule-from'));
-    }
 
-    if (localStorage.getItem('caltrain-schedule-to')) {
+    if (localStorage.getItem('caltrain-schedule-to'))
       select($('#to select'), localStorage.getItem('caltrain-schedule-to'));
-    }
 
     if (localStorage.getItem('caltrain-schedule-when')) {
-      $('.when-button').removeClass('selected');
-      $('.when-button[value="' + localStorage.getItem('caltrain-schedule-when') + '"]').addClass('selected');
+      $$('.when-button').forEach(function(elem) {
+        elem.classList.remove('selected');
+      });
+      var whenButton = $('.when-button[value="' + localStorage.getItem('caltrain-schedule-when') + '"]')
+      if (whenButton)
+        whenButton.classList.add('selected');
     }
   }
 
@@ -75,7 +91,7 @@ if ('serviceWorker' in navigator) {
     // getMonth starts from 0
     return parseInt([d.getFullYear(), d.getMonth() + 1, d.getDate()].map(function(n) {
       return n.toString().rjust(2, '0');
-    }).join(''));
+    }).join(''), 10);
   }
 
   function second2str(seconds) {
@@ -93,13 +109,19 @@ if ('serviceWorker' in navigator) {
   }
 
   function is_now() {
-    return $('.when-button.selected').val() === 'now';
+    return get_selected_schedule() === 'now';
+  }
+
+  function get_selected_schedule() {
+    var elem = $('.when-button.selected');
+    if (!elem) return;
+    return elem.value;
   }
 
   function get_service_ids(calendar, calendar_dates) {
     var date = now_date();
 
-    var selected_schedule = $('.when-button.selected').val();
+    var selected_schedule = get_selected_schedule();
     var target_schedule = selected_schedule;
     if (target_schedule === 'now') {
       // getDay is "0 for Sunday", map to "0 for Monday"
@@ -214,10 +236,10 @@ if ('serviceWorker' in navigator) {
   }
 
   function render_info(next_train) {
-    var info = $('#info').empty();
+    var info = $('#info').textContent = '';
     if (is_now() && is_defined(next_train)) {
       var next_relative = time_relative(now(), next_train.departure_time);
-      info.append('<div class="info">Next train: ' + next_relative + 'min</div>');
+      info.textContent = 'Next train: ' + next_relative + 'min';
     }
   }
 
@@ -253,7 +275,7 @@ if ('serviceWorker' in navigator) {
 
   function render_result(trips) {
 
-    var result = document.querySelector('#result');
+    var result = $('#result');
 
     if (trips.length === 0) {
       result.innerHTML = '<div class="trip no-trips">No Trips Found ¯\\_(ツ)_/¯</div>';
@@ -283,8 +305,8 @@ if ('serviceWorker' in navigator) {
   function schedule() {
     var stops = data.stops, routes = data.routes,
       calendar = data.calendar, calendar_dates = data.calendar_dates;
-    var from_ids = stops[$('#from select').val()],
-      to_ids = stops[$('#to select').val()],
+    var from_ids = stops[$('#from select').value],
+      to_ids = stops[$('#to select').value],
       services = get_available_services(routes, calendar, calendar_dates);
 
     // if some input is invalid, just return
@@ -300,23 +322,19 @@ if ('serviceWorker' in navigator) {
   }
 
   function bind_events() {
-    [$('#from select'), $('#to select')].forEach(function(c) {
-      c.on('change', schedule);
-    });
+    $$('#from select, #to select').on('change', schedule);
 
-    when.each(function(index, elem) {
-      $(elem).on('click', function() {
-        when.each(function(index, elem) {
-          $(elem).removeClass('selected');
-        });
-        $(elem).addClass('selected');
-        schedule();
+    whenButtons.on('click', function(evt) {
+      whenButtons.forEach(function(elem) {
+        elem.classList.remove('selected');
       });
+      evt.currentTarget.classList.add('selected');
+      schedule();
     });
 
     $('#reverse').on('click', function() {
-      var from = $('#from select').val();
-      var to = $('#to select').val();
+      var from = $('#from select').value;
+      var to = $('#to select').value;
 
       select($('#from select'), to);
       select($('#to select'), from);
@@ -333,12 +351,12 @@ if ('serviceWorker' in navigator) {
 
   function initialize() {
     // init inputs elements
-    when = $('.when-button');
+    whenButtons = $$('.when-button');
 
     // generate select options
     var names = Object.keys(data.stops);
-    $('#from').append(constructSelect(names));
-    $('#to').append(constructSelect(names));
+    $('#from').innerHTML = constructSelect(names);
+    $('#to').innerHTML = constructSelect(names);
 
     // init
     loadPreviousSettings();
