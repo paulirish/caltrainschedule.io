@@ -138,9 +138,6 @@ if ('serviceWorker' in navigator) {
       }));
     }
 
-    if (service_ids.length === 0) {
-      console.log('Can\'t get service for now.');
-    }
     return service_ids;
   }
 
