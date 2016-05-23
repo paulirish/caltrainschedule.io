@@ -22,7 +22,7 @@ this.addEventListener('install', function(e) {
 this.addEventListener('fetch', function(e) {
   e.respondWith(caches.match(e.request).catch(_ => {
     return handleNoCacheMatch();
-  }))
+  }));
 });
 
 this.addEventListener('active', function(e) {
