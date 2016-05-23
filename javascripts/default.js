@@ -221,19 +221,60 @@ if ('serviceWorker' in navigator) {
     }
   }
 
+  function getColorForPercentage(pct) {
+    var percentColors = [
+      // green:  hsl(138, 54%, 42%);
+      // yellow: hsl(41, 99%, 68%);
+      // red     hsl(8, 87%, 53%);
+      { pct: 0.0, color: { h: 138, s: 54, l: 42 } },
+      { pct: 0.5, color: { h: 41, s: 99, l: 68 } },
+      { pct: 1.0, color: { h: 8, s: 87, l: 53 } }];
+
+    // get i value of position between color range above
+    var i;
+    for (i = 1; i < percentColors.length - 1; i++)
+      if (pct < percentColors[i].pct)
+        break;
+
+    var lower = percentColors[i - 1];
+    var upper = percentColors[i];
+    var range = upper.pct - lower.pct;
+    var rangePct = (pct - lower.pct) / range;
+    var pctLower = 1 - rangePct;
+    var pctUpper = rangePct;
+    var color = {
+      h: Math.floor(lower.color.h * pctLower + upper.color.h * pctUpper),
+      s: Math.floor(lower.color.s * pctLower + upper.color.s * pctUpper),
+      l: Math.floor(lower.color.l * pctLower + upper.color.l * pctUpper)
+    };
+    return 'hsl(' + [color.h, ',', color.s, '%, ', color.l, '%'].join('') + ')';
+  }
+
   function render_result(trips) {
+
     var result = document.querySelector('#result');
 
     if (trips.length === 0) {
-      result.innerHTML = '<div class="trip no-trips">No Trips Found ¯\\_(ツ)_/¯</div>'
+      result.innerHTML = '<div class="trip no-trips">No Trips Found ¯\\_(ツ)_/¯</div>';
       return;
     }
 
-    result.innerHTML = trips.reduce(function(prev, trip) {
+    var durations = trips.map(function(trip) { return trip.arrival_time - trip.departure_time; });
+    var shortest = Math.min.apply(Math, durations);
+    var longest = Math.max.apply(Math, durations);
+
+    result.innerHTML = trips.reduce(function (prev, trip) {
+      var duration = trip.arrival_time - trip.departure_time;
+      var percentage = (duration - shortest) / (longest - shortest);
+      var color = getColorForPercentage(percentage);
+      // widths should be between 50 and 100.
+      var width = (percentage * 50) + 50;
+
       return prev + ('<div class="trip">' +
-                     '<span class="departure">' + second2str(trip.departure_time) + '</span>' +
-                     '<span class="duration">' + time_relative(trip.departure_time, trip.arrival_time) + ' min</span>' +
-                     '<span class="arrival">' + second2str(trip.arrival_time) + '</span>' +
+                    '<span class="departure">' + second2str(trip.departure_time) + '</span>' +
+                      '<span class="duration">' + time_relative(trip.departure_time, trip.arrival_time) + ' min' +
+                      '<span class="durationbar" style="width: ' + width + '%; border-color:' + color + '"></span></span>' +
+                    '<span class="arrival">' + second2str(trip.arrival_time) + '</span>' +
                      '</div>');
     }, '');
   }
