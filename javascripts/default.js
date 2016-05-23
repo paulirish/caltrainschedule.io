@@ -223,12 +223,13 @@ if ('serviceWorker' in navigator) {
 
   function getColorForPercentage(pct) {
     var percentColors = [
+      // colors somewhat from http://colorbrewer2.org/
       // green:  hsl(138, 54%, 42%);
       // yellow: hsl(41, 99%, 68%);
-      // red     hsl(8, 87%, 53%);
+      // red     hsl(36, 100%, 50%)
       { pct: 0.0, color: { h: 138, s: 54, l: 42 } },
       { pct: 0.5, color: { h: 41, s: 99, l: 68 } },
-      { pct: 1.0, color: { h: 8, s: 87, l: 53 } }];
+      { pct: 1.0, color: { h: 36, s: 87, l: 50 } }];
 
     // get i value of position between color range above
     var i;

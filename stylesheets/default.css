@@ -118,12 +118,12 @@ body {
 /* When */
 .when {
     height: 60px;
-    width: 303px; /* 75 * 4 + 3 = 303 */
     margin: 0 auto;
+    max-width: 100%;
 }
 .when-button {
     color: #959595;
-    float: left;
+    display: inline;
     padding: 23px 0; /* (height - font-size) / 2 */
     margin: 0;
     background: none;
@@ -136,9 +136,10 @@ body {
 }
 .when .text {
     display: block;
-    width: 65px; /* (320 - 3*1) / 4 - 5 * 2 = 69px */
+    width: 75px;
     font-size: 14px;
     padding: 0 5px;
+    text-align: center;
 }
 .when-button+.when-button .text {
     border-left: 1px solid #e3e3e3;
