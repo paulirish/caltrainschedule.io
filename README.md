@@ -1,27 +1,11 @@
-rCaltrain
-=========
+# [caltrainschedule.io](https://caltrainschedule.io/)
 
-[A Better Caltrain Timetable App](http://rcaltrain.com/)
+Service worker enabled for offline and add to homescreen excellence.
 
-# Data source
+![image](https://cloud.githubusercontent.com/assets/39191/15459688/aa637b94-205c-11e6-8001-2af2f56ccb0f.png)
 
-From [Caltrain Developer](http://www.caltrain.com/developer.html)
+This is a @samccone & @paulirish collab. Also probably [other awesome people](https://github.com/paulirish/caltrainschedule.io/graphs/contributors). #sosage
 
-# Schedules
+#### Thanks
 
-Regarding your selected departure and destination stations:
-
-1. **Now** shows all services available today since now. This option considers holidays or any exceptional day defined in the official timetable data.
-2. **Weekday** shows all services available on weekdays of current week.
-3. **Saturday** shows all services available at Saturday of current week.
-4. **Sunday** shows all services available at Sunday of current week.
-
-# Dev Dependencies
-
-* [plist](https://rubygems.org/gems/plist): `gem install plist`
-* [UglifyCSS](https://github.com/fmarcia/UglifyCSS): `npm install uglifycss -g`
-* [UglifyJS2](https://github.com/mishoo/UglifyJS2): `npm install uglify-js -g`
-
-# TODO
-
-1. Fix iOS version for new data starts from 2016/04/04
+This is a fork of https://github.com/ranmocy/rCaltrain - he did fantastic work. Thank you.
