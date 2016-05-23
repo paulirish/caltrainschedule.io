@@ -29,13 +29,15 @@ if ('serviceWorker' in navigator) {
   }
 
   function loadPreviousSettings() {
-    if (is_defined(localStorage.getItem('caltrain-schedule-from'))) {
+    if (localStorage.getItem('caltrain-schedule-from')) {
       select($('#from select'), localStorage.getItem('caltrain-schedule-from'));
     }
-    if (is_defined(localStorage.getItem('caltrain-schedule-to'))) {
+
+    if (localStorage.getItem('caltrain-schedule-to')) {
       select($('#to select'), localStorage.getItem('caltrain-schedule-to'));
     }
-    if (is_defined(localStorage.getItem('caltrain-schedule-when'))) {
+
+    if (localStorage.getItem('caltrain-schedule-when')) {
       $('.when-button').removeClass('selected');
       $('.when-button[value="' + localStorage.getItem('caltrain-schedule-when') + '"]').addClass('selected');
     }
