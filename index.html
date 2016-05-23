@@ -1,36 +1,53 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
 <head>
-    <title>rCaltrain</title>
-    <meta http-equiv="Content-Type" charset="utf-8">
-    <meta name="description" content="A better Caltrain schedule/timetable app, optimized for mobiles.">
-    <link rel="author" href="https://plus.google.com/+WanzhangSheng"/>
-    <link rel="publisher" href="https://plus.google.com/+WanzhangSheng"/>
-    <link rel="icon" type="image/x-icon" href="icons/icon.png" />
-
+    <title>Caltrain Schedule</title>
+    <meta charset="utf-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="description" content="Caltrain times whenever you want them.">
+    
     <meta property="og:type" content="website"/>
-    <meta property="og:title" content="rCaltrain - Caltrain schedule/timetable in pocket"/>
+    <meta property="og:title" content="Caltrain Schedule - Easy 'n offline caltrain timetables"/>
     <meta property="og:url" content="http://caltrain.ranmocy.info/"/>
-    <meta property="og:description" content="A better Caltrain schedule/timetable app, optimized for mobiles."/>
+    <meta property="og:description" content="Caltrain times whenever you want them."/>
     <meta property="og:image" content="http://caltrain.ranmocy.info/icons/icon-76@2x.png"/>
 
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="rCaltrain - Caltrain schedule/timetable in pocket">
+    <meta name="twitter:title" content="Caltrain Schedule - Easy 'n offline caltrain timetables">
     <meta name="twitter:url" content="http://caltrain.ranmocy.info/">
-    <meta name="twitter:description" content="A better Caltrain schedule/timetable app, optimized for mobiles.">
+    <meta name="twitter:description" content="Caltrain times whenever you want them.">
     <meta name="twitter:image" content="http://caltrain.ranmocy.info/icons/icon-76@2x.png">
 
+    <!-- what do these two do again? -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    
+    <meta name="apple-mobile-web-app-title" content="Caltrain Schedule">
+    <meta name="application-name" content="Caltrain Schedule">
+    <meta name="theme-color" content="#0221c7">
 
-    <link rel="apple-touch-icon" href="icons/icon.png" />
-    <link rel="apple-touch-icon" sizes="114x114" href="icons/icon@2x.png" />
-    <link rel="apple-touch-icon" sizes="72x72" href="icons/icon-72.png" />
-    <link rel="apple-touch-icon" sizes="144x144" href="icons/icon-72@2x.png" />
-    <link rel="apple-touch-icon" sizes="76x76" href="icons/icon-76.png" />
-    <link rel="apple-touch-icon" sizes="152x152" href="icons/icon-76@2x.png" />
-
+    <link rel="apple-touch-icon" sizes="57x57" href="/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/icons/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/icons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/icons/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/icons/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/icons/favicon-16x16.png" sizes="16x16">
+    <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="/icons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/icons/mstile-144x144.png">
+    <meta name="msapplication-config" content="/icons/browserconfig.xml">
+    
+    
     <link rel="stylesheet" type="text/css" href="stylesheets/default.css"/>
     <script type="text/javascript" src="javascripts/fastclick.min.js"></script>
     <script type="text/javascript" src="javascripts/jquery-2.1.0.min.js"></script>
