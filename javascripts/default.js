@@ -12,7 +12,7 @@ if ('serviceWorker' in navigator) {
 (function() {
   'use strict';
 
-  var from, to, when, data = {};
+  var when, data = {};
 
   function is_defined(obj) {
     return typeof (obj) !== 'undefined';
