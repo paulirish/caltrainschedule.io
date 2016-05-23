@@ -2,23 +2,23 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/sw.js').then(function() {
     console.log('service worker is is all cool.');
   }).catch(function(e) {
-    console.error('service worker is not so cool.' , e);
+    console.error('service worker is not so cool.', e);
     throw e;
   });
 }
 
 /* global $ */
 
-(function(){
-  "use strict";
+(function() {
+  'use strict';
 
   var from, to, when, data = {};
 
-  function is_defined (obj) {
-    return typeof(obj) !== "undefined";
+  function is_defined(obj) {
+    return typeof (obj) !== 'undefined';
   }
 
-  function saveScheduleSelection () {
+  function saveScheduleSelection() {
     localStorage.setItem('caltrain-schedule-from', $('#from select').val());
     localStorage.setItem('caltrain-schedule-to', $('#to select').val());
     localStorage.setItem('caltrain-schedule-when', $('.when-button.selected').val());
@@ -28,25 +28,25 @@ if ('serviceWorker' in navigator) {
     elm[0].selectedIndex = elm.find('option[value="' + val + '"]').index();
   }
 
-  function loadPreviousSettings () {
-    if (is_defined(localStorage.getItem("caltrain-schedule-from"))) {
-      select($('#from select'), localStorage.getItem("caltrain-schedule-from"));
+  function loadPreviousSettings() {
+    if (is_defined(localStorage.getItem('caltrain-schedule-from'))) {
+      select($('#from select'), localStorage.getItem('caltrain-schedule-from'));
     }
-    if (is_defined(localStorage.getItem("caltrain-schedule-to"))) {
-      select($('#to select'), localStorage.getItem("caltrain-schedule-to"));
+    if (is_defined(localStorage.getItem('caltrain-schedule-to'))) {
+      select($('#to select'), localStorage.getItem('caltrain-schedule-to'));
     }
-    if (is_defined(localStorage.getItem("caltrain-schedule-when"))) {
+    if (is_defined(localStorage.getItem('caltrain-schedule-when'))) {
       $('.when-button').removeClass('selected');
-      $('.when-button[value="' + localStorage.getItem("caltrain-schedule-when") + '"]').addClass('selected');
+      $('.when-button[value="' + localStorage.getItem('caltrain-schedule-when') + '"]').addClass('selected');
     }
   }
 
   String.prototype.repeat = function(num) {
-    return (num <= 0) ? "" : this + this.repeat(num - 1);
+    return (num <= 0) ? '' : this + this.repeat(num - 1);
   };
 
   String.prototype.rjust = function(width, padding) {
-    padding = (padding || " ").substr(0, 1); // one and only one char
+    padding = (padding || ' ').substr(0, 1); // one and only one char
     return padding.repeat(width - this.length) + this;
   };
 
@@ -60,7 +60,7 @@ if ('serviceWorker' in navigator) {
   };
 
   // now in seconds since the midnight
-  function now () {
+  function now() {
     var date = new Date();
     return date.getHours() * 60 * 60 +
            date.getMinutes() * 60 +
@@ -68,15 +68,15 @@ if ('serviceWorker' in navigator) {
   }
 
   // now date in format YYYYMMDD
-  function now_date () {
+  function now_date() {
     var d = new Date();
     // getMonth starts from 0
-    return parseInt([d.getFullYear(), d.getMonth() + 1, d.getDate()].map(function(n){
+    return parseInt([d.getFullYear(), d.getMonth() + 1, d.getDate()].map(function(n) {
       return n.toString().rjust(2, '0');
     }).join(''));
   }
 
-  function second2str (seconds) {
+  function second2str(seconds) {
     var minutes = Math.floor(seconds / 60);
     return [
       Math.floor(minutes / 60),
@@ -86,15 +86,15 @@ if ('serviceWorker' in navigator) {
     }).join(':');
   }
 
-  function time_relative (from, to) {
+  function time_relative(from, to) {
     return Math.round((to - from) / 60); // in minute
   }
 
-  function is_now () {
-    return $('.when-button.selected').val() === "now";
+  function is_now() {
+    return $('.when-button.selected').val() === 'now';
   }
 
-  function get_service_ids (calendar, calendar_dates) {
+  function get_service_ids(calendar, calendar_dates) {
     var date = now_date();
 
     var selected_schedule = $('.when-button.selected').val();
@@ -139,12 +139,12 @@ if ('serviceWorker' in navigator) {
     }
 
     if (service_ids.length === 0) {
-      console.log("Can't get service for now.");
+      console.log('Can\'t get service for now.');
     }
     return service_ids;
   }
 
-  function get_available_services (routes, calendar, calendar_dates) {
+  function get_available_services(routes, calendar, calendar_dates) {
     var availables = {};
 
     get_service_ids(calendar, calendar_dates).forEach(function(service_id) {
@@ -167,7 +167,7 @@ if ('serviceWorker' in navigator) {
     return availables;
   }
 
-  function search_index (trip_ids, target_ids) {
+  function search_index(trip_ids, target_ids) {
     return target_ids.map(function(target_id) {
       return trip_ids.indexOf(target_id);
     }).filter(function(index) {
@@ -175,11 +175,11 @@ if ('serviceWorker' in navigator) {
     });
   }
 
-  function compare_trip (a, b) {
+  function compare_trip(a, b) {
     return a.departure_time - b.departure_time;
   }
 
-  function get_trips (services, from_ids, to_ids) {
+  function get_trips(services, from_ids, to_ids) {
     var result = [];
 
     Object.keys(services)
@@ -214,16 +214,16 @@ if ('serviceWorker' in navigator) {
     return result.sort(compare_trip);
   }
 
-  function render_info (next_train) {
-    var info = $("#info").empty();
+  function render_info(next_train) {
+    var info = $('#info').empty();
     if (is_now() && is_defined(next_train)) {
       var next_relative = time_relative(now(), next_train.departure_time);
       info.append('<div class="info">Next train: ' + next_relative + 'min</div>');
     }
   }
 
-  function render_result (trips) {
-    var result = $("#result").empty();
+  function render_result(trips) {
+    var result = $('#result').empty();
     trips.forEach(function(trip) {
       result.append('<div class="trip">' +
                     '<span class="departure">' + second2str(trip.departure_time) + '</span>' +
@@ -233,12 +233,12 @@ if ('serviceWorker' in navigator) {
     });
   }
 
-  function schedule () {
+  function schedule() {
     var stops = data.stops, routes = data.routes,
-        calendar = data.calendar, calendar_dates = data.calendar_dates;
+      calendar = data.calendar, calendar_dates = data.calendar_dates;
     var from_ids = stops[$('#from select').val()],
-        to_ids = stops[$('#to select').val()],
-        services = get_available_services(routes, calendar, calendar_dates);
+      to_ids = stops[$('#to select').val()],
+      services = get_available_services(routes, calendar, calendar_dates);
 
     // if some input is invalid, just return
     if (!is_defined(from_ids) || !is_defined(to_ids) || !is_defined(services)) {
@@ -252,22 +252,22 @@ if ('serviceWorker' in navigator) {
     render_result(trips);
   }
 
-  function bind_events () {
+  function bind_events() {
     [$('#from select'), $('#to select')].forEach(function(c) {
-      c.on("change", schedule);
+      c.on('change', schedule);
     });
 
     when.each(function(index, elem) {
-      $(elem).on("click", function() {
+      $(elem).on('click', function() {
         when.each(function(index, elem) {
-          $(elem).removeClass("selected");
+          $(elem).removeClass('selected');
         });
-        $(elem).addClass("selected");
+        $(elem).addClass('selected');
         schedule();
       });
     });
 
-    $("#reverse").on("click", function() {
+    $('#reverse').on('click', function() {
       var from = $('#from select').val();
       var to = $('#to select').val();
 
@@ -284,7 +284,7 @@ if ('serviceWorker' in navigator) {
     }, '') + '</select>';
   }
 
-  function initialize () {
+  function initialize() {
     // init inputs elements
     when = $('.when-button');
 
@@ -299,7 +299,7 @@ if ('serviceWorker' in navigator) {
     schedule(); // init schedule
   }
 
-  function data_checker (names, callback) {
+  function data_checker(names, callback) {
     var mark = {};
     names.forEach(function(name) {
       mark[name] = false;
@@ -321,7 +321,7 @@ if ('serviceWorker' in navigator) {
   }
 
   // init after document and data are ready
-  var data_names = ["calendar", "calendar_dates", "stops", "routes"];
+  var data_names = ['calendar', 'calendar_dates', 'stops', 'routes'];
   var checker = data_checker(data_names, function() {
     initialize();
   });
