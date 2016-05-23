@@ -37,7 +37,7 @@ task :download_data do
     FileUtils.mv(data_dir, target_dir)
   }
 
-  [:prepare_data, :update_appcache].each do |task|
+  [:prepare_data].each do |task|
     Rake::Task[task].invoke
   end
 end
