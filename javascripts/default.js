@@ -16,23 +16,21 @@ if ('serviceWorker' in navigator) {
     return typeof(obj) !== "undefined";
   }
 
-  function save_cookies () {
-    $.cookie("from", from.getText());
-    $.cookie("to", to.getText());
-    $.cookie("when", $('.when-button.selected').val());
+  function saveScheduleSelection () {
+    localStorage.setItem('caltrain-schedule-from', from.getText());
+    localStorage.setItem('caltrain-schedule-to', to.getText());
+    localStorage.setItem('caltrain-schedule-when', $('.when-button.selected').val());
   }
 
-  function load_cookies () {
-    $.cookie.defaults.expires = 365; // expire in one year
-    $.cookie.defaults.path = '/'; // available across the whole site
-    if (is_defined($.cookie("from"))) {
-      from.setText($.cookie("from"));
+  function loadPreviousSettings () {
+    if (is_defined(localStorage.getItem("caltrain-schedule-from"))) {
+      from.setText(localStorage.getItem("caltrain-schedule-from"));
     }
-    if (is_defined($.cookie("to"))) {
-      to.setText($.cookie("to"));
+    if (is_defined(localStorage.getItem("caltrain-schedule-to"))) {
+      to.setText(localStorage.getItem("caltrain-schedule-to"));
     }
-    if (is_defined($.cookie("when"))) {
-      $('.when-button[value="' + $.cookie("when") + '"]').addClass('selected');
+    if (is_defined(localStorage.getItem("caltrain-schedule-when"))) {
+      $('.when-button[value="' + localStorage.getItem("caltrain-schedule-when") + '"]').addClass('selected');
     }
   }
 
@@ -242,7 +240,7 @@ if ('serviceWorker' in navigator) {
 
     var trips = get_trips(services, from_ids, to_ids);
 
-    save_cookies();
+    saveScheduleSelection();
     render_info(trips[0]);
     render_result(trips);
   }
@@ -289,7 +287,7 @@ if ('serviceWorker' in navigator) {
     to.setOptions(names);
 
     // init
-    load_cookies();
+    loadPreviousSettings();
     bind_events();
     schedule(); // init schedule
   }
