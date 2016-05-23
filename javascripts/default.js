@@ -7,6 +7,8 @@ if ('serviceWorker' in navigator) {
   });
 }
 
+/* global $ */
+
 (function(){
   "use strict";
 
