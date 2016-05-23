@@ -30,6 +30,7 @@ if ('serviceWorker' in navigator) {
       to.setText(localStorage.getItem("caltrain-schedule-to"));
     }
     if (is_defined(localStorage.getItem("caltrain-schedule-when"))) {
+      $('.when-button').removeClass('selected');
       $('.when-button[value="' + localStorage.getItem("caltrain-schedule-when") + '"]').addClass('selected');
     }
   }
