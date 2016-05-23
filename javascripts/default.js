@@ -1,6 +1,15 @@
 (function(){
   "use strict";
 
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('javascripts/sw.js').then(function() {
+      console.log('service worker is is all cool.');
+    }).catch(function(e) {
+      console.error('service worker is not so cool.' , e);
+      throw e;
+    });
+  }
+
   var from, to, when, data = {};
 
   function is_defined (obj) {
