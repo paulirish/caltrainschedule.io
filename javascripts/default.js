@@ -222,14 +222,20 @@ if ('serviceWorker' in navigator) {
   }
 
   function render_result(trips) {
-    var result = $('#result').empty();
-    trips.forEach(function(trip) {
-      result.append('<div class="trip">' +
-                    '<span class="departure">' + second2str(trip.departure_time) + '</span>' +
-                    '<span class="duration">' + time_relative(trip.departure_time, trip.arrival_time) + ' min</span>' +
-                    '<span class="arrival">' + second2str(trip.arrival_time) + '</span>' +
-                    '</div>');
-    });
+    var result = document.querySelector('#result');
+
+    if (trips.length === 0) {
+      result[0].innerHTML = '<div class="trip no-trips">No Trips Found ¯\\_(ツ)_/¯</div>'
+      return;
+    }
+
+    result[0].innerHTML = trips.reduce(function(prev, trip) {
+      return prev + ('<div class="trip">' +
+                     '<span class="departure">' + second2str(trip.departure_time) + '</span>' +
+                     '<span class="duration">' + time_relative(trip.departure_time, trip.arrival_time) + ' min</span>' +
+                     '<span class="arrival">' + second2str(trip.arrival_time) + '</span>' +
+                     '</div>');
+    }, '');
   }
 
   function schedule() {
