@@ -142,7 +142,11 @@ body {
 .trip {
     font-weight: 400;
     font-size: 24px;
-    margin: 10px 0;
+    border-bottom: solid 1px #CCC;
+    padding: 16px 0;
+}
+.trip:nth-child(odd) {
+    background: #f9f9f9;
 }
 .trip * {
     line-height: 24px;
