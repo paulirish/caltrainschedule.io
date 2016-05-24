@@ -236,7 +236,8 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
   }
 
   function render_info(next_train) {
-    var info = $('#info').textContent = '';
+    var info = $('#info');
+    info.textContent = '';
     if (is_now() && is_defined(next_train)) {
       var next_relative = time_relative(now(), next_train.departure_time);
       info.textContent = 'Next train: ' + next_relative + 'min';
