@@ -102,18 +102,22 @@ select {
     position: absolute;
     bottom: 0;
     left: 300px;
-    background: url("../images/switcher.png") no-repeat center;
-    background-size: 20px;
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAQAAAD/5HvMAAAAqklEQVR4Ae3WRwKCQBBE0To5eYYjm22XZjI9hv9rZ3wqqPrKiMhuBggQIECAAAECBAjQ14EA5To+7Bb0eF0uhyrZwFVyqvLnzCdVcq7s5JRKUJmKU6joJvlyys4nKZ44hQdnOKnwPJeqTpIDp5Y9rO4kuXO6SStzGtmbNUpQkHUsJOWkJ0XZgEU51coGrpVDubYPuyU8XpfzfxkQIECAAAECBAgQIEDOEdEFZ84Z0079TZ0AAAAASUVORK5CYII=");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 41px;
     height: 140px;
     width: 50px;
     border: none;
     padding: 0;
-    opacity: 0.5;
+    opacity: 0.2;
     z-index: 100;
     cursor: pointer;
+    background-color: transparent;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
 }
-#reverse:hover {
-    opacity: 0.6;
+#reverse:active  {
+    opacity: 0.5;
 }
 #reverse:focus {
     outline: none;
