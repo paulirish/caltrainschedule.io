@@ -6,13 +6,12 @@ data/calendar.json
 data/calendar_dates.json
 data/routes.json
 data/stops.json
+icons/icon-57.png
+icons/icon-57@2x.png
 icons/icon-72.png
 icons/icon-72@2x.png
 icons/icon-76.png
 icons/icon-76@2x.png
-icons/icon-origin.png
-icons/icon.png
-icons/icon@2x.png
 images/switcher.png
 index.html
 javascripts/default.js
