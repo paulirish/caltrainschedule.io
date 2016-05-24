@@ -13,9 +13,11 @@ this.addEventListener('install', function(e) {
 });
 
 this.addEventListener('fetch', function(e) {
-  e.respondWith(caches.match(e.request).catch(_ => {
-    return handleNoCacheMatch();
-  }));
+  e.respondWith(
+    caches.match(e.request).then(response => {
+      return response || handleNoCacheMatch(e);
+    })
+  );
 });
 
 this.addEventListener('activate', function(e) {
@@ -30,7 +32,7 @@ this.addEventListener('activate', function(e) {
 
 function handleNoCacheMatch(e) {
   return fetch(e.request).then(res => {
-    caches.open(VERSION).then(cache => {
+    return caches.open(VERSION).then(cache => {
       cache.put(e.request, res.clone());
       return res;
     });
