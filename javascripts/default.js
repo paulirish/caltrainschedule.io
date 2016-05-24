@@ -123,7 +123,7 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
       suffix = 12 <= hours && hours < 24 ? "PM" : "AM";
       hours = ((hours + 11) % 12 + 1);
     } else
-      hours = hours.toString().rjust(2, '0');
+      hours = (hours % 24).toString().rjust(2, '0');
 
     minutes = (minutes % 60).toString().rjust(2, '0');
     return [hours,':',minutes, suffix.small()].join('');
