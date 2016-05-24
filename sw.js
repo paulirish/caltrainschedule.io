@@ -7,8 +7,7 @@ this.addEventListener('install', function(e) {
       '/index.html',
       '/sw.js',
       '/stylesheets/default.css',
-      '/javascripts/default.js',
-      '/images/switcher.png'
+      '/javascripts/default.js'
     ]);
   }))
 });
