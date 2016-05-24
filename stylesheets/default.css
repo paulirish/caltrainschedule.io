@@ -199,6 +199,17 @@ select {
     position: relative;
 }
 
+.duration:before {
+    content: attr(data-bombardier);
+    position: absolute;
+    left: -10px;
+    display: none;
+}
+
+.show-details .duration:before {
+    display:block;
+}
+
 .durationbar {
     border-bottom-width: 3px;
     border-bottom-style: solid;

@@ -27,7 +27,8 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
   var whenButtons;
   var data = {};
   var opts = {
-    amPM: true
+    amPM: true,
+    showDetails: false
   };
 
   function is_defined(obj) {
@@ -224,7 +225,7 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
     return a.departure_time - b.departure_time;
   }
 
-  function get_trips(services, from_ids, to_ids) {
+  function get_trips(services, from_ids, to_ids, bombardiers) {
     var result = [];
 
     Object.keys(services)
@@ -249,8 +250,10 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
 
             if (!is_now() || trip[from_index][1] > now()) {
               result.push({
+                trip_id: trip_id,
                 departure_time: trip[from_index][1],
-                arrival_time: trip[to_index][1]
+                arrival_time: trip[to_index][1],
+                bombardier: bombardiers.includes(+trip_id)
               });
             }
           });
@@ -320,16 +323,23 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
 
       return prev + ('<div class="trip">' +
                     '<span class="departure">' + second2str(trip.departure_time) + '</span>' +
-                      '<span class="duration">' + time_relative(trip.departure_time, trip.arrival_time) + ' min' +
+                    '<span class="duration" ' +
+                      (trip.bombardier ? 'data-bombardier="✨"' : '') + '>' +
+                      time_relative(trip.departure_time, trip.arrival_time) + ' min' +
                       '<span class="durationbar" style="width: ' + width + '%; border-color:' + color + '"></span></span>' +
                     '<span class="arrival">' + second2str(trip.arrival_time) + '</span>' +
                      '</div>');
     }, '');
+
+    document.body.classList.toggle('show-details', opts.showDetails);
   }
 
   function schedule() {
-    var stops = data.stops, routes = data.routes,
-      calendar = data.calendar, calendar_dates = data.calendar_dates;
+    var stops = data.stops,
+        routes = data.routes,
+        bombardiers = data.bombardiers,
+        calendar = data.calendar,
+        calendar_dates = data.calendar_dates;
     var from_ids = stops[$('#from select').value],
       to_ids = stops[$('#to select').value],
       services = get_available_services(routes, calendar, calendar_dates);
@@ -339,7 +349,7 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
       return;
     }
 
-    var trips = get_trips(services, from_ids, to_ids);
+    var trips = get_trips(services, from_ids, to_ids, bombardiers);
 
     saveScheduleSelection();
     render_info(trips[0]);
@@ -355,6 +365,12 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
         opts.amPM = !opts.amPM;
         schedule();
       }
+    });
+
+    $('.bom-trigger').on('click', function(evt) {
+      opts.showDetails = !opts.showDetails;
+      evt.preventDefault();
+      schedule();
     });
 
     whenButtons.on('click', function(evt) {
@@ -419,7 +435,7 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
   }
 
   // init after document and data are ready
-  var data_names = ['calendar', 'calendar_dates', 'stops', 'routes'];
+  var data_names = ['calendar', 'calendar_dates', 'stops', 'routes', 'bombardiers'];
   var checker = data_checker(data_names, function() {
     initialize();
   });
