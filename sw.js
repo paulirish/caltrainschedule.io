@@ -1,4 +1,4 @@
-var VERSION = '0.0.70000';
+var VERSION = '08';
 
 this.addEventListener('install', function(e) {
   e.waitUntil(caches.open(VERSION).then(cache => {
@@ -18,14 +18,15 @@ this.addEventListener('fetch', function(e) {
   }));
 });
 
-this.addEventListener('active', function(e) {
-  e.waitUntil(caches.key().then((keys) => {
+this.addEventListener('activate', function(e) {
+  e.waitUntil(caches.keys().then((keys) => {
     return Promise.all(keys.map(k => {
       if (k !== VERSION) {
         return caches.delete(k);
       }
     }));
-}))});
+  }));
+});
 
 function handleNoCacheMatch(e) {
   return fetch(e.request).then(res => {
