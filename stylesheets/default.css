@@ -5,9 +5,13 @@ html {
   box-sizing: inherit;
 }
 
+select:focus {
+    outline-color: #3056ff;
+}
+
 body {
     min-width: 320px;
-    max-width: 800px;
+    max-width: 440px;
     margin: auto;
     text-align: center;
     font-family: sans-serif;
@@ -15,35 +19,6 @@ body {
     font-size: 20px;
 }
 
-/* rComplete */
-.complete-hint, .complete-input, .complete-dropdown {
-    font-size: 15px;
-}
-.complete-hint, .complete-input {
-    border: none;
-    outline: none;
-    padding: 0.3em 0.5em;
-}
-.complete-dropdown {
-    border: 1px solid #bbb;
-    border-radius: 10px;
-    margin: 10px 0;
-    width: 100%;
-    z-index: 100;
-    background-color: white;
-    position: absolute;
-}
-.complete-dropdown-item {
-    color: #444;
-    padding: 0.3em 0.5em;
-    cursor: default;
-}
-.complete-dropdown-item+.complete-dropdown-item {
-    border-top: 1px solid #888;
-}
-.complete-dropdown-item.hovered {
-    color: #1E98FF;
-}
 
 /* Components */
 .header-group {
@@ -62,15 +37,17 @@ body {
     padding: 15px 0;
     min-height: 70px;
 }
+.from {
+  border-bottom: 0;
+}
 
 /* Inputs */
 .input-label, .location {
     display: inline-block;
     font-size: 20px;
-    height: 30px;
     line-height: 30px;
     color: #959595;
-    vertical-align: top;
+    vertical-align: middle;
 }
 .input-label {
     width: 60px;
@@ -79,25 +56,52 @@ body {
     text-align: right;
 }
 .location {
-    width: 160px;
+    width: 180px;
     text-align: left;
+    position: relative;
 }
-.cancel {
+
+/* dropdowns */
+select {
+    font-size: 17px;
+    -webkit-appearance: none;
+    background-color: #eee;
+    cursor: pointer;
+    line-height: 20px;
+    padding: 9.6px 16px;
+    width: 100%;
+    width: calc(100% + 10px);
+    border-radius: 4px;
+}
+
+.location:before, .location:after {
+    content: '';
+    display: block;
     position: absolute;
-    top: 0;
-    right: 0;
-    width: 1em;
-    height: 1em;
-    cursor: default;
-    font-family: sans-serif;
-    color: #888;
+    pointer-events: none;
+    border: 1px solid transparent;
+    width: 0;
+    height: 0;
+    right: 0px;
 }
+.location:before {
+  bottom: 55%;
+  border-width: 0 6.5px 8px 6.5px;
+  border-bottom-color: #a9a9a9;
+}
+.location:after {
+  border-width: 8px 6.5px 0 6.5px;
+  border-top-color: #a9a9a9;
+  top: 55%;
+}
+
+
 
 /* Reverse button */
 #reverse {
     position: absolute;
     bottom: 0;
-    right: 10px;
+    left: 300px;
     background: url("../images/switcher.png") no-repeat center;
     background-size: 20px;
     height: 140px;
@@ -156,12 +160,24 @@ body {
     border-bottom: solid 1px #CCC;
     padding: 16px 0;
 }
-.trip:nth-child(odd) {
+/* .trip:first-child {
+    border-top: solid 1px #CCC;
+} */
+.trip:nth-child(even) {
     background: #f9f9f9;
 }
 .trip * {
     line-height: 24px;
     vertical-align: middle;
+    width: 100px;
+    display: inline-block;
+}
+
+.trip span small {
+    color: #b7b7b7;
+    margin-left: 2px;
+    font-size: 70%;
+    display: inline;
 }
 .departure {
     text-align: right;
@@ -174,7 +190,7 @@ body {
     font-size: 14px;
     margin: 0 10px;
     color: #888;
-    width: 50px;
+    width: 58px;
     display: inline-block;
     position: relative;
 }
