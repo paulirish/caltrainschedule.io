@@ -34,7 +34,18 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
     return typeof (obj) !== 'undefined';
   }
 
+  function hasLocalStorage() {
+    try {
+      localStorage.setItem('test', 'test');
+      localStorage.removeItem('test');
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   function saveScheduleSelection() {
+    if (!hasLocalStorage()) return;
     localStorage.setItem('caltrain-schedule-from', $('#from select').value);
     localStorage.setItem('caltrain-schedule-to', $('#to select').value);
     if (get_selected_schedule())
@@ -47,6 +58,7 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
   }
 
   function loadPreviousSettings() {
+    if (!hasLocalStorage()) return;
     if (localStorage.getItem('caltrain-schedule-from'))
       select($('#from select'), localStorage.getItem('caltrain-schedule-from'));
 
