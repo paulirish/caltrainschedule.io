@@ -19,7 +19,6 @@ body {
     font-size: 20px;
 }
 
-
 /* Components */
 .header-group {
     border-bottom: 1px #ECECEC solid;
@@ -229,8 +228,14 @@ footer {
 .copyright {
     font-size: 50%;
     padding: 4px 0;
+    margin-top: 30px;
 }
 a:link, a:visited {
   color: #7986CB;
   text-decoration: none;
+}
+
+p {
+    font-size: 18px;
+    margin: 7px 0 4px;
 }
