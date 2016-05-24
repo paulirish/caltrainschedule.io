@@ -217,4 +217,9 @@ footer {
 }
 .copyright {
     font-size: 50%;
+    padding: 4px 0;
+}
+a:link, a:visited {
+  color: #7986CB;
+  text-decoration: none;
 }
