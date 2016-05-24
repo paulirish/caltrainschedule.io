@@ -8,14 +8,10 @@ this.addEventListener('install', function(e) {
       '/sw.js',
       '/stylesheets/default.css',
       '/javascripts/default.js',
-      '/javascripts/jquery-2.1.0.min.js',
-      '/images/switcher.png',
-      '/data/routes.json',
-      '/data/stops.json',
-      '/data/calendar_dates.json',
-      '/data/calendar.json',
+      '/images/switcher.png'
     ]);
-}))});
+  }))
+});
 
 this.addEventListener('fetch', function(e) {
   e.respondWith(caches.match(e.request).catch(_ => {
