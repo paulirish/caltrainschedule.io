@@ -26,6 +26,9 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
 
   var whenButtons;
   var data = {};
+  var opts = {
+    amPM: true
+  };
 
   function is_defined(obj) {
     return typeof (obj) !== 'undefined';
@@ -36,6 +39,7 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
     localStorage.setItem('caltrain-schedule-to', $('#to select').value);
     if (get_selected_schedule())
       localStorage.setItem('caltrain-schedule-when', get_selected_schedule());
+    localStorage.setItem('opts', JSON.stringify(opts));
   }
 
   function select(elm, val) {
@@ -57,6 +61,9 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
       if (whenButton)
         whenButton.classList.add('selected');
     }
+
+    if (localStorage.getItem('opts'))
+      opts = JSON.parse(localStorage.getItem('opts'));
   }
 
   String.prototype.repeat = function(num) {
@@ -96,12 +103,17 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
 
   function second2str(seconds) {
     var minutes = Math.floor(seconds / 60);
-    return [
-      Math.floor(minutes / 60),
-      minutes % 60
-    ].map(function(item) {
-      return item.toString().rjust(2, '0');
-    }).join(':');
+    var hours = Math.floor(minutes / 60);
+    var suffix = '';
+
+    if (opts.amPM) {
+      suffix = 12 <= hours && hours < 24 ? "PM" : "AM";
+      hours = ((hours + 11) % 12 + 1);
+    } else
+      hours = hours.toString().rjust(2, '0');
+
+    minutes = (minutes % 60).toString().rjust(2, '0');
+    return [hours,':',minutes, suffix.small()].join('');
   }
 
   function time_relative(from, to) {
@@ -324,6 +336,14 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
 
   function bind_events() {
     $$('#from select, #to select').on('change', schedule);
+
+    // toggle from AM PM to 24hr time
+    $('body').on('click', function(evt) {
+      if (evt.target.matches('.departure, .arrival, small')) {
+        opts.amPM = !opts.amPM;
+        schedule();
+      }
+    });
 
     whenButtons.on('click', function(evt) {
       whenButtons.forEach(function(elem) {
