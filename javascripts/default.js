@@ -392,8 +392,8 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
     });
   }
 
-  function constructSelect(opts) {
-    return '<select>' + opts.reduce(function(prev, curr) {
+  function constructSelect(name, opts) {
+    return '<select id="' + name + 'select">' + opts.reduce(function(prev, curr) {
       return prev + '<option value="' + curr + '">' + curr + '</option>';
     }, '<option disabled selected>Select A Stop</option>') + '</select>';
   }
@@ -404,8 +404,8 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
 
     // generate select options
     var names = Object.keys(data.stops);
-    $('#from').innerHTML = constructSelect(names);
-    $('#to').innerHTML = constructSelect(names);
+    $('#from').innerHTML = constructSelect('from', names);
+    $('#to').innerHTML = constructSelect('to', names);
 
     // init
     loadPreviousSettings();
