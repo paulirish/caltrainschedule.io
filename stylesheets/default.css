@@ -217,6 +217,13 @@ select {
     position: absolute;
     left: 0;
     bottom: 0;
+    animation: slideXOpen 200ms;
+    transform-origin: left;
+}
+
+@keyframes slideXOpen {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
 }
 
 /* Footer */
@@ -238,4 +245,89 @@ a:link, a:visited {
 p {
     font-size: 18px;
     margin: 7px 0 4px;
+}
+
+
+
+/* 
+@for $i from 1 to 20 {
+   .trip:nth-child(#{$i}) .durationbar { animation-delay: $i * 30ms; }
+}
+ */
+
+
+.trip:nth-child(1) .durationbar {
+  animation-delay: 30ms;
+}
+
+.trip:nth-child(2) .durationbar {
+  animation-delay: 60ms;
+}
+
+.trip:nth-child(3) .durationbar {
+  animation-delay: 90ms;
+}
+
+.trip:nth-child(4) .durationbar {
+  animation-delay: 120ms;
+}
+
+.trip:nth-child(5) .durationbar {
+  animation-delay: 150ms;
+}
+
+.trip:nth-child(6) .durationbar {
+  animation-delay: 180ms;
+}
+
+.trip:nth-child(7) .durationbar {
+  animation-delay: 210ms;
+}
+
+.trip:nth-child(8) .durationbar {
+  animation-delay: 240ms;
+}
+
+.trip:nth-child(9) .durationbar {
+  animation-delay: 270ms;
+}
+
+.trip:nth-child(10) .durationbar {
+  animation-delay: 300ms;
+}
+
+.trip:nth-child(11) .durationbar {
+  animation-delay: 330ms;
+}
+
+.trip:nth-child(12) .durationbar {
+  animation-delay: 360ms;
+}
+
+.trip:nth-child(13) .durationbar {
+  animation-delay: 390ms;
+}
+
+.trip:nth-child(14) .durationbar {
+  animation-delay: 420ms;
+}
+
+.trip:nth-child(15) .durationbar {
+  animation-delay: 450ms;
+}
+
+.trip:nth-child(16) .durationbar {
+  animation-delay: 480ms;
+}
+
+.trip:nth-child(17) .durationbar {
+  animation-delay: 510ms;
+}
+
+.trip:nth-child(18) .durationbar {
+  animation-delay: 540ms;
+}
+
+.trip:nth-child(19) .durationbar {
+  animation-delay: 570ms;
 }
