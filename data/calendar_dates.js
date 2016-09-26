@@ -1,1 +1,1 @@
-var calendar_dates = {"CT-16APR-Caltrain-Weekday-01":[[20160530,2],[20160704,2],[20160905,2],[20161124,2]],"CT-16APR-Caltrain-Sunday-02":[[20160530,1],[20160704,1],[20160905,1],[20161124,1]]};
+var calendar_dates = {"CT-16APR-Caltrain-Weekday-01":[[20161124,2]],"CT-16APR-Caltrain-Sunday-02":[[20161124,1]]};

@@ -26,7 +26,7 @@ task :download_data do
       temp_file.unlink
     end
 
-    data_dir = File.join(tmp_dir, '2016APR_GTFS')
+    data_dir = File.join(tmp_dir, '2016APR_GTFS_rev2')
     unless File.exist? data_dir
       # Data structure changed, check data.
       require 'pry'; binding.pry
@@ -37,9 +37,10 @@ task :download_data do
     FileUtils.mv(data_dir, target_dir)
   }
 
-  [:prepare_data].each do |task|
-    Rake::Task[task].invoke
-  end
+  puts "Go nuke any empty newlines from gtfs/*.txt and then run: rake prepare_data"
+  # [:prepare_data].each do |task|
+  #   Rake::Task[task].invoke
+  # end
 end
 
 desc "Prepare Data"
@@ -68,7 +69,14 @@ task :prepare_data do
   end
 
   def read_CSV(name)
-    CSV.read("gtfs/#{name}.txt", headers: true, header_converters: :symbol, converters: :all)
+
+    puts "Reading CSV file: #{name}.txt"
+
+    filename = "gtfs/#{name}.txt"
+    # strip newlines as CSV parser dies on them.
+    File.write(filename, File.read(filename).gsub(/\n+/,"\n").gsub(/\n$/,""))
+
+    CSV.read(filename, headers: true, header_converters: :symbol, converters: :all)
       .each { |item|
         item.service_id = item.service_id.to_s unless item[:service_id].nil?
         item.route_id = item.route_id.to_s unless item[:route_id].nil?
@@ -110,6 +118,7 @@ task :prepare_data do
     hashes = yield(*csvs)
     raise "prepare_for result has to be a Hash!" unless hashes.is_a? Hash
     hashes.each { |name, hash|
+      puts "Writing: data/#{name}.js"
       File.write("data/#{name}.js", "var #{name} = #{hash.to_json};")
     #   File.write("data/#{name}.plist", Plist::Emit.dump(hash))
     #   File.write("data/#{name}.xml", %Q{<?xml version="1.0" encoding="UTF-8"?>\n#{hash_to_xml(hash)}\n})
