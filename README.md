@@ -15,6 +15,8 @@ rake download_data
 # then
 rake prepare_data
 # then update bombardiers manually
+
+# manually squash data/*.js into bottom of index.html
 ```
 
 #### Thanks
