@@ -26,7 +26,7 @@ task :download_data do
       temp_file.unlink
     end
 
-    data_dir = File.join(tmp_dir, '2016APR_GTFS')
+    data_dir = File.join(tmp_dir, '2016APR_GTFS_rev2')
     unless File.exist? data_dir
       # Data structure changed, check data.
       require 'pry'; binding.pry
@@ -68,7 +68,14 @@ task :prepare_data do
   end
 
   def read_CSV(name)
-    CSV.read("gtfs/#{name}.txt", headers: true, header_converters: :symbol, converters: :all)
+
+    puts "Reading CSV file: #{name}.txt"
+
+    filename = "gtfs/stop_times.txt"
+    # strip newlines as CSV parser dies on them.
+    File.write(filename, File.read(filename).gsub(/\n+/,"\n").gsub(/\n$/,""))
+
+    CSV.read(filename, headers: true, header_converters: :symbol, converters: :all)
       .each { |item|
         item.service_id = item.service_id.to_s unless item[:service_id].nil?
         item.route_id = item.route_id.to_s unless item[:route_id].nil?
