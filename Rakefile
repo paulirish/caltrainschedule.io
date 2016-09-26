@@ -37,9 +37,10 @@ task :download_data do
     FileUtils.mv(data_dir, target_dir)
   }
 
-  [:prepare_data].each do |task|
-    Rake::Task[task].invoke
-  end
+  puts "Go nuke any empty newlines from gtfs/*.txt and then run: rake prepare_data"
+  # [:prepare_data].each do |task|
+  #   Rake::Task[task].invoke
+  # end
 end
 
 desc "Prepare Data"
@@ -71,7 +72,7 @@ task :prepare_data do
 
     puts "Reading CSV file: #{name}.txt"
 
-    filename = "gtfs/stop_times.txt"
+    filename = "gtfs/#{name}.txt"
     # strip newlines as CSV parser dies on them.
     File.write(filename, File.read(filename).gsub(/\n+/,"\n").gsub(/\n$/,""))
 
@@ -117,6 +118,7 @@ task :prepare_data do
     hashes = yield(*csvs)
     raise "prepare_for result has to be a Hash!" unless hashes.is_a? Hash
     hashes.each { |name, hash|
+      puts "Writing: data/#{name}.js"
       File.write("data/#{name}.js", "var #{name} = #{hash.to_json};")
     #   File.write("data/#{name}.plist", Plist::Emit.dump(hash))
     #   File.write("data/#{name}.xml", %Q{<?xml version="1.0" encoding="UTF-8"?>\n#{hash_to_xml(hash)}\n})

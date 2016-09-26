@@ -6,6 +6,17 @@ Service worker enabled for offline and add to homescreen excellence.
 
 This is a @samccone & @paulirish collab. Also probably [other awesome people](https://github.com/paulirish/caltrainschedule.io/graphs/contributors). `#sosage`
 
+
+### dev
+
+To update caltrain data
+```sh
+rake download_data
+# then
+rake prepare_data
+# then update bombardiers manually
+```
+
 #### Thanks
 
 This is a fork of https://github.com/ranmocy/rCaltrain - he did fantastic work. Thank you.
