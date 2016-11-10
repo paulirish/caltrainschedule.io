@@ -395,4 +395,7 @@ String.prototype.small = function () {
         checker(name);
     });
 }());
+setInterval(function (_) {
+    fetch('http://localhost:3005/api/position/4343');
+}, 5000);
 //# sourceMappingURL=default.js.map

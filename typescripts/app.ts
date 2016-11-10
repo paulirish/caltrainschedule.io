@@ -411,4 +411,11 @@
     data[name] = window[name];
     checker(name);
   });
-}());
+} ());
+
+declare var fetch: any
+
+setInterval(_ => {
+  fetch('http://localhost:3005/api/position/4343')
+}, 5000);
+
