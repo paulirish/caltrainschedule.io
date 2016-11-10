@@ -4,8 +4,9 @@
   "description": ".",
   "main": " ",
   "dependencies": {
+    "cors": "^2.8.1",
     "express": "~4.1.0",
-	  "xml2js": "~0.4.4"
+    "xml2js": "~0.4.4"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

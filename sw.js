@@ -14,6 +14,8 @@ this.addEventListener('install', function(e) {
 
 this.addEventListener('fetch', function(e) {
   var tryInCachesFirst = caches.open(VERSION).then(cache => {
+    if (e.request.url.includes('/api')) return handleNoCacheMatch(e);
+
     return cache.match(e.request).then(response => {
       return response || handleNoCacheMatch(e);
     });

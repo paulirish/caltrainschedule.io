@@ -1,6 +1,7 @@
 var express = require('express'),
     http = require('http'),
     parseString = require('xml2js').parseString,
+    cors = require('cors'),
     app = express();
 
 // app setup
@@ -13,13 +14,14 @@ var token = '&token=5e58e873-398c-4408-87f4-d58b19136466';
 // routes
 app.use(express.static(__dirname + '/src'));
 
-app.get('/api/position/:trainnum', function(req, res) {
-  var train = req.params.train;
+app.get('/api/position/:train', cors(), function(req, res) {
+  var trainId = req.params.train;
   var options = {
     hostname: domain,
-    path: '/Transit2.0/GetCurrentPosition.aspx?trainnum=' + station + token
+    path: '/Transit2.0/GetCurrentPosition.aspx?trainnum=' + train + token
   };
 
+  console.log('sending API request…');
   http.request(options, function(serviceRes) {
     var data = '';
 

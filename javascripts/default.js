@@ -446,3 +446,15 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
     checker(name);
   });
 }());
+
+
+Promise.resolve(3)
+  .then(d => d)
+  .then(console.log);
+
+setInterval(_ => {
+  fetch('http://localhost:3005/api/position/4343')
+}, 5000);
+
+
+
