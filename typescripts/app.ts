@@ -417,5 +417,5 @@ declare var fetch: any
 
 setInterval(_ => {
   fetch('http://localhost:3005/api/position/4343').then(console.log);
-}, 5000);
+}, 2500);
 
