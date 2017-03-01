@@ -1,0 +1,21 @@
+CACHE MANIFEST
+
+#version 1.0 2-28-2017
+
+CACHE:
+
+# internal HTML documents
+https://caltrainschedule.io/
+
+# style sheets
+https://caltrainschedule.io/stylesheets/default.css
+
+# style sheet images
+"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAQAAAD/5HvMAAAAqklEQVR4Ae3WRwKCQBBE0To5eYYjm22XZjI9hv9rZ3wqqPrKiMhuBggQIECAAAECBAjQ14EA5To+7Bb0eF0uhyrZwFVyqvLnzCdVcq7s5JRKUJmKU6joJvlyys4nKZ44hQdnOKnwPJeqTpIDp5Y9rO4kuXO6SStzGtmbNUpQkHUsJOWkJ0XZgEU51coGrpVDubYPuyU8XpfzfxkQIECAAAECBAgQIEDOEdEFZ84Z0079TZ0AAAAASUVORK5CYII="
+
+# javascript files
+https://www.google-analytics.com/analytics.js
+https://caltrainschedule.io/javascripts/default.js
+
+NETWORK:
+*
