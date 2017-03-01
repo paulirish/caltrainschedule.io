@@ -250,9 +250,13 @@ p {
     margin: 7px 0 4px;
 }
 
+.firstrun .when,
+.firstrun #instructions,
+.firstrun #reverse {
+    display: none;
+}
 
-
-/* 
+/*
 @for $i from 1 to 20 {
    .trip:nth-child(#{$i}) .durationbar { animation-delay: $i * 30ms; }
 }
