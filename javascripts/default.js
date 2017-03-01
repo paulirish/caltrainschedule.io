@@ -25,6 +25,7 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
   'use strict';
 
   var whenButtons;
+  var locationSelects;
   var data = {};
   var opts = {
     amPM: true,
@@ -346,8 +347,10 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
 
     // if some input is invalid, just return
     if (!is_defined(from_ids) || !is_defined(to_ids) || !is_defined(services)) {
+      $('#reverse').hidden = true;
       return;
     }
+    $('#reverse').hidden = false;
 
     var trips = get_trips(services, from_ids, to_ids, bombardiers);
 
@@ -357,7 +360,7 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
   }
 
   function bind_events() {
-    $$('#from select, #to select').on('change', schedule);
+    locationSelects.on('change', schedule);
 
     // toggle from AM PM to 24hr time
     $('body').on('click', function(evt) {
@@ -406,6 +409,7 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
     var names = Object.keys(data.stops);
     $('#from').innerHTML = constructSelect('from', names);
     $('#to').innerHTML = constructSelect('to', names);
+    locationSelects = $$('#from select, #to select');
 
     // init
     loadPreviousSettings();
