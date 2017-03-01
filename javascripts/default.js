@@ -347,10 +347,10 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
 
     // if some input is invalid, just return
     if (!is_defined(from_ids) || !is_defined(to_ids) || !is_defined(services)) {
-      $('#reverse').hidden = true;
+      document.body.classList.add('firstrun');
       return;
     }
-    $('#reverse').hidden = false;
+    document.body.classList.remove('firstrun');
 
     var trips = get_trips(services, from_ids, to_ids, bombardiers);
 
