@@ -127,10 +127,12 @@ select {
     height: 60px;
     margin: 0 auto;
     max-width: 100%;
+    display: flex;
+    justify-content: center;
 }
 .when-button {
     color: #959595;
-    display: inline;
+    display: block;
     padding: 23px 0; /* (height - font-size) / 2 */
     margin: 0;
     background: none;
@@ -143,7 +145,7 @@ select {
 }
 .when .text {
     display: block;
-    width: 75px;
+    width: 90px;
     font-size: 14px;
     padding: 0 5px;
     text-align: center;
@@ -155,7 +157,8 @@ select {
 /* Results */
 #info {
     font-weight: 400;
-    margin: 20px 0;
+    margin: 20px 0 0px;
+    color: #888;
 }
 .trip {
     font-weight: 400;
