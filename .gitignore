@@ -1,1 +1,7 @@
-
+gtfs/calendar_attributes.txt
+gtfs/directions.txt
+gtfs/farezone_attributes.txt
+gtfs/realtime_routes.txt
+gtfs/realtime_trips.txt
+gtfs/stop_attributes.txt
+gtfs/timepoints.txt
