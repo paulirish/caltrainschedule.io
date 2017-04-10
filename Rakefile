@@ -20,23 +20,22 @@ task :download_data do
   require 'fileutils'
 
   Dir.mktmpdir('gtfs_') { |tmp_dir|
-    url = 'http://www.caltrain.com/Assets/GTFS/caltrain/Caltrain-GTFS.zip'
+    url = 'http://www.caltrain.com/Assets/GTFS/caltrain/CT-GTFS.zip'
     Tempfile.open('data.zip') do |temp_file|
       system("curl #{url} -o #{temp_file.path} && unzip -o #{temp_file.path} -d #{tmp_dir}")
       temp_file.unlink
     end
 
-    data_dir = File.join(tmp_dir, '2016APR_GTFS_rev2')
+    data_dir = tmp_dir
     unless File.exist? data_dir
       # Data structure changed, check data.
       require 'pry'; binding.pry
     end
 
-    target_dir = './gtfs/'
-    FileUtils.remove_dir(target_dir)
+    target_dir = File.join(Dir.pwd, 'gtfs/')
     FileUtils.mv(data_dir, target_dir)
   }
-
+  puts "Run dos2unix on gtfs/*.txt"
   puts "Go nuke any empty newlines from gtfs/*.txt and then run: rake prepare_data"
   # [:prepare_data].each do |task|
   #   Rake::Task[task].invoke
