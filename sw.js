@@ -46,7 +46,7 @@ function fetchFromNetworkAndCache(e) {
       cache.put(e.request, res.clone());
       return res;
     });
-  });
+  }).catch(err => console.error(e.request.url, err));
 }
 
 function handleNoCacheMatch(e) {
