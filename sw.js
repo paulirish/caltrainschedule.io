@@ -15,7 +15,13 @@ this.addEventListener('install', function(e) {
 this.addEventListener('fetch', function(e) {
   var tryInCachesFirst = caches.open(VERSION).then(cache => {
     return cache.match(e.request).then(response => {
-      return response || handleNoCacheMatch(e);
+      if (!response) {
+        return handleNoCacheMatch(e);
+      }
+      // Update cache record in the background
+      fetchFromNetworkAndCache(e);
+      // Reply with stale data
+      return response
     });
   });
   e.respondWith(tryInCachesFirst);
@@ -30,11 +36,19 @@ this.addEventListener('activate', function(e) {
   }));
 });
 
-function handleNoCacheMatch(e) {
+function fetchFromNetworkAndCache(e) {
   return fetch(e.request).then(res => {
+    // don't cache ANY foreign requests right now.
+    if (new URL(res.url).origin !== location.origin) return res;
+
     return caches.open(VERSION).then(cache => {
+      // TODO: figure out if the content is new and therefore the page needs a reload.
       cache.put(e.request, res.clone());
       return res;
     });
   });
+}
+
+function handleNoCacheMatch(e) {
+  return fetchFromNetworkAndCache(e);
 }
