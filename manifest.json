@@ -4,7 +4,7 @@
   "orientation": "portrait",
   "theme_color": "hsl(206, 99%, 31%)",
   "background_color": "hsl(229, 100%, 59%)",
-  "display": "standalone",
+  "display": "fullscreen",
   "start_url": "/",
   "icons": [
     {
