@@ -28,8 +28,7 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
   var locationSelects;
   var data = {};
   var opts = {
-    amPM: true,
-    showDetails: false
+    amPM: true
   };
 
   function is_defined(obj) {
@@ -337,8 +336,6 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
                     '<span class="arrival">' + second2str(trip.arrival_time) + '</span>' +
                      '</div>');
     }, '');
-
-    document.body.classList.toggle('show-details', opts.showDetails);
   }
 
   function schedule() {
