@@ -124,6 +124,18 @@ task :prepare_data do
     }
   end
 
+  # Need to map trip_id (service_id) to short_name (train number)
+  prepare_for("trips") do |trips|
+    train_numbers = trips
+      .map { |route|
+        {
+          trip_id: route.trip_id,
+          trip_short_name: route.trip_short_name
+        }
+      }
+
+    {train_numbers: train_numbers}
+  end
 
   # From:
   #   routes:
