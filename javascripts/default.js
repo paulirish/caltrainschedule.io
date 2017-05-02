@@ -28,8 +28,7 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
   var locationSelects;
   var data = {};
   var opts = {
-    amPM: true,
-    showDetails: false
+    amPM: true
   };
 
   function is_defined(obj) {
@@ -144,6 +143,10 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
     return elem.value;
   }
 
+  const bombardierIds = train_numbers
+    .filter(train => bombardiers.includes(train.trip_short_name))
+    .map(train => train.trip_id);
+
   function get_service_ids(calendar, calendar_dates) {
     var date = now_date();
 
@@ -254,7 +257,7 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
                 trip_id: trip_id,
                 departure_time: trip[from_index][1],
                 arrival_time: trip[to_index][1],
-                bombardier: bombardiers.includes(+trip_id)
+                bombardier: bombardierIds.includes(trip_id)
               });
             }
           });
@@ -323,16 +326,16 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
       var width = (percentage * 50) + 50;
 
       return prev + ('<div class="trip">' +
-                    '<span class="departure">' + second2str(trip.departure_time) + '</span>' +
-                    '<span class="duration" ' +
-                      (trip.bombardier ? 'data-bombardier="✨"' : '') + '>' +
+                    '<span class="departure"' +
+                      (trip.bombardier ? 'data-bombardier="✨"' : '') +
+                      '>' + second2str(trip.departure_time) + 
+                    '</span>' +
+                    '<span class="duration">' +
                       time_relative(trip.departure_time, trip.arrival_time) + ' min' +
                       '<span class="durationbar" style="width: ' + width + '%; border-color:' + color + '"></span></span>' +
                     '<span class="arrival">' + second2str(trip.arrival_time) + '</span>' +
                      '</div>');
     }, '');
-
-    document.body.classList.toggle('show-details', opts.showDetails);
   }
 
   function schedule() {
@@ -368,12 +371,6 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
         opts.amPM = !opts.amPM;
         schedule();
       }
-    });
-
-    $('.bom-trigger').on('click', function(evt) {
-      opts.showDetails = !opts.showDetails;
-      evt.preventDefault();
-      schedule();
     });
 
     whenButtons.on('click', function(evt) {

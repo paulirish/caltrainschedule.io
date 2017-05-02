@@ -9,7 +9,7 @@ This is a @samccone & @paulirish collab. Also probably [other awesome people](ht
 
 ### dev
 
-To update caltrain data
+To update caltrain GTFS data. (gtfs: [wiki](https://en.m.wikipedia.org/wiki/General_Transit_Feed_Specification), [class diagram](https://commons.wikimedia.org/wiki/File:GTFS_class_diagram.svg#mw-jump-to-license))
 ```sh
 rake download_data
 # then

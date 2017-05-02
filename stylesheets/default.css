@@ -188,6 +188,20 @@ select {
 .departure {
     text-align: right;
 }
+
+[data-bombardier] {
+  position: relative;
+}
+
+[data-bombardier]:before {
+    content: attr(data-bombardier);
+    position: absolute;
+    left: -11px;
+    font-size: 26px;
+    display: block;
+    width: 10px;
+}
+
 .arrival {
     text-align: left;
 }
@@ -199,17 +213,6 @@ select {
     width: 58px;
     display: inline-block;
     position: relative;
-}
-
-.duration:before {
-    content: attr(data-bombardier);
-    position: absolute;
-    left: -10px;
-    display: none;
-}
-
-.show-details .duration:before {
-    display:block;
 }
 
 .durationbar {
@@ -231,12 +234,12 @@ select {
 
 /* Footer */
 footer {
-    color: grey;
+    color: #505050;
     margin-top: 30px;
     margin-bottom: 5em;
 }
 .copyright {
-    font-size: 50%;
+    font-size: 62%;
     padding: 4px 0;
     margin-top: 30px;
 }
