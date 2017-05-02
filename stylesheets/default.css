@@ -253,6 +253,17 @@ p {
     margin: 7px 0 4px;
 }
 
+p.onetap {
+    margin: 18px 15px 0;
+    font-size: 17px;
+    text-align: center;
+    display: none;
+}
+
+.firstrun .onetap {
+    display: block;
+}
+
 .firstrun .when,
 .firstrun #instructions,
 .firstrun #reverse {

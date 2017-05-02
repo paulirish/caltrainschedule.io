@@ -328,7 +328,7 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
       return prev + ('<div class="trip">' +
                     '<span class="departure"' +
                       (trip.bombardier ? 'data-bombardier="✨"' : '') +
-                      '>' + second2str(trip.departure_time) + 
+                      '>' + second2str(trip.departure_time) +
                     '</span>' +
                     '<span class="duration">' +
                       time_relative(trip.departure_time, trip.arrival_time) + ' min' +
@@ -381,6 +381,8 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
       schedule();
     });
 
+    $('#firstruntrigger').on('click', firstRun)
+
     $('#reverse').on('click', function() {
       var from = $('#from select').value;
       var to = $('#to select').value;
@@ -390,6 +392,14 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
 
       schedule();
     });
+  }
+
+  function firstRun(locationSelects) {
+    const fromselect = $('#fromselect');
+    const toselect = $('#toselect');
+    fromselect.querySelector('[value="Palo Alto"]').selected = true;
+    toselect.querySelector('[value="San Francisco"]').selected = true;
+    toselect.dispatchEvent(new Event('change'));
   }
 
   function constructSelect(name, opts) {
