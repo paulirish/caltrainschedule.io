@@ -1,4 +1,4 @@
-var VERSION = '18';
+var VERSION = '19';
 
 this.addEventListener('install', function(e) {
   e.waitUntil(caches.open(VERSION).then(cache => {
@@ -38,7 +38,9 @@ this.addEventListener('activate', function(e) {
 
 function fetchFromNetworkAndCache(e) {
   return fetch(e.request).then(res => {
-    // don't cache ANY foreign requests right now.
+    // foreign requests may be res.type === 'opaque' and missing a url
+    if (!res.url) return res;
+    // regardless, we don't want to cache other origin's assets
     if (new URL(res.url).origin !== location.origin) return res;
 
     return caches.open(VERSION).then(cache => {
