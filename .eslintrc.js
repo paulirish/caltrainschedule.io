@@ -1,7 +1,8 @@
 module.exports = {
   "extends": "google",
   "env": {
-    "browser": true
+    "browser": true,
+    "es6": true
   },
   "rules": {
     "camelcase": 0,
@@ -27,6 +28,7 @@ module.exports = {
       "varsIgnorePattern": "(^_$)"
     }],
     "quotes": [1, "single"],
+    "no-var": 0,
     "require-jsdoc": 0,
     "valid-jsdoc": 0
   }
