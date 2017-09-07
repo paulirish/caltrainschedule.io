@@ -61,5 +61,5 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 70312,70312,San Martin Caltrain,,37.086653,-121.610936,6,,0,,SB,1
 70321,70321,Gilroy Caltrain,,37.003538,-121.566088,6,,0,,NB,1
 70322,70322,Gilroy Caltrain,,37.003485,-121.566225,6,,0,,SB,1
-777402,777402,San Jose Caltrain Station,,37.330196,-121.901985,4,,0,,SB,1
-777403,777403,Tamien Caltrain Station,,37.311638,-121.883403,4,,0,,SB,1
+777402,777402,San Jose Caltrain Station,,37.330196,-121.901985,,,0,,SB,1
+777403,777403,Tamien Caltrain Station,,37.311638,-121.883403,,,0,,SB,1
