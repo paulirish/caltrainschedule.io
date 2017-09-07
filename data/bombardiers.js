@@ -1,5 +1,5 @@
-// manually taken from http://www.caltrain.com/riderinfo/Bicycles/BikesOnBombardiers.html
-// see also http://www.caltrain.com/about/statsandreports/commutefleets.html
+// from http://www.caltrain.com/Page4354.aspx
+// page has "(Effective April 4, 2016" on it
 
 var bombardiers = [
   104, 313,
