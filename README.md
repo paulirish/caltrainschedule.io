@@ -11,10 +11,18 @@ This is a @samccone & @paulirish collab. Also probably [other awesome people](ht
 
 To update caltrain GTFS data. (gtfs: [wiki](https://en.m.wikipedia.org/wiki/General_Transit_Feed_Specification), [class diagram](https://commons.wikimedia.org/wiki/File:GTFS_class_diagram.svg#mw-jump-to-license))
 ```sh
+# download latest
 rake download_data
+
+# reset line endings..
+dos2unix gtfs/*.txt
+
 # then
 rake prepare_data
-# then update bombardiers manually
+
+# then update bombardiers manually from http://www.caltrain.com/Page4354.aspx
+# see also http://www.caltrain.com/about/statsandreports/commutefleets.html
+
 
 # manually squash data/*.js into bottom of index.html
 ```

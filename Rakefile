@@ -23,7 +23,7 @@ task :download_data do
     url = 'http://www.caltrain.com/Assets/GTFS/caltrain/CT-GTFS.zip'
     Tempfile.open('data.zip') do |temp_file|
       system("curl #{url} -o #{temp_file.path} && unzip -o #{temp_file.path} -d #{tmp_dir}")
-      temp_file.unlink
+      # temp_file.unlink
     end
 
     data_dir = tmp_dir
