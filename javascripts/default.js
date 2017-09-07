@@ -252,8 +252,9 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
               return;
             }
 
-            if (!is_now() || trip[from_index][1] > now()) {
+            if (true || !is_now()) {
               result.push({
+                minutes_from_now: trip[from_index][1] - now(),
                 trip_id: trip_id,
                 departure_time: trip[from_index][1],
                 arrival_time: trip[to_index][1],
@@ -318,14 +319,17 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
     var shortest = Math.min.apply(Math, durations);
     var longest = Math.max.apply(Math, durations);
 
-    result.innerHTML = trips.reduce(function (prev, trip) {
+    var recentDepartures = trips.filter(function(trip){ return 0 > trip.minutes_from_now && trip.minutes_from_now > (-30 * 60); });
+    var upcomingDepartures = trips.filter(function(trip){ return trip.minutes_from_now >=0; });
+
+    result.innerHTML = recentDepartures.concat(upcomingDepartures).reduce(function (prev, trip) {
       var duration = trip.arrival_time - trip.departure_time;
       var percentage = (duration - shortest) / (longest - shortest);
       var color = getColorForPercentage(percentage);
       // widths should be between 50 and 100.
       var width = (percentage * 50) + 50;
 
-      return prev + ('<div class="trip">' +
+      return prev + ('<div class="trip ' + (trip.minutes_from_now <= 0 ? 'past' : '') +'">' +
                     '<span class="departure"' +
                       (trip.bombardier ? 'data-bombardier="✨"' : '') +
                       '>' + second2str(trip.departure_time) +
@@ -358,7 +362,9 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
     var trips = get_trips(services, from_ids, to_ids, bombardiers);
 
     saveScheduleSelection();
-    render_info(trips[0]);
+    var nextTrip = trips.find(function(t) { return t.minutes_from_now > 0; });
+
+    render_info(nextTrip);
     render_result(trips);
   }
 
