@@ -184,7 +184,7 @@ task spec: :download_test_data do
 
     def run
       visit('/index.html?test=true')
-      result = find("#test_result").text
+      result = find("#test_result #failed").text
       if result == 'Total failed:0'
         true
       else
@@ -297,7 +297,7 @@ task :prepare_data do
       puts "Writing: data/#{name}.js"
       File.write("data/#{name}.js", "var #{name} = #{hash.to_json};")
       File.write("data/#{name}.json", hash.to_json)
-      File.write("data/#{name}.plist", Plist::Emit.dump(hash))
+      # File.write("data/#{name}.plist", Plist::Emit.dump(hash))
       # File.write("data/#{name}.xml", %Q{<?xml version="1.0" encoding="UTF-8"?>\n#{hash_to_xml(hash)}\n})
     }
   end
