@@ -221,9 +221,9 @@ task :download_data do
     File.write(file, content)
   }
 
-  [:prepare_data, :update_appcache].each do |task|
-    Rake::Task[task].invoke
-  end
+  # [:prepare_data, :update_appcache].each do |task|
+  #   Rake::Task[task].invoke
+  # end
 end
 
 desc "Prepare Data"
@@ -294,6 +294,8 @@ task :prepare_data do
     hashes = yield(*csvs)
     raise "prepare_for result has to be a Hash!" unless hashes.is_a? Hash
     hashes.each { |name, hash|
+      puts "Writing: data/#{name}.js"
+      File.write("data/#{name}.js", "var #{name} = #{hash.to_json};")
       File.write("data/#{name}.json", hash.to_json)
       File.write("data/#{name}.plist", Plist::Emit.dump(hash))
       # File.write("data/#{name}.xml", %Q{<?xml version="1.0" encoding="UTF-8"?>\n#{hash_to_xml(hash)}\n})
