@@ -107,7 +107,11 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
 
   // now date in format YYYYMMDD
   function now_date() {
-    var d = new Date();
+    return formatDate(new Date());
+  }
+
+  // format date to YYYYMMDD
+  function formatDate (d) {
     // getMonth starts from 0
     return parseInt([d.getFullYear(), d.getMonth() + 1, d.getDate()].map(function(n) {
       return n.toString().rjust(2, '0');
@@ -143,24 +147,39 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
     return elem.value;
   }
 
-  const bombardierIds = train_numbers
+  var DAY_OF_WEEK_MAP = {
+    weekday: 1,
+    saturday: 6,
+    sunday: 0,
+  };
+
+
+  var bombardierIds = train_numbers
     .filter(train => bombardiers.includes(train.trip_short_name))
     .map(train => train.trip_id);
 
+
   function get_service_ids(calendar, calendar_dates) {
-    var date = now_date();
+    var target_date = new Date();
+    var today_day_of_week = new Date().getDay(); // getDay is "0 for Sunday"
 
     var selected_schedule = get_selected_schedule();
     var target_schedule = selected_schedule;
     if (target_schedule === 'now') {
-      // getDay is "0 for Sunday", map to "0 for Monday"
-      switch ((new Date().getDay() + 6) % 7) {
-        case 5: target_schedule = 'saturday'; break;
-        case 6: target_schedule = 'sunday'; break;
-        case 0: case 1: case 2: case 3: case 4: target_schedule = 'weekday'; break;
-        default: console.error('Unknown current day', (new Date().getDay() + 6) % 7); return [];
+      // when it's now, keep today's date and migrate target_schedule to real one
+      switch (today_day_of_week) {
+        case 1: case 2: case 3: case 4: case 5: target_schedule = 'weekday'; break;
+        case 6: target_schedule = 'saturday'; break;
+        case 0: target_schedule = 'sunday'; break;
+        default: console.error('Unknown current day', today_day_of_week); return [];
       }
+    } else {
+      // when it's not, keep the schedule and migrate date to the next date matching the schedule
+      var diff = (DAY_OF_WEEK_MAP[target_schedule] + 7 - today_day_of_week) % 7;
+      target_date.setDate(target_date.getDate() + diff);
     }
+
+    var date_str = formatDate(target_date);
 
     // calendar:
     //   service_id => [monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date]
@@ -169,28 +188,29 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
     var service_ids = Object.keys(calendar).filter(function(service_id) {
       // check calendar start/end dates
       var item = calendar[service_id];
-      return (item.start_date <= date) && (date <= item.end_date);
+      return (item.start_date <= date_str) && (date_str <= item.end_date);
     }).filter(function(service_id) {
       // check calendar available days
       return calendar[service_id][target_schedule];
     });
 
-    // In now schedule, we consider exceptional days like holidays defined in calendar_dates file
-    if (selected_schedule === 'now') {
-      service_ids = service_ids.filter(function(service_id) {
-        // check calendar_dates with exception_type 2 (if any to remove)
-        return !(service_id in calendar_dates) ||
-          calendar_dates[service_id].filter(function(exception_date) {
-            return (exception_date[0] === date) && (exception_date[1] === 2);
-          }).length === 0;
-      }).concat(Object.keys(calendar_dates).filter(function(service_id) {
-        // check calendar_dates with exception_type 1 (if any to add)
-        return calendar_dates[service_id].filter(function(exception_date) {
-          return (exception_date[0] === date) && (exception_date[1] === 1);
-        }).length !== 0;
-      }));
-    }
+    // consider exceptional days like holidays defined in calendar_dates file
+    service_ids = service_ids.filter(function(service_id) {
+      // check calendar_dates with exception_type 2 (if any to remove)
+      return !(service_id in calendar_dates) ||
+        calendar_dates[service_id].filter(function(exception_date) {
+          return (exception_date[0] === date_str) && (exception_date[1] === 2);
+        }).length === 0;
+    }).concat(Object.keys(calendar_dates).filter(function(service_id) {
+      // check calendar_dates with exception_type 1 (if any to add)
+      return calendar_dates[service_id].filter(function(exception_date) {
+        return (exception_date[0] === date_str) && (exception_date[1] === 1);
+      }).length !== 0;
+    }));
 
+    if (service_ids.length === 0) {
+      console.log("Can't get service for now.");
+    }
     return service_ids;
   }
 
