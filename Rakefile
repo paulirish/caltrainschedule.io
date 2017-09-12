@@ -222,6 +222,7 @@ task :download_data do
   }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   # [:prepare_data, :update_appcache].each do |task|
   #   Rake::Task[task].invoke
   # end
@@ -230,6 +231,11 @@ task :download_data do
     Rake::Task[task].invoke
   end
 >>>>>>> rebase rakefile from ranmocy upstream. this matches their master exactly
+=======
+  # [:prepare_data, :update_appcache].each do |task|
+  #   Rake::Task[task].invoke
+  # end
+>>>>>>> our patches to the rakefile.
 end
 
 desc "Prepare Data"
