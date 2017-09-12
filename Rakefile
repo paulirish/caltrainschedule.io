@@ -1,5 +1,5 @@
 class Hash
-  def map(&block)
+  def mapHash(&block)
     if block_given?
       self.inject({}) { |h, (k,v)| h[k] = yield(k, v); h }
     else
@@ -14,32 +14,216 @@ class File
   end
 end
 
+task default: :spec
+
+desc "Download test data"
+task :download_test_data do
+  require 'capybara'
+  require 'capybara/dsl'
+  require 'capybara/poltergeist'
+  require 'json'
+  require 'nokogiri'
+
+  Capybara.reset!
+  Capybara.default_driver = :poltergeist
+  Capybara.run_server = false
+
+  Capybara.register_driver :poltergeist do |app|
+    Capybara::Poltergeist::Driver.new(app, js_errors: false, phantomjs_options: ['--load-images=false', '--disk-cache=false'])
+  end
+
+  class WebScraper
+    include Capybara::DSL
+
+    def getStyle(node)
+      # serialization is expensive, so we only return what we need
+      page.evaluate_script("\
+(function() {
+  var temp_style = window.getComputedStyle(document.querySelector('#{node.css_path}'))
+  return {
+    backgroundColor: temp_style.backgroundColor,
+    color: temp_style.color,
+    fontWeight: temp_style.fontWeight,
+  }
+})()")
+    end
+
+    def getServiceType(style, node)
+      color = style['backgroundColor'].gsub(/[[:space:]]/, '')
+      case color
+      when 'rgb(240,178,161)' # light red
+        'Baby Bullet'
+      when 'rgb(247,232,157)' # yellow
+        'Limited'
+      when 'rgb(116,187,146)' # green for "Timed transfers for local service" only happends as limited
+        node_column_index = node.parent.children.index(node)
+        first_node_in_same_column = node.parent.parent.at_xpath('tr').children[node_column_index]
+        if node == first_node_in_same_column
+          require 'pry'; binding.pry
+          throw "Transfer can't be in the start station!"
+        end
+        getServiceType(getStyle(first_node_in_same_column), first_node_in_same_column)
+      when 'rgba(0,0,0,0)', 'rgb(255,255,255)' # white
+        'Local'
+      when 'rgb(0,0,0)' # black
+        'SatOnly'
+      else
+        require 'pry'; binding.pry
+        throw 'Unknown backgroundColor:' + color
+      end
+    end
+
+    def isPm(style, node)
+      case style['fontWeight']
+      when 'normal', nil
+        false
+      when 'bold'
+        true
+      else
+        require 'pry'; binding.pry
+        throw 'Unknown font style:' + style
+      end
+    end
+
+    def getTime(style, node)
+      str = node.text
+      [[160].pack('U*'), [8211].pack('U*'), [8212].pack('U*'), /[\+\*\-]/].each { |org| str.gsub!(org, '') }
+      case str
+      when ''
+        nil
+      when /\A\d?\d:\d\d\Z/
+        t = str.split(':').map(&:to_i)
+        if !isPm(style, node) or ((t[0] == 12 or t[0] < 3) and getServiceType(style, node) == 'SatOnly')
+          # AM. for weekend SatOnly data, some are actually am
+          t[0] += 12 if t[0] == 12 # 12am to 24
+          t[0] += 24 if t[0] < 3   # 1am to 25, assume no train start before 3
+        else
+          # PM
+          t[0] += 12 if t[0] != 12 # 1pm to 13
+        end
+        t.map { |i| i.to_s.rjust(2, '0') }.join(':')
+      else
+        require 'pry'; binding.pry
+        throw "Unknown time:" + str
+      end
+    end
+
+    def getName(node)
+      node.text.strip
+        .gsub(/[[:space:]]/, 32.chr) # unify all space chars
+        .gsub('22nd Street', '22nd St') # name mapping
+        .gsub('Mountain View', 'Mt View')
+        .gsub('SJ Diridon', 'San Jose Diridon')
+    end
+
+    def get()
+      [
+        {
+          type_name: 'weekday',
+          url: 'http://www.caltrain.com/schedules/weekdaytimetable.html',
+          name_xpath: 'th[2]',
+        },
+        {
+          type_name: 'weekend',
+          url: 'http://www.caltrain.com/schedules/weekend-timetable.html',
+          name_xpath: 'th[3]',
+        },
+      ].each { |item|
+        puts "Visiting #{item[:type_name]}..."
+        visit(item[:url])
+        doc = Nokogiri::HTML(page.html)
+        ["NB_TT", "SB_TT"].each { |direction|
+          puts "Getting #{item[:type_name]}-#{direction}..."
+          schedule = doc.xpath('//table[@class="' + direction + '"]/tbody/tr').map { |tr|
+            name_node = tr.at_xpath(item[:name_xpath])
+            next nil if getStyle(name_node)['color'].gsub(/[[:space:]]/, '') == 'rgb(0,128,0)' # shuttle bus
+            if name_node.children.size > 1
+              require 'pry'; binding.pry
+              throw "Unexpected cell"
+            end
+            name_node = name_node.children[0]
+            {
+              name: getName(name_node),
+              stop_times: tr.xpath('td').map { |td|
+                text_node = td
+                text_node = text_node.children[0] while !text_node.children.empty? and !text_node.children[0].text?
+                {
+                  service_type: getServiceType(getStyle(td), td),
+                  time: getTime(getStyle(text_node), text_node),
+                }
+              },
+            }
+          }.keep_if {|item| item != nil }
+          File.write("test/#{item[:type_name]}_#{direction}.json", schedule.to_json)
+        }
+      }
+    end
+  end
+
+  WebScraper.new.get()
+end
+
+desc "Run test"
+task spec: :download_test_data do
+  require 'capybara'
+  require 'capybara/dsl'
+  require 'capybara/poltergeist'
+  require 'rack'
+
+  Capybara.reset!
+  Capybara.app = Rack::File.new File.dirname __FILE__
+  Capybara.run_server = true
+
+  Capybara.default_driver = :poltergeist
+  Capybara.register_driver :poltergeist do |app|
+    Capybara::Poltergeist::Driver.new(app, timeout: 120, phantomjs_options: ['--load-images=false', '--disk-cache=false'])
+  end
+
+  class Runner
+    include Capybara::DSL
+
+    def run
+      visit('/index.html?test=true')
+      result = find("#test_result").text
+      if result == 'Total failed:0'
+        true
+      else
+        $stderr.puts result
+        false
+      end
+    end
+  end
+
+  exit Runner.new.run ? 0 : 1
+end
+
 desc "Download GTFS data"
 task :download_data do
   require 'tempfile'
   require 'fileutils'
 
-  Dir.mktmpdir('gtfs_') { |tmp_dir|
-    url = 'http://www.caltrain.com/Assets/GTFS/caltrain/CT-GTFS.zip'
+  url = 'http://www.caltrain.com/Assets/GTFS/caltrain/CT-GTFS.zip'
+  target_dir = './gtfs/'
+
+  Dir.mktmpdir('gtfs_') { |data_dir|
     Tempfile.open('data.zip') do |temp_file|
-      system("curl #{url} -o #{temp_file.path} && unzip -o #{temp_file.path} -d #{tmp_dir}")
-      # temp_file.unlink
+      system("curl #{url} -o #{temp_file.path} && unzip -o #{temp_file.path} -d #{data_dir}")
+      temp_file.unlink
     end
 
-    data_dir = tmp_dir
-    unless File.exist? data_dir
-      # Data structure changed, check data.
-      require 'pry'; binding.pry
-    end
-
-    target_dir = File.join(Dir.pwd, 'gtfs/')
-    FileUtils.mv(data_dir, target_dir)
+    FileUtils.remove_dir(target_dir)
+    FileUtils.cp_r(data_dir, target_dir)
   }
-  puts "Run dos2unix on gtfs/*.txt"
-  puts "Go nuke any empty newlines from gtfs/*.txt and then run: rake prepare_data"
-  # [:prepare_data].each do |task|
-  #   Rake::Task[task].invoke
-  # end
+
+  # Cleanup \r to \n
+  Dir.glob("#{target_dir}/*.txt") { |file|
+    content = File.read(file).gsub("\r\n", "\n").gsub("\r", "\n")
+    File.write(file, content)
+  }
+
+  [:prepare_data, :update_appcache].each do |task|
+    Rake::Task[task].invoke
+  end
 end
 
 desc "Prepare Data"
@@ -68,14 +252,7 @@ task :prepare_data do
   end
 
   def read_CSV(name)
-
-    puts "Reading CSV file: #{name}.txt"
-
-    filename = "gtfs/#{name}.txt"
-    # strip newlines as CSV parser dies on them.
-    File.write(filename, File.read(filename).gsub(/\n+/,"\n").gsub(/\n$/,""))
-
-    CSV.read(filename, headers: true, header_converters: :symbol, converters: :all)
+    CSV.read("gtfs/#{name}.txt", headers: true, header_converters: :symbol, converters: :all)
       .each { |item|
         item.service_id = item.service_id.to_s unless item[:service_id].nil?
         item.route_id = item.route_id.to_s unless item[:route_id].nil?
@@ -117,25 +294,12 @@ task :prepare_data do
     hashes = yield(*csvs)
     raise "prepare_for result has to be a Hash!" unless hashes.is_a? Hash
     hashes.each { |name, hash|
-      puts "Writing: data/#{name}.js"
-      File.write("data/#{name}.js", "var #{name} = #{hash.to_json};")
-    #   File.write("data/#{name}.plist", Plist::Emit.dump(hash))
-    #   File.write("data/#{name}.xml", %Q{<?xml version="1.0" encoding="UTF-8"?>\n#{hash_to_xml(hash)}\n})
+      File.write("data/#{name}.json", hash.to_json)
+      File.write("data/#{name}.plist", Plist::Emit.dump(hash))
+      # File.write("data/#{name}.xml", %Q{<?xml version="1.0" encoding="UTF-8"?>\n#{hash_to_xml(hash)}\n})
     }
   end
 
-  # Need to map trip_id (service_id) to short_name (train number)
-  prepare_for("trips") do |trips|
-    train_numbers = trips
-      .map { |route|
-        {
-          trip_id: route.trip_id,
-          trip_short_name: route.trip_short_name
-        }
-      }
-
-    {train_numbers: train_numbers}
-  end
 
   # From:
   #   routes:
@@ -189,24 +353,37 @@ task :prepare_data do
 
     calendar = calendar
       .select { |service| valid_service_ids.include? service.service_id }
-      .select { |service|
-        warn "Drop outdated service #{service.service_id} ends at #{service.end_date}." if service.end_date < now_date
-        service.end_date >= now_date
-      }
       .each { |service|
-        # Weekday should be available all together or none of them. If not, check data.
-        weekday_sum = [:monday, :tuesday, :wednesday, :thursday, :friday].inject(0) { |sum, day| sum + service[day]}
-        unless [0, 5].include? weekday_sum
-          require 'pry'; binding.pry
-        end
+        warn "Outdated service #{service.service_id} ends at #{service.end_date}." if service.end_date < now_date
       }
       .group_by(&:service_id)
-      .map { |service_id, items|
+      .mapHash { |service_id, items|
         if items.size != 1
           require 'pry'; binding.pry
         end
         item = items[0]
         weekday_sum = [:monday, :tuesday, :wednesday, :thursday, :friday].inject(0) { |sum, day| sum + item[day]}
+        # Weekday should be available all together or none of them. If not, check data.
+        unless [0, 5].include? weekday_sum
+          require 'pry'; binding.pry
+        end
+        # schedule should match their name
+        if service_id.match(/weekday/i)
+          unless weekday_sum == 5 and item.saturday != 1 and item.sunday != 1
+            require 'pry'; binding.pry
+          end
+        end
+        if service_id.match(/saturday/i)
+          unless weekday_sum == 0 and item.saturday == 1 and item.sunday != 1
+            warn "Service `#{service_id}` does not match their schedule: #{item}"
+            # require 'pry'; binding.pry
+          end
+        end
+        if service_id.match(/sunday/i)
+          unless weekday_sum == 0 and item.saturday != 1 and item.sunday == 1
+            require 'pry'; binding.pry
+          end
+        end
         {
           weekday: weekday_sum == 5,
           saturday: item.saturday == 1,
@@ -220,16 +397,12 @@ task :prepare_data do
     valid_service_ids = calendar.keys
 
     dates = calendar_dates
-      .select { |service|
-        warn "Drop outdated service_date #{service.service_id} at #{service.date}." unless valid_service_ids.include? service.service_id
-        valid_service_ids.include? service.service_id
-      }
-      .select { |service|
-        warn "Drop outdated service_date #{service.service_id} at #{service.date}." if service.date < now_date
-        service.date >= now_date
+      .each { |service|
+        warn "Outdated service_date service #{service.service_id} at #{service.date}." unless valid_service_ids.include? service.service_id
+        warn "Outdated service_date #{service.service_id} at #{service.date}." if service.date < now_date
       }
       .group_by(&:service_id)
-      .map { |service_id, items|
+      .mapHash { |service_id, items|
         items.map { |item| item.fields[1..-1] }
       }
 
@@ -259,7 +432,7 @@ task :prepare_data do
         item.stop_name.gsub!(/ (Caltrain|Station)/, '').gsub!(/^San Jose$/, 'San Jose Diridon')
       }
       .group_by(&:stop_name)
-      .map { |name, items| # customized Hash#map
+      .mapHash { |name, items|
         items.map(&:stop_id).sort
       }
 
@@ -295,7 +468,7 @@ task :prepare_data do
         end
       }
       .group_by(&:trip_id)
-      .map { |trip_id, trips_values| # customized Hash#map
+      .mapHash { |trip_id, trips_values|
         trips_values
           .sort_by(&:stop_sequence)
           .map { |trip|
@@ -307,13 +480,13 @@ task :prepare_data do
     # { route_id => { service_id => { trip_id => ... } } }
     trips = trips
       .group_by(&:route_id)
-      .map { |route_id, route_trips|
+      .mapHash { |route_id, route_trips|
         route_trips
           .group_by(&:service_id)
-          .map { |service_id, service_trips|
+          .mapHash { |service_id, service_trips|
             service_trips
               .group_by(&:trip_id)
-              .map { |trip_id, trip_trips|
+              .mapHash { |trip_id, trip_trips|
                 times[trip_id]
               }
           }
@@ -323,7 +496,7 @@ task :prepare_data do
     routes = routes
       .select { |route| route.route_type == 2 } # 2 for Rail, 3 for bus
       .group_by(&:route_id)
-      .map { |name, routes_values|
+      .mapHash { |name, routes_values|
         routes_values
           .map(&:route_id)
           .inject({}) { |h, route_id|
@@ -448,6 +621,7 @@ task :publish do
     run("git add .")
     run("git commit -m 'Updated at #{Time.now}.'")
     run("git push origin gh-pages:gh-pages")
+    run("firebase deploy")
   ensure
     run("git checkout master")
   end
