@@ -172,7 +172,9 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
       return (item.start_date <= date) && (date <= item.end_date);
     }).filter(function(service_id) {
       // check calendar available days
-      return calendar[service_id][target_schedule];
+      var hasRelevantTrips = !!calendar[service_id][target_schedule];
+      if (hasRelevantTrips) console.log('matched target_schedule', target_schedule, 'with', service_id);
+      return hasRelevantTrips;
     });
 
     // In now schedule, we consider exceptional days like holidays defined in calendar_dates file
