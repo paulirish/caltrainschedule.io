@@ -182,8 +182,20 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
       target_date.setDate(target_date.getDate() + diff);
     }
 
-    var date_str = formatDate(target_date);
+    var service_ids = getValidServiceIdsForDate(calendar, target_date, target_schedule);
 
+    // remove and add service_ids based on the calendar_dates.txt exceptions
+    const {added, removed} = getCalendarExceptions(calendar_dates, target_date);
+    service_ids = service_ids.filter(service_id => !removed.includes(service_id)).concat(added);
+
+    if (service_ids.length === 0) {
+      console.log("Can't get service for now.");
+    }
+    return service_ids;
+  }
+
+  function getValidServiceIdsForDate(calendar, target_date, target_schedule) {
+    var date_str = formatDate(target_date);
     // calendar:
     //   service_id => [monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date]
     // calendar_dates:
@@ -193,28 +205,32 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
       var item = calendar[service_id];
       return (item.start_date <= date_str) && (date_str <= item.end_date);
     }).filter(function(service_id) {
-      // check calendar available days
+      // verify ther are available calendar available days
       return calendar[service_id][target_schedule];
     });
-
-    // consider exceptional days like holidays defined in calendar_dates file
-    service_ids = service_ids.filter(function(service_id) {
-      // check calendar_dates with exception_type 2 (if any to remove)
-      return !(service_id in calendar_dates) ||
-        calendar_dates[service_id].filter(function(exception_date) {
-          return (exception_date[0] === date_str) && (exception_date[1] === 2);
-        }).length === 0;
-    }).concat(Object.keys(calendar_dates).filter(function(service_id) {
-      // check calendar_dates with exception_type 1 (if any to add)
-      return calendar_dates[service_id].filter(function(exception_date) {
-        return (exception_date[0] === date_str) && (exception_date[1] === 1);
-      }).length !== 0;
-    }));
-
-    if (service_ids.length === 0) {
-      console.log("Can't get service for now.");
-    }
     return service_ids;
+  }
+
+  function getCalendarExceptions(calendar_dates, target_date) {
+    const Service = {
+      Added: 1,
+      Removed: 2,
+    };
+    const getMatchingDate = (date_str, calendar_date) => calendar_date.find(([exp_date]) => exp_date == date_str) || [];
+    const exp_service_ids = Object.keys(calendar_dates);
+    const date_str = formatDate(target_date);
+
+    const removed = exp_service_ids.filter((service_id) => {
+      const [exception_date, exception_type] = getMatchingDate(date_str, calendar_dates[service_id]);
+      if (exception_type === Service.Removed) return true;
+    });
+
+    const added = exp_service_ids.filter(function(service_id) {
+      const [exception_date, exception_type] = getMatchingDate(date_str, calendar_dates[service_id]);
+      if (exception_type === Service.Added) return true;
+    });
+
+    return {removed, added};
   }
 
   function get_available_services(routes, calendar, calendar_dates) {
