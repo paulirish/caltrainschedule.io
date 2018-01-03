@@ -662,8 +662,8 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
                   assert(actuals[m][0] === expect_from_text && actuals[m][1] === expect_to_text,
                          "time mismatch: schedule:" + schedule_type + ", " +
                            from_name + "=>" + to_name +
-                           ", expected:(" + expect_from_text + " => " + expect_to_text +
-                           "), actual:(" + actuals[m][0] + " => " + actuals[m][1] + ")");
+                           "\n                 expected:(" + expect_from_text + " => " + expect_to_text +
+                           ")\n                   actual:(" + actuals[m][0] + " => " + actuals[m][1] + ")");
                 }
               }
             }

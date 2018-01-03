@@ -352,3 +352,8 @@ p.onetap {
 .trip:nth-child(19) .durationbar {
   animation-delay: 570ms;
 }
+
+#test_result {
+  font-family: monospace;
+  white-space: pre;
+}
