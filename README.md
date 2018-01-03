@@ -29,6 +29,16 @@ node pptr-getBombardiers.js
 # update "effective date" in the html
 ```
 
+### test
+
+```sh
+rake
+```
+
+This will download the latest times from the online schedule. Adjust the results and save to JSON.
+Then it will open the app, fetch the JSON files, then assert the schedules are equal clientside.
+Puppeteer will report if the page says there are failures or not.
+
 #### Thanks
 
 This is a fork of https://github.com/ranmocy/rCaltrain - he did fantastic work. Thank you.

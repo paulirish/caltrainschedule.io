@@ -5,3 +5,6 @@ gtfs/realtime_routes.txt
 gtfs/realtime_trips.txt
 gtfs/stop_attributes.txt
 gtfs/timepoints.txt
+test/*.json
+data/*.plist
+screenshot.png

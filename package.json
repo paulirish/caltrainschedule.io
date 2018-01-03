@@ -1,0 +1,22 @@
+{
+  "name": "caltrainschedule.io",
+  "version": "0.0.1",
+  "description": "Service worker enabled for offline and add to homescreen excellence.",
+  "dependencies": {},
+  "devDependencies": {
+    "puppeteer": "^0.13.0",
+    "statikk": "^1.0.3"
+  },
+  "scripts": {
+    "test": "rake"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/paulirish/caltrainschedule.io.git"
+  },
+  "license": "Apache-2",
+  "bugs": {
+    "url": "https://github.com/paulirish/caltrainschedule.io/issues"
+  },
+  "homepage": "https://github.com/paulirish/caltrainschedule.io#readme"
+}
