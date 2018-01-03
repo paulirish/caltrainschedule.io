@@ -166,8 +166,7 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
     var target_date = new Date();
     var today_day_of_week = new Date().getDay(); // getDay is "0 for Sunday"
 
-    var selected_schedule = get_selected_schedule();
-    var target_schedule = selected_schedule;
+    var target_schedule = get_selected_schedule();
     if (target_schedule === 'now') {
       // when it's now, keep today's date and migrate target_schedule to real one
       switch (today_day_of_week) {
@@ -177,9 +176,18 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
         default: console.error('Unknown current day', today_day_of_week); return [];
       }
     } else {
-      // when it's not, keep the schedule and migrate date to the next date matching the schedule
-      var diff = (DAY_OF_WEEK_MAP[target_schedule] + 7 - today_day_of_week) % 7;
-      target_date.setDate(target_date.getDate() + diff);
+      // when it's not, keep the schedule and attempt the next that matches schedule and isn't a weird exception case.
+      let found = false;
+      for (var i = 0; found === false; i++) {
+        var diff = (DAY_OF_WEEK_MAP[target_schedule] + 7 - today_day_of_week) % 7;
+        target_date.setDate(target_date.getDate() + diff + i);
+
+        const service_ids = getValidServiceIdsForDate(calendar, target_date, target_schedule);
+        if (service_ids.length === 0) continue;
+
+        const {added} = getCalendarExceptions(calendar_dates, target_date);
+        found = added.length === 0;
+      }
     }
 
     var service_ids = getValidServiceIdsForDate(calendar, target_date, target_schedule);
