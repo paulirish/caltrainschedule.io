@@ -160,6 +160,9 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
 
 
   function get_service_ids(calendar, calendar_dates) {
+    console.assert(Object.keys(calendar).length === Object.keys(calendar_dates).length);
+    console.assert(Object.keys(calendar).every(key => Object.keys(calendar_dates).includes(key)));
+
     var target_date = new Date();
     var today_day_of_week = new Date().getDay(); // getDay is "0 for Sunday"
 
