@@ -37,6 +37,11 @@ this.addEventListener('activate', function(e) {
 });
 
 function fetchFromNetworkAndCache(e) {
+  // DevTools opening will trigger these o-i-c requests, which this SW can't handle.
+  // There's probaly more going on here, but I'd rather just ignore this problem. :)
+  // https://github.com/paulirish/caltrainschedule.io/issues/49
+  if (e.request.cache === 'only-if-cached' && e.request.mode !== 'same-origin') return;
+
   return fetch(e.request).then(res => {
     // foreign requests may be res.type === 'opaque' and missing a url
     if (!res.url) return res;
