@@ -176,11 +176,12 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
         default: console.error('Unknown current day', today_day_of_week); return [];
       }
     } else {
-      // when it's not, keep the schedule and attempt the next that matches schedule and isn't a weird exception case.
+      // when it's not, keep the schedule and increment the date until the next that matches schedule and isn't a weird exception case.
       let found = false;
       for (var i = 0; found === false; i++) {
-        var diff = (DAY_OF_WEEK_MAP[target_schedule] + 7 - today_day_of_week) % 7;
-        target_date.setDate(target_date.getDate() + diff + i);
+        const daysToShift = (DAY_OF_WEEK_MAP[target_schedule] + 7 - today_day_of_week) % 7;
+        const daysToIncrement = (target_schedule === 'saturday' || target_schedule === 'sunday') ? 7 : 1;
+        target_date.setDate(target_date.getDate() + daysToShift + (i * daysToIncrement));
 
         const service_ids = getValidServiceIdsForDate(calendar, target_date, target_schedule);
         if (service_ids.length === 0) continue;
