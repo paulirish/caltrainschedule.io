@@ -179,6 +179,7 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
       // when it's not, keep the schedule and increment the date until the next that matches schedule and isn't a weird exception case.
       let found = false;
       for (var i = 0; found === false; i++) {
+        // TBH this technique is probably still not perfect, alas.
         const daysToShift = (DAY_OF_WEEK_MAP[target_schedule] + 7 - today_day_of_week) % 7;
         const daysToIncrement = (target_schedule === 'saturday' || target_schedule === 'sunday') ? 7 : 1;
         target_date.setDate(target_date.getDate() + daysToShift + (i * daysToIncrement));
@@ -214,7 +215,7 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
       var item = calendar[service_id];
       return (item.start_date <= date_str) && (date_str <= item.end_date);
     }).filter(function(service_id) {
-      // verify ther are available calendar available days
+      // verify there are available calendar available days
       return calendar[service_id][target_schedule];
     });
     return service_ids;
