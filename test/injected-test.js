@@ -9,17 +9,13 @@ function is_defined(obj) {
 function fetch_data(name_to_path, callback) {
   var data = {};
   Object.keys(name_to_path).forEach(function(name) { data[name] = undefined; });
-  Object.keys(name_to_path).forEach(function(name) {
-    fetch(name_to_path[name]).then(function(r){ return r.json(); }).then(function(json) {
+  var promises = Object.keys(name_to_path).map(function(name) {
+    return fetch(name_to_path[name]).then(function(r){ return r.json(); }).then(function(json) {
       data[name] = json;
-      for (var p in data) {
-        if (typeof(data[p]) === 'undefined') {
-          // not all finished, ignore
-          return;
-        }
-      }
-      callback(data);
     });
+  });
+  Promise.all(promises).then(function() {
+    callback(data);
   });
 }
 
