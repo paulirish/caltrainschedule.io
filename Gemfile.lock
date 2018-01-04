@@ -49,7 +49,6 @@ DEPENDENCIES
   plist
   poltergeist
   pry
-  rack
   rake
 
 BUNDLED WITH

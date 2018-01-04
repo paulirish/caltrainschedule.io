@@ -44,7 +44,7 @@ const PORT = 8992;
   }
 
   // don't close up shop if run with `yarn unit`
-  if (process.env.npm_lifecycle_event !== 'unit' && exitCode) {
+  if (!(process.env.npm_lifecycle_event === 'unit' && exitCode)) {
     await browser.close();
     process.exit(exitCode);
   }

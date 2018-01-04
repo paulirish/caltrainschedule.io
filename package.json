@@ -5,10 +5,11 @@
   "dependencies": {},
   "devDependencies": {
     "puppeteer": "^0.13.0",
-    "statikk": "^1.0.3"
+    "statikk": "^1.1.0"
   },
   "scripts": {
-    "test": "rake",
+    "test": "yarn unit:dl && yarn unit",
+    "unit:dl": "rake download_test_data",
     "unit": "node --trace-warnings test/pptr-assert.js"
   },
   "repository": {

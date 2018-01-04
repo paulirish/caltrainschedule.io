@@ -32,12 +32,13 @@ node pptr-getBombardiers.js
 ### test
 
 ```sh
-rake
-```
+yarn test # does both of the below, in order
 
-This will download the latest times from the online schedule. Adjust the results and save to JSON.
-Then it will open the app, fetch the JSON files, then assert the schedules are equal clientside.
-Puppeteer will report if the page says there are failures or not.
+
+yarn unit:dl # download the latest times from the online schedule. Adjust the results and save to JSON.
+yarn unit # open the app, fetch the JSON files, then assert the schedules are equal clientside.
+          # Puppeteer will report if the page says there are failures or not.
+```
 
 #### Thanks
 
