@@ -9,11 +9,10 @@ const PORT = 8992;
   const browser = await puppeteer.launch({headless: false});
   const page = await browser.newPage();
 
-  const server = statikk({port: PORT});
+  const {server} = statikk({port: PORT});
   await page.goto(`http://localhost:${PORT}`);
 
   await page.waitForSelector('footer');
-  await page.setViewport({height: 600, width: 1100});
   await page.addScriptTag({path: './test/injected-test.js'});
 
   await page.evaluate(() => {
@@ -30,14 +29,24 @@ const PORT = 8992;
 
   const failureText = await page.$eval('#test_result #failed', elem => elem.innerText.trim());
 
+  // kill http server
+  await new Promise(resolve => server.close(resolve));
+  let exitCode = 0;
+
   if (failureText === 'Total failed:0') {
     console.log('PASS');
-    await browser.close();
-    process.exit(0);
   } else {
     await page.screenshot({fullPage: true, path: `./screenshot.png`});
+    await page._client.send('Emulation.clearDeviceMetricsOverride');
+    exitCode = 1;
     console.error('FAIL!');
     console.error(failureText);
-    process.exit(1);
   }
+
+  // don't close up shop if run with `yarn unit`
+  if (process.env.npm_lifecycle_event !== 'unit' && exitCode) {
+    await browser.close();
+    process.exit(exitCode);
+  }
+
 })();

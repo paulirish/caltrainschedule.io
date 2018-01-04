@@ -8,13 +8,14 @@
     "statikk": "^1.0.3"
   },
   "scripts": {
-    "test": "rake"
+    "test": "rake",
+    "unit": "node --trace-warnings test/pptr-assert.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/paulirish/caltrainschedule.io.git"
   },
-  "license": "Apache-2",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/paulirish/caltrainschedule.io/issues"
   },
