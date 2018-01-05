@@ -20,16 +20,16 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
   });
 });
 
+// globals. lol.
+var opts = {
+  amPM: true
+};
+var whenButtons;
+var locationSelects;
+var data = {};
 
 (function() {
   'use strict';
-
-  var whenButtons;
-  var locationSelects;
-  var data = {};
-  var opts = {
-    amPM: true
-  };
 
   function is_defined(obj) {
     return typeof (obj) !== 'undefined';
@@ -387,7 +387,7 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
     }, '');
   }
 
-  function schedule() {
+  window.schedule = function() {
     var stops = data.stops,
         routes = data.routes,
         bombardiers = data.bombardiers,
@@ -505,4 +505,5 @@ NodeList.prototype.on = NodeList.prototype.addEventListener = (function(name, fn
     data[name] = window[name];
     checker(name);
   });
+
 }());

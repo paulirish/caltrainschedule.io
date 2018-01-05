@@ -165,32 +165,10 @@ end
 
 desc "Run test"
 task spec: :download_test_data do
-  require 'capybara'
-  require 'capybara/dsl'
-  require 'capybara/poltergeist'
-  require 'rack'
-
-  Capybara.reset!
-  Capybara.app = Rack::File.new File.dirname __FILE__
-  Capybara.run_server = true
-
-  Capybara.default_driver = :poltergeist
-  Capybara.register_driver :poltergeist do |app|
-    Capybara::Poltergeist::Driver.new(app, timeout: 120, phantomjs_options: ['--load-images=false', '--disk-cache=false'])
-  end
-
   class Runner
-    include Capybara::DSL
-
+    include Rake::DSL
     def run
-      visit('/index.html?test=true')
-      result = find("#test_result").text
-      if result == 'Total failed:0'
-        true
-      else
-        $stderr.puts result
-        false
-      end
+      sh 'node test/pptr-assert.js'
     end
   end
 
@@ -297,7 +275,7 @@ task :prepare_data do
       puts "Writing: data/#{name}.js"
       File.write("data/#{name}.js", "var #{name} = #{hash.to_json};")
       File.write("data/#{name}.json", hash.to_json)
-      File.write("data/#{name}.plist", Plist::Emit.dump(hash))
+      # File.write("data/#{name}.plist", Plist::Emit.dump(hash))
       # File.write("data/#{name}.xml", %Q{<?xml version="1.0" encoding="UTF-8"?>\n#{hash_to_xml(hash)}\n})
     }
   end
