@@ -91,6 +91,19 @@ task :download_test_data do
       case str
       when ''
         nil
+      when /\A(\d?\d):(\d\d)([ap])\Z/
+        hours = $1.to_i
+        minutes = $2.to_i
+        is_pm = ($3 == 'p')
+        if !is_pm or ((hours == 12 or hours < 3) and getServiceType(style, node) == 'SatOnly')
+          # AM. for weekend SatOnly data, some are actually am
+          hours += 12 if hours == 12 # 12am to 24
+          hours += 24 if hours < 3   # 1am to 25, assume no train start before 3
+        else
+          # PM
+          hours += 12 if hours != 12 # 1pm to 13
+        end
+        [hours, minutes].map { |i| i.to_s.rjust(2, '0') }.join(':')
       when /\A\d?\d:\d\d\Z/
         t = str.split(':').map(&:to_i)
         if !isPm(style, node) or ((t[0] == 12 or t[0] < 3) and getServiceType(style, node) == 'SatOnly')
@@ -165,6 +178,21 @@ end
 
 desc "Run test"
 task spec: :download_test_data do
+  require 'capybara'
+  require 'capybara/dsl'
+  require 'capybara/poltergeist'
+  require 'rack'
+
+  Capybara.reset!
+  Capybara.app = Rack::File.new File.dirname __FILE__
+  Capybara.run_server = true
+  Capybara.server = :webrick
+
+  Capybara.default_driver = :poltergeist
+  Capybara.register_driver :poltergeist do |app|
+    Capybara::Poltergeist::Driver.new(app, timeout: 120, phantomjs_options: ['--load-images=false', '--disk-cache=false'])
+  end
+
   class Runner
     include Rake::DSL
     def run
