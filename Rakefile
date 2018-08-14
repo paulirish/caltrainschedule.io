@@ -10,6 +10,7 @@ end
 
 class File
   def self.write(filename, content, mode='')
+    puts "  Writing file: #{filename}.."
     open(filename, "w#{mode}") { |f| f.write(content) }
   end
 end
@@ -178,21 +179,6 @@ end
 
 desc "Run test"
 task spec: :download_test_data do
-  require 'capybara'
-  require 'capybara/dsl'
-  require 'capybara/poltergeist'
-  require 'rack'
-
-  Capybara.reset!
-  Capybara.app = Rack::File.new File.dirname __FILE__
-  Capybara.run_server = true
-  Capybara.server = :webrick
-
-  Capybara.default_driver = :poltergeist
-  Capybara.register_driver :poltergeist do |app|
-    Capybara::Poltergeist::Driver.new(app, timeout: 120, phantomjs_options: ['--load-images=false', '--disk-cache=false'])
-  end
-
   class Runner
     include Rake::DSL
     def run
