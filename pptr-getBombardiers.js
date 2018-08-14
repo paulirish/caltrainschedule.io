@@ -12,8 +12,10 @@ function extractTrains() {
   const page = await browser.newPage();
   await page.goto('http://www.caltrain.com/Page4354.aspx');
   const trainsStr = await page.evaluate(extractTrains);
-  console.log(trainsStr);
 
+  // Eval the string so we can sort() it
+  eval(`var bombardiers = [${trainsStr}]`);
+  console.log(bombardiers.filter(Boolean).sort());
 
   await browser.close();
 })();
