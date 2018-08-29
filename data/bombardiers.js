@@ -1,8 +1,4 @@
-// from http://www.caltrain.com/Page4354.aspx
-// page has "(Effective April 4, 2016" on it
-
-// some trains (like 217) were removed from this page. Unclear why so far..
-// The list below matches whatever is live on the web.
+// from http://www.caltrain.com/Page4354.aspx. Page sez "(Effective April 4, 2016" but it's updated occasionally
 var bombardiers = [
   134,
   143,

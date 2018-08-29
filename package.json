@@ -11,7 +11,7 @@
     "serve": "statikk --port 8992",
     "test": "yarn unit:dl && yarn unit",
     "unit:dl": "rake download_test_data",
-    "unit": "node --trace-warnings test/pptr-assert.js"
+    "unit": "node test/bundle-test.js && node --trace-warnings test/pptr-assert.js"
   },
   "repository": {
     "type": "git",
