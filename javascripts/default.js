@@ -28,6 +28,14 @@ var whenButtons;
 var locationSelects;
 var data = {};
 
+// On 6/1/2018, a few stops were renamed. This allows people's saved settings to continue to work.
+// Since settings are resaved immediately, it's fixed once the page is loaded.
+const stopMapping = {
+  '22nd St': '22nd Street',
+  'So. San Francisco': 'South San Francisco',
+  'Mt View': 'Mountain View',
+};
+
 (function() {
   'use strict';
 
@@ -55,13 +63,6 @@ var data = {};
   }
 
   function select(elm, val) {
-    // On 6/1/2018, a few stops were renamed. This allows people's saved settings to continue to work.
-    // Since settings are resaved immediately, it's fixed once the page is loaded.
-    const stopMapping = {
-      "22nd St": "22nd Street",
-      "So. San Francisco": "South San Francisco",
-      "Mt View": "Mountain View",
-    };
     if (stopMapping[val]) val = stopMapping[val];
 
     elm.value = elm.querySelector('option[value="' + val + '"]').value;
@@ -133,7 +134,7 @@ var data = {};
     var suffix = '';
 
     if (opts.amPM) {
-      suffix = 12 <= hours && hours < 24 ? "PM" : "AM";
+      suffix = 12 <= hours && hours < 24 ? 'PM' : 'AM';
       hours = ((hours + 11) % 12 + 1);
     } else
       hours = (hours % 24).toString().rjust(2, '0');
@@ -169,8 +170,8 @@ var data = {};
 
 
   function get_service_ids(calendar, calendar_dates) {
-    console.assert(Object.keys(calendar).length === Object.keys(calendar_dates).length);
-    console.assert(Object.keys(calendar).every(key => Object.keys(calendar_dates).includes(key)));
+    // console.assert(Object.keys(calendar).length === Object.keys(calendar_dates).length);
+    // console.assert(Object.keys(calendar).every(key => Object.keys(calendar_dates).includes(key)));
 
     var target_date = new Date();
     var today_day_of_week = new Date().getDay(); // getDay is "0 for Sunday"
@@ -208,7 +209,7 @@ var data = {};
     service_ids = service_ids.filter(service_id => !removed.includes(service_id)).concat(added);
 
     if (service_ids.length === 0) {
-      console.log("Can't get service for now.");
+      console.log('Can\'t get service for now.');
     }
     return service_ids;
   }

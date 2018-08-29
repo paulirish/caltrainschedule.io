@@ -75,9 +75,20 @@ function test() {
         return "[" + actual[0] + "=>" + actual[1] + "]";
       }
 
+      function formatActualTime(actual) {
+        return "[" + actual[0] + "=>" + actual[1] + "]";
+      }
+
+      function fixStopName(stop_name) {
+        if (stopMapping[stop_name]) stop_name = stopMapping[stop_name];
+        return stop_name;
+      }
+
+      // expects == what is pulled from the caltrain site
+      // actuals == the results locally
       function runTest(test_datum, schedule_type) {
         for (var i = test_datum.length - 1; i >= 0; i--) {
-          var to_name = test_datum[i].name;
+          var to_name = fixStopName(test_datum[i].name);
           var to_stops = test_datum[i].stop_times;
           var toOptions = Array.from(to.options).map(function(e){ return e.value; })
           if (!assert(toOptions.indexOf(to_name) >= 0, "to_name is not in options:" + to_name)) {
@@ -87,7 +98,7 @@ function test() {
           schedule();
 
           for (var j = i - 1; j >= 0; j--) {
-            var from_name = test_datum[j].name;
+            var from_name = fixStopName(test_datum[j].name);
             var from_stops = test_datum[j].stop_times;
             var fromOptions = Array.from(from.options).map(function(e){ return e.value; })
             if (!assert(fromOptions.indexOf(from_name) >= 0, "from_name is not in options:" + from_name)) {
@@ -121,20 +132,32 @@ function test() {
               }
             }
 
-            // sort by "depature_time=>arrival_time"
-            expects.sort(function(a, b) {
-              a = a[0] + "=>" + a[1];
-              b = b[0] + "=>" + b[1];
-              if (a < b) { return -1; }
-              if (a > b) { return 1; }
-              return 0;
-            });
-
             var actuals = [];
             var trips = $result.querySelectorAll('.trip:not(.no-trips)');
             for (var l = trips.length - 1; l >= 0; l--) {
               var trip = trips[l];
               actuals.unshift([trip.children[0].textContent, trip.children[2].textContent]);
+            }
+
+
+            // sort by "depature_time=>arrival_time"
+            function sortTrips(a, b) {
+              // HACK(paulirish): added this fixTimeFormat
+              a = fixTimeFormat(a[0]) + "=>" + a[1];
+              b = fixTimeFormat(b[0]) + "=>" + b[1];
+              if (a < b) { return -1; }
+              if (a > b) { return 1; }
+              return 0;
+            };
+
+            expects.sort(sortTrips);
+            actuals.sort(sortTrips);
+
+
+            function isOneMinuteLower(timeLower, time) {
+              var timeLowerMinutes = timeLower.split(":")[1];
+              var timeMinutes = time.split(":")[1];
+              return parseInt(timeLowerMinutes) == parseInt(timeMinutes) - 1;
             }
 
             if (assert(expects.length === actuals.length,
@@ -145,11 +168,26 @@ function test() {
               for (var m = actuals.length - 1; m >= 0; m--) {
                 var expect_from_text = fixTimeFormat(expects[m][0]);
                 var expect_to_text = fixTimeFormat(expects[m][1]);
-                assert(actuals[m][0] === expect_from_text && actuals[m][1] === expect_to_text,
+                const isTimeMatching = actuals[m][0] === expect_from_text && actuals[m][1] === expect_to_text;
+                if (isTimeMatching) continue;
+                debugger;
+                const isOneMinuteOff = (isOneMinuteLower(actuals[m][0], expect_from_text) && actuals[m][1] === expect_to_text) ||
+                                       (isOneMinuteLower(actuals[m][1], expect_to_text) && actuals[m][0] === expect_from_text) ||
+                                       (isOneMinuteLower(actuals[m][1], expect_to_text) && isOneMinuteLower(actuals[m][0], expect_from_text));
+
+                if (isOneMinuteOff) {
+                  assert(!isOneMinuteOff,
+                    "time mismatch by 1 minute: schedule:" + schedule_type + ", " +
+                      from_name + "=>" + to_name +
+                      "\n                 expected:(" + expect_from_text + " => " + expect_to_text +
+                      ")\n                   actual:(" + actuals[m][0] + " => " + actuals[m][1] + ")");
+                } else {
+                   assert(!isTimeMatching,
                         "time mismatch: schedule:" + schedule_type + ", " +
                           from_name + "=>" + to_name +
                           "\n                 expected:(" + expect_from_text + " => " + expect_to_text +
                           ")\n                   actual:(" + actuals[m][0] + " => " + actuals[m][1] + ")");
+                }
               }
             }
           }
