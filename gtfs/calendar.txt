@@ -1,5 +1,4 @@
 service_id,monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date
-CT-17OCT-Caltrain-Sunday-01,0,0,0,0,0,0,1,20171001,20190929
-CT-17OCT-Combo-Weekday-01,1,1,1,1,1,0,0,20171002,20191004
-CT-17OCT-Caltrain-Mixed-03,1,1,1,1,1,1,1,20171007,20191005
-CT-17OCT-Modified-Weekday-01,1,1,1,1,1,0,0,20171124,20180219
+mtwtf,1,1,1,1,1,0,0,20171002,20191004
+sat_sun,0,0,0,0,0,1,1,20171007,20191006
+sat_extra,0,0,0,0,0,1,0,20171007,20191005

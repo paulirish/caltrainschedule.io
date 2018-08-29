@@ -55,6 +55,15 @@ var data = {};
   }
 
   function select(elm, val) {
+    // On 6/1/2018, a few stops were renamed. This allows people's saved settings to continue to work.
+    // Since settings are resaved immediately, it's fixed once the page is loaded.
+    const stopMapping = {
+      "22nd St": "22nd Street",
+      "So. San Francisco": "South San Francisco",
+      "Mt View": "Mountain View",
+    };
+    if (stopMapping[val]) val = stopMapping[val];
+
     elm.value = elm.querySelector('option[value="' + val + '"]').value;
   }
 

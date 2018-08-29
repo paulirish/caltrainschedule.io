@@ -1,5 +1,7 @@
-route_id,route_short_name,route_long_name,route_desc,route_type,route_url,route_color
-Bu-130,Baby Bullet,Bullet,,2,,E31837
-Li-130,Limited,Limited,,2,,FEF0B5
-Lo-130,Local,Local,,2,,77787B
-TaSj-130,TaSJ-Shuttle,TaSJ-Shuttle,,3,,41AD49
+route_id,agency_id,route_short_name,route_long_name,route_desc,route_type,route_url,route_color,route_text_color
+Bu-130,caltrain-ca-us,Bullet,Baby Bullet,,2,,E31837,
+Li-130,caltrain-ca-us,Limited,Limited,,2,,FEF0B5,
+Lo-130,caltrain-ca-us,Local,Local,,2,,c5c5c5,
+TaSj-130,caltrain-ca-us,TaSJ-Shuttle,TaSJ-Shuttle,,3,,69c570,
+Gi-130,caltrain-ca-us,Giants Special,Giants Special Northbound on Game Days,,2,,FF8000,
+Sp-130,caltrain-ca-us,Special,Special Event Extra Service,,2,,0092ff,
