@@ -4,7 +4,9 @@ gtfs/farezone_attributes.txt
 gtfs/realtime_routes.txt
 gtfs/realtime_trips.txt
 gtfs/stop_attributes.txt
+gtfs/frequencies.txt
 gtfs/timepoints.txt
+gtfs/transfers.txt
 test/*.json
 data/*.plist
 screenshot.png

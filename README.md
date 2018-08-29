@@ -11,6 +11,9 @@ This is a @samccone & @paulirish collab. Also probably [other awesome people](ht
 
 To update caltrain GTFS data. (gtfs: [wiki](https://en.m.wikipedia.org/wiki/General_Transit_Feed_Specification), [class diagram](https://commons.wikimedia.org/wiki/File:GTFS_class_diagram.svg#mw-jump-to-license))
 ```sh
+# probably want to use rvm because ruby bundles and version compat is hard
+rvm
+
 # download latest
 rake download_data
 
@@ -24,6 +27,7 @@ rake prepare_data
 node pptr-getBombardiers.js
 # see also http://www.caltrain.com/about/statsandreports/commutefleets.html
 
+# THEN....
 # manually squash data/*.js into bottom of index.html
 
 # update "effective date" in the html
