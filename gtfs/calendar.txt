@@ -1,4 +1,4 @@
 service_id,monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date
-mtwtf,1,1,1,1,1,0,0,20171002,20191004
-sat_sun,0,0,0,0,0,1,1,20171007,20191006
-sat_extra,0,0,0,0,0,1,0,20171007,20191005
+mtwtf,1,1,1,1,1,0,0,20181001,20191004
+sat_sun,0,0,0,0,0,1,1,20181006,20191006
+sat_extra,0,0,0,0,0,1,0,20181006,20191005
