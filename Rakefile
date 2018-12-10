@@ -462,15 +462,16 @@ task :prepare_data do
   #     RTD6320540,07:45:00,07:45:00,777402,2
   # To:
   #   routes:
-  #     { route_id => { service_id => { trip_id => [[stop_id, arrival_time/departure_time(in seconds)]] } } }
+  #     { route_id => { service_id => { trip_id => [[stop_id, departure_time(in seconds)]] } } }
   #     { "Bullet" => { "CT-14OCT-XXX" => { "650770-CT-14OCT-XXX" => [[70012, 29700], ...] } } }
   prepare_for("routes", "trips", "stop_times") do |routes, trips, stop_times|
-    # { trip_id => [[stop_id, arrival_time/departure_time(in seconds)]] }
+    # { trip_id => [[stop_id, departure_time(in seconds)]] }
     times = stop_times
       .each { |item|
         # check data (if its scheme is changed)
         if item.arrival_time != item.departure_time
-          require 'pry'; binding.pry
+          puts "Stop has different arrival/departure times! neat. #{item.trip_id} #{item.arrival_time} #{item.departure_time}"
+          # require 'pry'; binding.pry
         end
       }
       .group_by(&:trip_id)
@@ -478,7 +479,7 @@ task :prepare_data do
         trips_values
           .sort_by(&:stop_sequence)
           .map { |trip|
-            t = trip.arrival_time.split(":").map(&:to_i)
+            t = trip.departure_time.split(":").map(&:to_i)
             [trip.stop_id, t[0] * 60 * 60 + t[1] * 60 + t[2]]
           }
       }
