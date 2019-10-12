@@ -1,6 +1,7 @@
-route_id,agency_id,route_short_name,route_long_name,route_desc,route_type,route_url,route_color,route_text_color
-Bu-130,caltrain-ca-us,Bullet,Baby Bullet,,2,,E31837,
-Li-130,caltrain-ca-us,Limited,Limited,,2,,FEF0B5,
-Lo-130,caltrain-ca-us,Local,Local,,2,,c5c5c5,
-TaSj-130,caltrain-ca-us,TaSJ-Shuttle,TaSJ-Shuttle,,3,,69c570,
-Sp-130,caltrain-ca-us,Special,Special Event Extra Service,,2,,0092ff,
+agency_id,route_id,route_short_name,route_long_name,route_desc,route_type,route_url,route_color,route_text_color,route_sort_order,min_headway_minutes,eligibility_restricted
+1000,12869,Local,Local,,2,,c5c5c5,000000,0,,0
+1000,12868,Limited,Limited,,2,,FEF0B5,000000,1,,0
+1000,12867,Bullet,Baby Bullet,,2,,E31837,ffffff,2,,0
+1000,12870,TaSJ-Shuttle,TaSJ-Shuttle,,3,,69c570,ffffff,3,,0
+1000,12871,Special,Special Event Extra Service,,2,,0092ff,ffffff,4,,0
+1000,13254,Bus Bridge,SamTrans Bus Bridge,,3,,01529d,ffffff,5,,0

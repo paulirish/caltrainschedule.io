@@ -1,24 +1,2 @@
-service_id,date,exception_type
-special_12092018,20181209,1
-special_12092018,20181216,1
-special_12092018,20181223,1
-mtwtf,20181123,2
-mtwtf,20190218,2
-modified,20190218,1
-modified,20181123,1
-mtwtf,20181225,2
-mtwtf,20181122,2
-mtwtf,20190101,2
-holiday,20181225,1
-holiday,20181122,1
-holiday,20190101,1
-cfp_sat_extra,20190105,1
-holiday,20190105,1
-holiday,20190106,1
-sat_sun,20190105,2
-sat_sun,20190106,2
-special_01052019,20190105,1
-special_01052019,20190106,1
-special_01042019,20190104,1
-special_01072019,20190107,1 
-special_12312018,20181231,1
+service_id,date,holiday_name,exception_type
+c_17845_b_none_d_127,20191027,49ers Game,1
