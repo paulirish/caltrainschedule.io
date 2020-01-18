@@ -1,1 +1,1 @@
-var calendar_dates = {"c_17845_b_none_d_127":[[20191027,"49ers Game",1]]};
+var calendar_dates = {"c_18162_b_none_d_127":[[20200217,"Presidents Day",1],[20200120,"Martin Luther Kings Jr Day",1]],"c_18161_b_none_d_127":[[20200111,"49ers Game",1]],"c_17997_b_22470_d_31":[[20200217,"Presidents Day",2],[20200120,"Martin Luther Kings Jr Day",2]]};
