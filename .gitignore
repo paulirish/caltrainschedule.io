@@ -10,3 +10,4 @@ gtfs/transfers.txt
 test/*.json
 data/*.plist
 screenshot.png
+node_modules
