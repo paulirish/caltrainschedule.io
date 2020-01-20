@@ -170,9 +170,6 @@ const stopMapping = {
 
 
   function get_service_ids(calendar, calendar_dates) {
-    // console.assert(Object.keys(calendar).length === Object.keys(calendar_dates).length);
-    // console.assert(Object.keys(calendar).every(key => Object.keys(calendar_dates).includes(key)));
-
     var target_date = new Date();
     var today_day_of_week = new Date().getDay(); // getDay is "0 for Sunday"
 
@@ -188,7 +185,8 @@ const stopMapping = {
     } else {
       // when it's not, keep the schedule and increment the date until the next that matches schedule and isn't a weird exception case.
       let found = false;
-      for (var i = 0; found === false; i++) {
+      // < 7 assumes that a train runs at least once per week.
+      for (var i = 0; found === false && i < 7; i++) {
         // TBH this technique is probably still not perfect, alas.
         const daysToShift = (DAY_OF_WEEK_MAP[target_schedule] + 7 - today_day_of_week) % 7;
         const daysToIncrement = (target_schedule === 'saturday' || target_schedule === 'sunday') ? 7 : 1;
