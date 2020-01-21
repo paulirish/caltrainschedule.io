@@ -25,11 +25,14 @@ const re = /<script defer async>[\s\S]*<!-- EO DATA -->/;
 if (!documentHTML.match(/<script defer async>[\s\S]*<!-- EO DATA -->/))
   throw new Error('Did not match regex');
 
-const newHTML = documentHTML.replace(re, `
+const newHTML = documentHTML
+  .replace(re, `
     <script defer async>
   ${textToInline}
     </script> <!-- EO DATA -->
-`.trim());
+  `.trim())
+  .replace(/effective Caltrain schedule, .*?\./, `effective Caltrain schedule, ${new Date().toDateString()}.`)
+
 
 fs.writeFileSync(documentFilename, newHTML, 'utf-8');
 

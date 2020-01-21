@@ -9,6 +9,7 @@
   },
   "scripts": {
     "serve": "statikk --port 8992",
+    "build": "node build.js",
     "test": "yarn unit:dl && yarn unit",
     "unit:dl": "rake download_test_data",
     "unit": "node test/bundle-test.js && node --trace-warnings test/pptr-assert.js"

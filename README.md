@@ -27,10 +27,8 @@ rake prepare_data
 node pptr-getBombardiers.js
 # see also http://www.caltrain.com/about/statsandreports/commutefleets.html
 
-# THEN....
-# manually squash data/*.js into bottom of index.html
-
-# update "effective date" in the html
+# inline data into the index.html and refresh the timestamp.
+yarn build
 ```
 
 ### test
