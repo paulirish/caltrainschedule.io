@@ -6,30 +6,29 @@ const { getBombardiers } = require("./pptr-get-bombardiers.js");
   console.log('Fetching bombardier data...');
   const bombardierTrains = await getBombardiers();
   const bombardierText = `
-// from http://www.caltrain.com/Page4354.aspx. Page sez "(Effective April 4, 2016" but it's updated occasionally
-// see also http://www.caltrain.com/about/statsandreports/commutefleets.html
-var bombardiers = ${JSON.stringify(bombardierTrains)};
+        // from http://www.caltrain.com/Page4354.aspx. Page sez "(Effective April 4, 2016" but it's updated occasionally
+        // see also http://www.caltrain.com/about/statsandreports/commutefleets.html
+        const bombardiers = ${JSON.stringify(bombardierTrains)};
 `;
-  fs.writeFileSync(`${__dirname}/data/bombardiers.js`, bombardierText.trim(), "utf-8");
-  console.log("Bombardier data updated.");
+  console.log("Bombardier data fetched.");
 
-  const filenames = [
-    "calendar.js",
-    "calendar_dates.js",
-    "routes.js",
-    "stops.js",
-    "train_numbers.js",
-    "bombardiers.js"
+  const dataItems = [
+    "calendar",
+    "calendar_dates",
+    "routes",
+    "stops",
+    "train_numbers",
   ];
 
   let textToInline = "";
 
-  for (const filename of filenames) {
-    const text = fs.readFileSync(`${__dirname}/data/${filename}`, "utf-8");
+  for (const dataItem of dataItems) {
+    const text = fs.readFileSync(`${__dirname}/data/${dataItem}.json`, "utf-8");
     textToInline += `
-        // ${filename}
-        ${text}`;
+        // ${dataItem}
+        const ${dataItem} = ${text}`;
   }
+  textToInline += bombardierText;
 
   const documentFilename = `${__dirname}/index.html`;
   const documentHTML = fs.readFileSync(documentFilename, "utf-8");
@@ -39,6 +38,7 @@ var bombardiers = ${JSON.stringify(bombardierTrains)};
     throw new Error("Did not match regex");
 
   const newHTML = documentHTML
+    // data block
     .replace(
       re,
       `
@@ -47,9 +47,10 @@ var bombardiers = ${JSON.stringify(bombardierTrains)};
     </script> <!-- EO DATA -->
   `.trim()
     )
+    // refreshed timestamp
     .replace(
-      /effective Caltrain schedule, .*?\./,
-      `effective Caltrain schedule, ${new Date().toDateString()}.`
+      /effective Caltrain schedule, refreshed .*?\./,
+      `effective Caltrain schedule, refreshed ${new Date().toDateString()}.`
     );
 
   fs.writeFileSync(documentFilename, newHTML, "utf-8");
