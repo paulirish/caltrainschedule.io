@@ -17,7 +17,7 @@ rvm
 # download latest, reset line endings, prepare data
 rake download_data && dos2unix gtfs/*.txt && rake prepare_data
 
-# inline data into the index.html and refresh the timestamp.
+# inline data into the index.html, refresh the timestamp, bump the sw
 yarn build
 ```
 

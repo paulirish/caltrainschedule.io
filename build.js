@@ -56,4 +56,13 @@ const { getBombardiers } = require("./pptr-get-bombardiers.js");
   fs.writeFileSync(documentFilename, newHTML, "utf-8");
 
   console.log("Inlining complete.");
+
+
+  // bump the version line in sw.js
+  const swText = fs.readFileSync(`${__dirname}/sw.js`, 'utf8').split('\n');
+  const swVersionLine = swText[0];
+  eval(swVersionLine);
+  swText[0] = `var VERSION = '${++VERSION}';`;
+  fs.writeFileSync(`${__dirname}/sw.js`, swText.join('\n'), 'utf8');
+  console.log('sw.js VERSION bumped.');
 })();
