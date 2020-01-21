@@ -7,7 +7,7 @@ function extractTrains() {
   return str;
 };
 
-(async () => {
+async function getBombardiers() {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
   await page.goto('http://www.caltrain.com/Page4354.aspx');
@@ -15,7 +15,12 @@ function extractTrains() {
 
   // Eval the string so we can sort() it
   eval(`var bombardiers = [${trainsStr}]`);
-  console.log(bombardiers.filter(Boolean).sort());
 
   await browser.close();
-})();
+
+  return bombardiers.filter(Boolean).sort();
+};
+
+module.exports = {
+  getBombardiers,
+}

@@ -23,10 +23,6 @@ dos2unix gtfs/*.txt
 # then
 rake prepare_data
 
-# then update bombardiers from http://www.caltrain.com/Page4354.aspx
-node pptr-getBombardiers.js
-# see also http://www.caltrain.com/about/statsandreports/commutefleets.html
-
 # inline data into the index.html and refresh the timestamp.
 yarn build
 ```
