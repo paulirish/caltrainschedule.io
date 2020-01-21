@@ -14,14 +14,8 @@ To update caltrain GTFS data. (gtfs: [wiki](https://en.m.wikipedia.org/wiki/Gene
 # probably want to use rvm because ruby bundles and version compat is hard
 rvm
 
-# download latest
-rake download_data
-
-# reset line endings..
-dos2unix gtfs/*.txt
-
-# then
-rake prepare_data
+# download latest, reset line endings, prepare data
+rake download_data && dos2unix gtfs/*.txt && rake prepare_data
 
 # inline data into the index.html and refresh the timestamp.
 yarn build
