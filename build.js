@@ -58,7 +58,10 @@ const { getBombardiers } = require("./pptr-get-bombardiers.js");
   console.log("Inlining complete.");
 
 
-  // bump the version line in sw.js
+  // bump the version line in sw.js (only if there were changes)
+  if (documentHTML === newHTML)
+    return console.log('No HTML changes, skipping version bump.');
+
   const swText = fs.readFileSync(`${__dirname}/sw.js`, 'utf8').split('\n');
   const swVersionLine = swText[0];
   eval(swVersionLine);
