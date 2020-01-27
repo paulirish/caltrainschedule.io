@@ -56,7 +56,7 @@ task :download_test_data do
         'Baby Bullet'
       when 'rgb(247,232,157)' # yellow
         'Limited'
-      when 'rgb(116,187,146)' # green for "Timed transfers for local service" only happends as limited
+      when 'rgb(116,187,146)', 'rgb(189,220,155)' # green for "Timed transfers for local service" only happends as limited
         node_column_index = node.parent.children.index(node)
         first_node_in_same_column = node.parent.parent.at_xpath('tr').children[node_column_index]
         if node == first_node_in_same_column
