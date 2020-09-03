@@ -4,7 +4,7 @@
   "description": "Service worker enabled for offline and add to homescreen excellence.",
   "dependencies": {},
   "devDependencies": {
-    "puppeteer": "^0.13.0",
+    "puppeteer": "^1.13.0",
     "statikk": "^1.1.0"
   },
   "scripts": {
