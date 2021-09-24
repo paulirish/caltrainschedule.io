@@ -1,4 +1,15 @@
-service_id,service_name,monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date
-c_17997_b_22470_d_31,Year Round Weekday (Weekday),1,1,1,1,1,0,0,20191007,20210101
-c_16884_b_19708_d_96,Year Round Weekend (Weekend),0,0,0,0,0,1,1,20190401,20210101
-c_16883_b_19709_d_32,Year Round Saturday (Saturday only),0,0,0,0,0,1,0,20190401,20210101
+service_id,monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date
+131-Blocks-Sunday-50,0,0,0,0,0,0,1,20200216,20200614
+131-Blocks-Weekday-51,1,1,1,1,1,0,0,20200217,20200619
+131-Blocks-Weekday-51-SDon,1,1,1,1,1,0,0,20200217,20200619
+131-Blocks-Weekday-51-SDoff,1,1,1,1,1,0,0,20200217,20200619
+131-Blocks-Weekday-51-SDon-0010000,0,0,1,0,0,0,0,20200217,20200619
+131-Blocks-Weekday-51-SDon-1101100,1,1,0,1,1,0,0,20200217,20200619
+131-Blocks-Weekday-51-SDon-0001000,0,0,0,1,0,0,0,20200217,20200619
+131-Blocks-Weekday-51-SDon-1110100,1,1,1,0,1,0,0,20200217,20200619
+131-Blocks-Weekday-51-SDon-0011000,0,0,1,1,0,0,0,20200217,20200619
+131-Blocks-Weekday-51-SDon-1100100,1,1,0,0,1,0,0,20200217,20200619
+131-Blocks-Weekday-51-SDon-1011100,1,0,1,1,1,0,0,20200217,20200619
+131-Blocks-Weekday-51-SDon-0100000,0,1,0,0,0,0,0,20200217,20200619
+131-Blocks-Weekday-51-SDon-0101000,0,1,0,1,0,0,0,20200217,20200619
+131-Blocks-Saturday-50,0,0,0,0,0,1,0,20200222,20200620

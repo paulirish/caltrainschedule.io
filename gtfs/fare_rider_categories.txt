@@ -1,0 +1,5 @@
+fare_id,rider_category_id,price
+OW_Adult_20160110,2,1.1000
+OW_Adult_20160110,5,1.1000
+OW_Exp_20160110,2,2.2500
+OW_Exp_20160110,5,2.2500
