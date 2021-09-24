@@ -1,3 +1,7 @@
-fare_id,price,currency_type,payment_method,transfers,transfer_duration
-OW_Adult_20160110,2.2500,USD,0,0,
-OW_Exp_20160110,4.5000,USD,0,0,
+agency_id,fare_id,price,currency_type,payment_method,transfers,transfer_duration
+1000,3525,3.75,USD,1,,14400
+1000,3526,6.00,USD,1,,14400
+1000,3527,8.25,USD,1,,14400
+1000,3528,10.50,USD,1,,14400
+1000,3529,12.75,USD,1,,14400
+1000,3530,15.00,USD,1,,14400

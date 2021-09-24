@@ -194,7 +194,12 @@ task :download_data do
   require 'tempfile'
   require 'fileutils'
 
-  url = 'http://www.caltrain.com/Assets/GTFS/caltrain/CT-GTFS.zip'
+  puts "they changed the location. get it from here instead: https://www.caltrain.com/developer.html"
+  exit
+
+  #url = 'http://www.caltrain.com/Assets/GTFS/caltrain/CT-GTFS.zip'
+  # in sept 2021 it was here: http://data.trilliumtransit.com/gtfs/caltrain-ca-us/caltrain-ca-us.zip
+
   target_dir = './gtfs/'
 
   Dir.mktmpdir('gtfs_') { |data_dir|
