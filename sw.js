@@ -11,18 +11,21 @@ this.addEventListener('install', function(e) {
 });
 
 this.addEventListener('fetch', function(e) {
-  var tryInCachesFirst = caches.open(VERSION).then(cache => {
-    return cache.match(e.request).then(response => {
-      if (!response) {
-        return handleNoCacheMatch(e);
-      }
-      // Update cache record in the background
-      fetchFromNetworkAndCache(e);
-      // Reply with stale data
-      return response
-    });
-  });
-  e.respondWith(tryInCachesFirst);
+  // EMPTY FETCH HANDLER!!
+
+  
+  // var tryInCachesFirst = caches.open(VERSION).then(cache => {
+  //   return cache.match(e.request).then(response => {
+  //     if (!response) {
+  //       return handleNoCacheMatch(e);
+  //     }
+  //     // Update cache record in the background
+  //     fetchFromNetworkAndCache(e);
+  //     // Reply with stale data
+  //     return response
+  //   });
+  // });
+  // e.respondWith(tryInCachesFirst);
 });
 
 this.addEventListener('activate', function(e) {
