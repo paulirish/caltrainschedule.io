@@ -1,7 +1,0 @@
-agency_id,route_id,route_short_name,route_long_name,route_desc,route_type,route_url,route_color,route_text_color,route_sort_order,min_headway_minutes,eligibility_restricted,continuous_pickup,continuous_drop_off
-1000,19597,L1,Local,,2,,c5c5c5,000000,0,,0,1,1
-1000,19598,L2,Local,,2,,c5c5c5,000000,1,,0,1,1
-1000,19599,L3,LTD 3,,2,,fcedc7,000000,2,,0,1,1
-1000,19600,L4,LTD 4,,2,,fcedc7,000000,3,,0,1,1
-1000,19601,L5,LTD 5,,2,,fcedc7,000000,4,,0,1,1
-1000,12867,B7,Bullet,,2,,E31837,ffffff,5,,0,1,1

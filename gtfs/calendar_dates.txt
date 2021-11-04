@@ -1,3 +1,0 @@
-service_id,date,holiday_name,exception_type
-c_21817_b_30633_d_96,20210906,Labor Day - Weekend Service,1
-c_21817_b_30633_d_31,20210906,Labor Day - Weekend Service,2
