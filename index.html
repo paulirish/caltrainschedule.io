@@ -1,67 +1,70 @@
-
-<!doctype html>
+<!DOCTYPE html>
 <html>
-<head manifest="ios.appcache">
+  <head manifest="ios.appcache">
     <title>non-PWA. has manifest, has SW but no offline</title>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-    <link rel="manifest" href="/manifest.json">
-    <meta name="apple-mobile-web-app-capable" content="yes"> <!-- ios standalone -->
-    <meta name="mobile-web-app-capable" content="yes"> <!-- legacy chrome a2hs -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <!-- ios standalone -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <!-- legacy chrome a2hs -->
 
     <link rel="shortcut icon" type="image/x-icon" href="icons/favicon.ico" />
     <style>
-         html {
-          box-sizing: border-box;
-        }
-        *, *:before, *:after {
-          box-sizing: inherit;
-        }
+      html {
+        box-sizing: border-box;
+      }
+      *,
+      *:before,
+      *:after {
+        box-sizing: inherit;
+      }
 
-
-        body {
-            min-width: 320px;
-            max-width: 440px;
-            margin: auto;
-            text-align: center;
-            font-family: sans-serif;
-            font-weight: 100;
-            font-size: 20px;
-        }
-        footer {
-          font-size: 10px;
-          color: gray;
-        }
-
+      body {
+        min-width: 320px;
+        max-width: 440px;
+        margin: auto;
+        text-align: center;
+        font-family: sans-serif;
+        font-weight: 100;
+        font-size: 20px;
+      }
+      footer {
+        font-size: 10px;
+        color: gray;
+      }
     </style>
-
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <h1 class="title header-group">
-            Do I have a valid manifest? Yes.
-        </h1>
-        <h2>
-          Do I have a service worker? Yes, but it <span style="background-color: red;"> doesn't handle offline</span>.
-        </h2>
-
+      <h1 class="title header-group">Do I have a valid manifest? Yes.</h1>
+      <h2>
+        Do I have a service worker? Yes, but it
+        <span style="background-color: red"> doesn't handle offline</span>.
+      </h2>
     </header>
 
-
     <footer>
-      source: <a href="https://github.com/paulirish/caltrainschedule.io/tree/nosw">https://github.com/paulirish/caltrainschedule.io/tree/nosw</a>
+      source:
+      <a href="https://github.com/paulirish/caltrainschedule.io/tree/nosw"
+        >https://github.com/paulirish/caltrainschedule.io/tree/nosw</a
+      >
     </footer>
 
     <script>
       if ('serviceWorker' in navigator) {
-       navigator.serviceWorker.register('/sw.js').then(function() {
-         console.log('service worker is is all cool.');
-       }).catch(function(e) {
-         console.error('service worker is not so cool.', e);
-         throw e;
-       });
-     }
-     </script>
-</body>
+        navigator.serviceWorker
+          .register('/sw.js')
+          .then(function () {
+            console.log('service worker is is all cool.');
+          })
+          .catch(function (e) {
+            console.error('service worker is not so cool.', e);
+            throw e;
+          });
+      }
+    </script>
+  </body>
 </html>
