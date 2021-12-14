@@ -13,7 +13,7 @@ this.addEventListener('install', function(e) {
 // this.addEventListener('fetch', function(e) {
 //   // EMPTY FETCH HANDLER!!
 
-  
+
 //   // var tryInCachesFirst = caches.open(VERSION).then(cache => {
 //   //   return cache.match(e.request).then(response => {
 //   //     if (!response) {

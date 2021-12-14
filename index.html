@@ -1,7 +1,8 @@
+
 <!doctype html>
 <html>
 <head manifest="ios.appcache">
-    <title>non-PWA. has manifest, but no SW</title>
+    <title>non-PWA. has manifest, has SW but no offline</title>
     <meta charset="utf-8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
@@ -42,7 +43,7 @@
             Do I have a valid manifest? Yes.
         </h1>
         <h2>
-          Do I have a service worker? No.
+          Do I have a service worker? Yes, but it <span style="background-color: red;"> doesn't handle offline</span>.
         </h2>
 
     </header>
@@ -51,5 +52,16 @@
     <footer>
       source: <a href="https://github.com/paulirish/caltrainschedule.io/tree/nosw">https://github.com/paulirish/caltrainschedule.io/tree/nosw</a>
     </footer>
+
+    <script>
+      if ('serviceWorker' in navigator) {
+       navigator.serviceWorker.register('/sw.js').then(function() {
+         console.log('service worker is is all cool.');
+       }).catch(function(e) {
+         console.error('service worker is not so cool.', e);
+         throw e;
+       });
+     }
+     </script>
 </body>
 </html>
