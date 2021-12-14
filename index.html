@@ -45,7 +45,7 @@
         <span style="background-color: red"> doesn't handle offline</span>.
       </h2>
     </header>
-
+    <p>you can add <code>?delay=500</code> to add 500ms of delay before sw registration</p>
     <footer>
       source:
       <a href="https://github.com/paulirish/caltrainschedule.io/tree/jud-guide"
@@ -54,8 +54,8 @@
     </footer>
 
     <script>
-      if ('serviceWorker' in navigator) {
-        setTimeout(() => {
+      function regTheSW() {
+        if ('serviceWorker' in navigator) {
           navigator.serviceWorker
             .register('/sw.js')
             .then(function () {
@@ -65,8 +65,12 @@
               console.error('service worker is not so cool.', e);
               throw e;
             });
-        }, 3000);
+        }
       }
+
+      const delay = new URL(location.href).searchParams.get('delay');
+      if (delay) setTimeout(regTheSW, Number(delay));
+      else regTheSW();
     </script>
   </body>
 </html>
