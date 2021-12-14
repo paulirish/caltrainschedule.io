@@ -48,22 +48,24 @@
 
     <footer>
       source:
-      <a href="https://github.com/paulirish/caltrainschedule.io/tree/nosw"
-        >https://github.com/paulirish/caltrainschedule.io/tree/nosw</a
+      <a href="https://github.com/paulirish/caltrainschedule.io/tree/jud-guide"
+        >https://github.com/paulirish/caltrainschedule.io/tree/jud-guide</a
       >
     </footer>
 
     <script>
       if ('serviceWorker' in navigator) {
-        navigator.serviceWorker
-          .register('/sw.js')
-          .then(function () {
-            console.log('service worker is is all cool.');
-          })
-          .catch(function (e) {
-            console.error('service worker is not so cool.', e);
-            throw e;
-          });
+        setTimeout(() => {
+          navigator.serviceWorker
+            .register('/sw.js')
+            .then(function () {
+              console.log('service worker is is all cool.');
+            })
+            .catch(function (e) {
+              console.error('service worker is not so cool.', e);
+              throw e;
+            });
+        }, 3000);
       }
     </script>
   </body>
