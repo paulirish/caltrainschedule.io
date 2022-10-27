@@ -2,7 +2,6 @@
   "name": "Caltrain Schedule",
   "short_name": "Caltrain Schedule",
   "orientation": "portrait",
-  "theme_color": "hsl(206, 99%, 31%)",
   "background_color": "hsl(229, 100%, 59%)",
   "display": "standalone",
   "start_url": "/",
@@ -10,7 +9,7 @@
     {
       "src": "/icons/android-chrome-192x192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/avif"
     },
     {
       "src": "/icons/icon-512.png",
