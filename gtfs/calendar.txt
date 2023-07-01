@@ -1,4 +1,3 @@
 service_id,service_name,monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date
-c_17997_b_22470_d_31,Year Round Weekday (Weekday),1,1,1,1,1,0,0,20191007,20210101
-c_16884_b_19708_d_96,Year Round Weekend (Weekend),0,0,0,0,0,1,1,20190401,20210101
-c_16883_b_19709_d_32,Year Round Saturday (Saturday only),0,0,0,0,0,1,0,20190401,20210101
+c_67488_b_79754_d_96,Year Round starting 9/10/22 (Weekend),0,0,0,0,0,1,1,20230429,20240301
+c_67488_b_79754_d_31,Year Round starting 9/10/22 (Weekday),1,1,1,1,1,0,0,20230429,20240301

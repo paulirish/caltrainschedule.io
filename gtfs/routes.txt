@@ -1,7 +1,10 @@
-agency_id,route_id,route_short_name,route_long_name,route_desc,route_type,route_url,route_color,route_text_color,route_sort_order,min_headway_minutes,eligibility_restricted
-1000,12869,Local,Local,,2,,c5c5c5,000000,0,,0
-1000,12868,Limited,Limited,,2,,FEF0B5,000000,1,,0
-1000,12867,Bullet,Baby Bullet,,2,,E31837,ffffff,2,,0
-1000,12870,TaSJ-Shuttle,TaSJ-Shuttle,,3,,69c570,ffffff,3,,0
-1000,12871,Special,Special Event Extra Service,,2,,0092ff,ffffff,4,,0
-1000,13254,Bus Bridge,SamTrans Bus Bridge,,3,,01529d,ffffff,5,,0
+agency_id,route_id,route_short_name,route_long_name,route_desc,route_type,route_url,route_color,route_text_color,route_sort_order,min_headway_minutes,eligibility_restricted,continuous_pickup,continuous_drop_off,tts_route_short_name,tts_route_long_name
+1000,19597,L1,Local,,2,,c5c5c5,000000,0,,0,1,1,,
+1000,19598,L2,Local,,2,,c5c5c5,000000,1,,0,1,1,,
+1000,12871,Special,Special Event Extra Service,,2,,0092ff,ffffff,11,,0,1,1,,
+1000,13254,Bus Bridge,SamTrans Bus Bridge,,3,,01529d,ffffff,12,,0,1,1,,
+1000,19599,L3,LTD 3,,2,,fcedc7,000000,2,,0,1,1,,
+1000,19600,L4,LTD 4,,2,,fcedc7,000000,3,,0,1,1,,
+1000,19601,L5,LTD 5,,2,,fcedc7,000000,4,,0,1,1,,
+1000,32946,L6,LTD 6,,2,,fcedc7,000000,5,,0,1,1,,
+1000,12867,B7,Bullet,,2,,E31837,ffffff,6,,0,1,1,,

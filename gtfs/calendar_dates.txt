@@ -1,6 +1,18 @@
 service_id,date,holiday_name,exception_type
-c_18162_b_none_d_127,20200217,Presidents Day,1
-c_18162_b_none_d_127,20200120,Martin Luther Kings Jr Day,1
-c_18161_b_none_d_127,20200111,49ers Game,1
-c_17997_b_22470_d_31,20200217,Presidents Day,2
-c_17997_b_22470_d_31,20200120,Martin Luther Kings Jr Day,2
+c_69613_b_none_d_127,20230625,SF Pride Parade,1
+c_67763_b_none_d_127,20240219,Presidents Day,1
+c_67763_b_none_d_127,20240115,MLK Jr Day,1
+c_67763_b_none_d_127,20231124,Day After Thanksgiving,1
+c_67488_b_79754_d_96,20240101,New Years Day,1
+c_67488_b_79754_d_96,20231225,Christmas,1
+c_67488_b_79754_d_96,20231123,Thanksgiving,1
+c_67488_b_79754_d_96,20230904,Labor Day,1
+c_67488_b_79754_d_96,20230704,Independence Day - Weekend Service,1
+c_67488_b_79754_d_31,20240219,Presidents Day,2
+c_67488_b_79754_d_31,20240115,MLK Jr Day,2
+c_67488_b_79754_d_31,20240101,New Years Day,2
+c_67488_b_79754_d_31,20231225,Christmas,2
+c_67488_b_79754_d_31,20231124,Day After Thanksgiving,2
+c_67488_b_79754_d_31,20231123,Thanksgiving,2
+c_67488_b_79754_d_31,20230904,Labor Day,2
+c_67488_b_79754_d_31,20230704,Independence Day - Weekend Service,2
