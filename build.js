@@ -4,7 +4,7 @@ const { getBombardiers } = require("./pptr-get-bombardiers.js");
 
 (async function() {
   console.log('Fetching bombardier data...');
-  const bombardierTrains = await getBombardiers();
+  const bombardierTrains = [];
   const bombardierText = `
         // from http://www.caltrain.com/Page4354.aspx. Page sez "(Effective April 4, 2016" but it's updated occasionally
         // see also http://www.caltrain.com/about/statsandreports/commutefleets.html
