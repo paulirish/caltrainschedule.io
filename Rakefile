@@ -425,13 +425,8 @@ task :prepare_data do
   #   "San Francisco" => [70021, 70022]
   prepare_for("stops") do |stops|
     stops = stops
-      .each { |item|
-        # check data (if its scheme is changed)
-        if item.stop_name !~ / Caltrain/
-          require 'pry'; binding.pry
-        end
-      }
-      .select { |item| item.stop_id.is_a?(Integer) }
+      .select { |item| item.stop_id.is_a?(Integer) and !item.stop_name.nil?  }
+      .select { |item| !item.stop_name.include? "San Jose Shuttle"  }
       .sort_by(&:stop_lat).reverse # sort stations from north to south
       .each { |item|
         # shorten the name and merge San Jose with San Jose Diridon
@@ -502,6 +497,7 @@ task :prepare_data do
     # { route_id => { service_id => ... } }
     routes = routes
       .select { |route| route.route_type == 2 } # 2 for Rail, 3 for bus
+      .select { |r| r.route_id.nil?}
       .group_by(&:route_id)
       .mapHash { |name, routes_values|
         routes_values

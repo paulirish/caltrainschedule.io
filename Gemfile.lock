@@ -1,43 +1,47 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    addressable (2.8.1)
+    addressable (2.8.4)
       public_suffix (>= 2.0.2, < 6.0)
-    capybara (3.5.1)
+    capybara (3.39.2)
       addressable
+      matrix
       mini_mime (>= 0.1.3)
       nokogiri (~> 1.8)
       rack (>= 1.6.0)
       rack-test (>= 0.6.3)
-      xpath (~> 3.1)
+      regexp_parser (>= 1.5, < 3.0)
+      xpath (~> 3.2)
     cliver (0.3.2)
-    coderay (1.1.2)
-    method_source (0.9.0)
-    mini_mime (1.0.0)
-    mini_portile2 (2.3.0)
-    nokogiri (1.8.4)
-      mini_portile2 (~> 2.3.0)
-    plist (3.4.0)
+    coderay (1.1.3)
+    matrix (0.4.2)
+    method_source (1.0.0)
+    mini_mime (1.1.2)
+    nokogiri (1.15.2-arm64-darwin)
+      racc (~> 1.4)
+    plist (3.7.0)
     poltergeist (1.18.1)
       capybara (>= 2.1, < 4)
       cliver (~> 0.3.1)
       websocket-driver (>= 0.2.0)
-    pry (0.11.3)
-      coderay (~> 1.1.0)
-      method_source (~> 0.9.0)
-    public_suffix (4.0.7)
-    rack (2.0.5)
-    rack-test (1.1.0)
-      rack (>= 1.0, < 3)
-    rake (12.3.1)
-    websocket-driver (0.7.0)
+    pry (0.14.2)
+      coderay (~> 1.1)
+      method_source (~> 1.0)
+    public_suffix (5.0.1)
+    racc (1.7.1)
+    rack (3.0.8)
+    rack-test (2.1.0)
+      rack (>= 1.3)
+    rake (13.0.6)
+    regexp_parser (2.8.1)
+    websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
-    websocket-extensions (0.1.3)
-    xpath (3.1.0)
+    websocket-extensions (0.1.5)
+    xpath (3.2.0)
       nokogiri (~> 1.8)
 
 PLATFORMS
-  ruby
+  arm64-darwin-22
 
 DEPENDENCIES
   capybara
@@ -48,7 +52,7 @@ DEPENDENCIES
   rake
 
 RUBY VERSION
-   ruby 2.3.4p301
+   ruby 3.2.2p53
 
 BUNDLED WITH
-   1.17.3
+   2.4.10
